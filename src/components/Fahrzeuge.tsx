@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Car, ArrowRight, Phone, Search, ChevronRight } from 'lucide-react'
+import FahrzeugDetail from './FahrzeugDetail'
 
 interface Vehicle {
   id: string
@@ -19,6 +20,7 @@ interface Vehicle {
 export default function Fahrzeuge() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
   const [loaded, setLoaded] = useState(false)
+  const [selected, setSelected] = useState<Vehicle | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -89,7 +91,8 @@ export default function Fahrzeuge() {
               {vehicles.map((fz) => (
                 <div
                   key={fz.id}
-                  className="min-w-[260px] sm:min-w-[300px] lg:min-w-[340px] max-w-[340px] snap-start shrink-0 bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-xl transition-all duration-300 group"
+                  onClick={() => setSelected(fz)}
+                  className="min-w-[260px] sm:min-w-[300px] lg:min-w-[340px] max-w-[340px] snap-start shrink-0 bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-xl transition-all duration-300 group cursor-pointer"
                 >
                   <div className="aspect-[16/10] bg-bg-muted flex items-center justify-center relative overflow-hidden">
                     {fz.bilder && fz.bilder.length > 0 ? (
@@ -149,6 +152,11 @@ export default function Fahrzeuge() {
           </>
         )}
       </div>
+
+      {/* Detail Modal */}
+      {selected && (
+        <FahrzeugDetail vehicle={selected} onClose={() => setSelected(null)} />
+      )}
     </section>
   )
 }

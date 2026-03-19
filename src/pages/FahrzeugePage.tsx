@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Car, ArrowRight, Phone, Search, Filter, MessageCircle } from 'lucide-react'
+import { Car, ArrowRight, Phone, Search, Filter } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import FahrzeugDetail from '@/components/FahrzeugDetail'
 
 interface Vehicle {
   id: string
@@ -20,6 +21,7 @@ export default function FahrzeugePage() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
   const [loaded, setLoaded] = useState(false)
   const [filter, setFilter] = useState('')
+  const [selected, setSelected] = useState<Vehicle | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -105,9 +107,9 @@ export default function FahrzeugePage() {
                   <a href="tel:+4915161861808" className="flex items-center gap-2 bg-accent hover:bg-accent-dark text-white px-8 py-3.5 rounded-xl font-bold transition-all no-underline">
                     <Phone className="w-5 h-5" /> 0151 618 618 08
                   </a>
-                  <Link to="/#ankauf" className="flex items-center gap-2 border-2 border-primary/20 hover:border-accent/40 text-primary px-8 py-3.5 rounded-xl font-bold transition-all no-underline">
+                  <a href="/#ankauf" className="flex items-center gap-2 border-2 border-primary/20 hover:border-accent/40 text-primary px-8 py-3.5 rounded-xl font-bold transition-all no-underline">
                     Fahrzeug anbieten <ArrowRight className="w-5 h-5" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -118,7 +120,8 @@ export default function FahrzeugePage() {
                 {filtered.map((fz) => (
                   <div
                     key={fz.id}
-                    className="bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-xl transition-all duration-300 group"
+                    onClick={() => setSelected(fz)}
+                    className="bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-xl transition-all duration-300 group cursor-pointer"
                   >
                     {/* Bild-Galerie */}
                     <div className="aspect-[16/10] bg-bg-muted flex items-center justify-center relative overflow-hidden">
@@ -195,6 +198,11 @@ export default function FahrzeugePage() {
           )}
         </div>
       </section>
+
+      {/* Fahrzeug-Detail Modal */}
+      {selected && (
+        <FahrzeugDetail vehicle={selected} onClose={() => setSelected(null)} />
+      )}
     </div>
   )
 }
