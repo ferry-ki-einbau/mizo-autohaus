@@ -24,7 +24,7 @@ async function logAction(req: VercelRequest, action: string, details: string) {
       details,
     })
     if (logs.length > 500) logs = logs.slice(0, 500)
-    await put(LOG_KEY, JSON.stringify(logs), { access: 'public' as const, contentType: 'application/json', addRandomSuffix: false })
+    await put(LOG_KEY, JSON.stringify(logs), { access: 'public' as const, contentType: 'application/json', addRandomSuffix: false, allowOverwrite: true })
   } catch { /* non-fatal */ }
 }
 

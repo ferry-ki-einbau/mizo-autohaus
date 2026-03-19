@@ -48,7 +48,7 @@ async function logAction(req: VercelRequest, action: string, details: string, ve
     } catch { /* first time */ }
     logs.unshift(entry)
     if (logs.length > 500) logs = logs.slice(0, 500)
-    await put(LOG_KEY, JSON.stringify(logs), { access: 'public' as const, contentType: 'application/json', addRandomSuffix: false })
+    await put(LOG_KEY, JSON.stringify(logs), { access: 'public' as const, contentType: 'application/json', addRandomSuffix: false, allowOverwrite: true })
   } catch (err) {
     console.error('Audit log error (non-fatal):', err)
   }
@@ -70,7 +70,7 @@ async function saveVehicles(vehicles: Vehicle[]): Promise<void> {
   await put(DATA_KEY, JSON.stringify(vehicles), {
     access: 'public' as const,
     contentType: 'application/json',
-    addRandomSuffix: false,
+    addRandomSuffix: false, allowOverwrite: true,
   })
 }
 

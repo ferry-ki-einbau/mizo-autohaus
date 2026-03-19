@@ -45,7 +45,7 @@ export async function logAction(req: VercelRequest, action: AuditEntry['action']
     await put(LOG_KEY, JSON.stringify(logs), {
       access: 'public' as const,
       contentType: 'application/json',
-      addRandomSuffix: false,
+      addRandomSuffix: false, allowOverwrite: true,
     })
   } catch (err) {
     console.error('Audit log error:', err)
