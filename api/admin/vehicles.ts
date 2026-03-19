@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { put, list, del } from '@vercel/blob'
-import { logAction } from './audit-log.js'
 
 const DATA_KEY = 'vehicles.json'
+const LOG_KEY = 'audit-log.json'
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'mizo2026'
 
 interface Vehicle {
@@ -20,10 +20,45 @@ interface Vehicle {
   createdAt: string
 }
 
+interface AuditEntry {
+  timestamp: string
+  action: string
+  ip: string
+  userAgent: string
+  details: string
+  vehicleId?: string
+}
+
 function checkAuth(req: VercelRequest): boolean {
   const auth = req.headers.authorization
   if (!auth || !auth.startsWith('Bearer ')) return false
   return auth.slice(7) === ADMIN_PASSWORD
+}
+
+async function logAction(req: VercelRequest, action: string, details: string, vehicleId?: string) {
+  try {
+    const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim()
+      || (req.headers['x-real-ip'] as string) || 'unknown'
+    const entry: AuditEntry = {
+      timestamp: new Date().toISOString(),
+      action,
+      ip,
+      userAgent: (req.headers['user-agent'] as string) || 'unknown',
+      details,
+      vehicleId,
+    }
+    let logs: AuditEntry[] = []
+    try {
+      const { blobs } = await list({ prefix: LOG_KEY })
+      if (blobs.length > 0) {
+        const res = await fetch(blobs[0].url)
+        if (res.ok) logs = await res.json()
+      }
+    } catch { /* empty */ }
+    logs.unshift(entry)
+    if (logs.length > 500) logs = logs.slice(0, 500)
+    await put(LOG_KEY, JSON.stringify(logs), { access: 'public', contentType: 'application/json', addRandomSuffix: false })
+  } catch { /* non-fatal */ }
 }
 
 async function getVehicles(): Promise<Vehicle[]> {
@@ -47,18 +82,15 @@ async function saveVehicles(vehicles: Vehicle[]): Promise<void> {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // GET — public, no auth needed (for frontend)
   if (req.method === 'GET') {
     const vehicles = await getVehicles()
     return res.status(200).json(vehicles)
   }
 
-  // All other methods need auth
   if (!checkAuth(req)) {
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
-  // POST — add vehicle
   if (req.method === 'POST') {
     const body = req.body
     if (!body?.marke || !body?.modell) {
@@ -83,25 +115,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     vehicles.unshift(newVehicle)
     await saveVehicles(vehicles)
-
     await logAction(req, 'vehicle_created', `${body.marke} ${body.modell} — ${body.preis || 'kein Preis'}€`, newVehicle.id)
-
     return res.status(201).json(newVehicle)
   }
 
-  // DELETE — remove vehicle
   if (req.method === 'DELETE') {
     const { id } = req.query
-    if (!id || typeof id !== 'string') {
-      return res.status(400).json({ error: 'ID fehlt' })
-    }
+    if (!id || typeof id !== 'string') return res.status(400).json({ error: 'ID fehlt' })
 
     const vehicles = await getVehicles()
     const vehicle = vehicles.find(v => v.id === id)
-
-    if (!vehicle) {
-      return res.status(404).json({ error: 'Fahrzeug nicht gefunden' })
-    }
+    if (!vehicle) return res.status(404).json({ error: 'Fahrzeug nicht gefunden' })
 
     for (const bildUrl of vehicle.bilder) {
       try { await del(bildUrl) } catch { /* already deleted */ }
@@ -109,32 +133,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const filtered = vehicles.filter(v => v.id !== id)
     await saveVehicles(filtered)
-
     await logAction(req, 'vehicle_deleted', `${vehicle.marke} ${vehicle.modell} (ID: ${id})`, id)
-
     return res.status(200).json({ success: true })
   }
 
-  // PATCH — update vehicle
   if (req.method === 'PATCH') {
     const { id } = req.query
-    if (!id || typeof id !== 'string') {
-      return res.status(400).json({ error: 'ID fehlt' })
-    }
+    if (!id || typeof id !== 'string') return res.status(400).json({ error: 'ID fehlt' })
 
     const vehicles = await getVehicles()
     const index = vehicles.findIndex(v => v.id === id)
-    if (index === -1) {
-      return res.status(404).json({ error: 'Fahrzeug nicht gefunden' })
-    }
+    if (index === -1) return res.status(404).json({ error: 'Fahrzeug nicht gefunden' })
 
     const body = req.body
     const changed = Object.keys(body).filter(k => k !== 'id').join(', ')
     vehicles[index] = { ...vehicles[index], ...body, id: vehicles[index].id }
     await saveVehicles(vehicles)
-
     await logAction(req, 'vehicle_updated', `${vehicles[index].marke} ${vehicles[index].modell} — geändert: ${changed}`, id as string)
-
     return res.status(200).json(vehicles[index])
   }
 

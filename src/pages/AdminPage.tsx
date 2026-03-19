@@ -109,68 +109,104 @@ export default function AdminPage() {
 
     const parts: string[] = []
     const info = zusatzinfos.toLowerCase()
+    const km = kilometerstand ? Number(kilometerstand).toLocaleString('de-DE') : ''
 
-    // Hauptsatz
-    parts.push(`${marke} ${modell}${baujahr ? ` (${baujahr})` : ''}${farbe ? ` in ${farbe}` : ''}.`)
-
-    // Technische Details
-    const techDetails: string[] = []
-    if (kilometerstand) techDetails.push(`${Number(kilometerstand).toLocaleString('de-DE')} km`)
-    if (kraftstoff) techDetails.push(kraftstoff)
-    if (getriebe) techDetails.push(getriebe)
-    if (techDetails.length > 0) parts.push(techDetails.join(', ') + '.')
-
-    // Zusatzinfos intelligent verarbeiten
-    const istUnfall = info.includes('unfall') || info.includes('schaden') || info.includes('crash')
-    const istMotorschaden = info.includes('motorschaden') || info.includes('motor defekt')
-    const hatMaengel = info.includes('mangel') || info.includes('mängel') || info.includes('rost') || info.includes('delle')
-    const mehrereHand = info.match(/(\d)\.\s*hand/)
-    const hatAusstattung = info.includes('navi') || info.includes('leder') || info.includes('sitzheizung') || info.includes('panorama') || info.includes('xenon') || info.includes('led') || info.includes('kamera')
-
-    if (istMotorschaden) {
-      parts.push('Hinweis: Fahrzeug hat einen Motorschaden und wird im aktuellen Zustand verkauft. Ideal für Bastler, Händler oder als Teilespender.')
-    } else if (istUnfall) {
-      parts.push('Hinweis: Unfallfahrzeug — wird ehrlich und transparent im aktuellen Zustand angeboten. Preis entsprechend angepasst.')
-    } else if (hatMaengel) {
-      parts.push('Das Fahrzeug weist Gebrauchsspuren auf, die sich im Preis widerspiegeln. Ehrlich und transparent — bei uns wissen Sie was Sie kaufen.')
+    // Eröffnungssatz — variiert je nach Infos
+    if (farbe && baujahr) {
+      parts.push(`Zum Verkauf steht ein ${marke} ${modell} aus ${baujahr} in der Farbe ${farbe}.`)
+    } else if (baujahr) {
+      parts.push(`Wir bieten einen gepflegten ${marke} ${modell} (Baujahr ${baujahr}) zum Verkauf an.`)
     } else {
-      // Positiv-Texte nur wenn kein Schaden
+      parts.push(`Zum Verkauf steht ein ${marke} ${modell} in gutem Zustand.`)
+    }
+
+    // Technische Details als Fließtext
+    if (km || kraftstoff || getriebe) {
+      const details: string[] = []
+      if (km) details.push(`einem Kilometerstand von ${km} km`)
+      if (kraftstoff) details.push(`${kraftstoff}-Antrieb`)
+      if (getriebe) details.push(`${getriebe}`)
+      parts.push(`Das Fahrzeug überzeugt mit ${details.join(', ')}.`)
+    }
+
+    // Zusatzinfos analysieren
+    const istUnfall = info.includes('unfall') || info.includes('crash')
+    const istMotorschaden = info.includes('motorschaden') || info.includes('motor defekt') || info.includes('motordefekt')
+    const hatMaengel = info.includes('mangel') || info.includes('mängel') || info.includes('rost') || info.includes('delle') || info.includes('kratzer')
+    const mehrereHand = info.match(/(\d)\.\s*hand/)
+    const hatTuev = info.includes('tüv neu') || info.includes('hu neu') || info.includes('tuev neu')
+    const keinTuev = info.includes('kein tüv') || info.includes('ohne tüv') || info.includes('tüv abgelaufen')
+    const scheckheft = info.includes('scheckheft') || info.includes('serviceheft')
+
+    // Ausstattung erkennen
+    const features: string[] = []
+    if (info.includes('navi') || info.includes('navigation')) features.push('Navigationssystem')
+    if (info.includes('leder')) features.push('Lederausstattung')
+    if (info.includes('sitzheizung')) features.push('Sitzheizung')
+    if (info.includes('panorama')) features.push('Panorama-Schiebedach')
+    if (info.includes('xenon')) features.push('Xenon-Scheinwerfer')
+    if (info.includes('led')) features.push('LED-Scheinwerfer')
+    if (info.includes('kamera') || info.includes('rückfahr')) features.push('Rückfahrkamera')
+    if (info.includes('standheizung')) features.push('Standheizung')
+    if (info.includes('tempomat') || info.includes('cruise')) features.push('Tempomat')
+    if (info.includes('einparkhilfe') || info.includes('pdc')) features.push('Einparkhilfe')
+    if (info.includes('alufelgen') || info.includes('alu')) features.push('Alufelgen')
+    if (info.includes('anhängerkupplung') || info.includes('ahk')) features.push('Anhängerkupplung')
+    if (info.includes('winterreifen')) features.push('Winterreifen vorhanden')
+    if (info.includes('klimaautomatik')) features.push('Klimaautomatik')
+    if (info.includes('klima') && !info.includes('klimaautomatik')) features.push('Klimaanlage')
+
+    // Zustandsbeschreibung
+    if (istMotorschaden) {
+      parts.push('Wichtiger Hinweis: Das Fahrzeug hat einen Motorschaden und wird im aktuellen Zustand verkauft. Der Preis ist entsprechend kalkuliert. Ideal für Bastler, KFZ-Werkstätten oder als Teilespender — die restlichen Komponenten sind in gutem Zustand.')
+    } else if (istUnfall) {
+      parts.push('Transparenz-Hinweis: Es handelt sich um ein Unfallfahrzeug. Wir verkaufen ehrlich und offen — der Zustand spiegelt sich im fairen Preis wider. Alle Details besprechen wir gerne persönlich mit Ihnen.')
+    } else if (hatMaengel) {
+      parts.push('Das Fahrzeug weist altersbedingte Gebrauchsspuren auf. Wir legen Wert auf Transparenz — was Sie sehen, ist was Sie bekommen. Der Preis ist fair kalkuliert und berücksichtigt den aktuellen Zustand.')
+    } else {
+      // Positive Beschreibung
       const positiv = [
-        'Gepflegter Zustand, regelmäßig gewartet.',
-        'Technisch einwandfrei geprüft.',
-        'Nichtraucher-Fahrzeug.',
-        'Sofort verfügbar und fahrbereit.',
+        'Das Fahrzeug befindet sich in einem gepflegten Gesamtzustand und wurde regelmäßig gewartet.',
+        'Technisch ist das Fahrzeug einwandfrei — alle Komponenten funktionieren zuverlässig.',
+        'Der Innenraum ist sauber und gepflegt, das Fahrzeug stammt aus einem Nichtraucher-Haushalt.',
+        'Das Fahrzeug ist sofort einsatzbereit und kann direkt mitgenommen werden.',
       ]
-      const shuffled = positiv.sort(() => Math.random() - 0.5)
+      const shuffled = [...positiv].sort(() => Math.random() - 0.5)
       parts.push(shuffled.slice(0, 2).join(' '))
     }
 
+    // Vorbesitzer
     if (mehrereHand) {
-      const handNr = mehrereHand[1] || '2'
-      parts.push(`${handNr}. Hand.`)
+      parts.push(`Das Fahrzeug ist aus ${mehrereHand[1]}. Hand.`)
     }
 
-    // Ausstattung aus Zusatzinfos extrahieren
-    if (hatAusstattung) {
-      const features: string[] = []
-      if (info.includes('navi')) features.push('Navigation')
-      if (info.includes('leder')) features.push('Lederausstattung')
-      if (info.includes('sitzheizung')) features.push('Sitzheizung')
-      if (info.includes('panorama')) features.push('Panoramadach')
-      if (info.includes('xenon') || info.includes('led')) features.push('LED/Xenon-Scheinwerfer')
-      if (info.includes('kamera')) features.push('Rückfahrkamera')
-      if (info.includes('standheizung')) features.push('Standheizung')
-      if (features.length > 0) parts.push(`Ausstattung: ${features.join(', ')}.`)
+    // Scheckheft
+    if (scheckheft) {
+      parts.push('Scheckheftgepflegt mit lückenloser Wartungshistorie.')
     }
 
-    // Restliche Zusatzinfos die nicht erkannt wurden → direkt einfügen
-    if (zusatzinfos && !istMotorschaden && !istUnfall && !hatMaengel && !hatAusstattung) {
+    // TÜV
+    if (hatTuev) {
+      parts.push('TÜV/HU ist frisch und neu abgenommen.')
+    } else if (keinTuev) {
+      parts.push('Das Fahrzeug wird ohne gültige HU/TÜV-Abnahme verkauft.')
+    }
+
+    // Ausstattung
+    if (features.length > 0) {
+      parts.push(`Ausstattungshighlights: ${features.join(', ')}.`)
+    }
+
+    // Restliche Zusatzinfos
+    const erkannt = istMotorschaden || istUnfall || hatMaengel || mehrereHand || hatTuev || keinTuev || scheckheft || features.length > 0
+    if (zusatzinfos && !erkannt) {
       parts.push(zusatzinfos.charAt(0).toUpperCase() + zusatzinfos.slice(1) + (zusatzinfos.endsWith('.') ? '' : '.'))
     }
 
-    parts.push('Finanzierung und Inzahlungnahme möglich. Probefahrt jederzeit nach Vereinbarung.')
+    // Abschluss
+    parts.push('Bei Mizo Autohaus kaufen Sie transparent und fair. Flexible Finanzierung und Inzahlungnahme Ihres alten Fahrzeugs sind selbstverständlich möglich. Vereinbaren Sie jetzt eine unverbindliche Probefahrt — wir freuen uns auf Sie!')
 
-    setForm(f => ({ ...f, beschreibung: parts.join(' ') }))
+    setForm(f => ({ ...f, beschreibung: parts.join('\n\n') }))
   }
 
   const removeImage = (index: number) => {
