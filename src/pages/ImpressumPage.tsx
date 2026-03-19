@@ -12,8 +12,7 @@ export default function ImpressumPage() {
           <div>
             <h2 className="text-xl font-bold text-primary mb-3">Angaben gemäß § 5 TMG</h2>
             <p>
-              <strong className="text-primary">Carmove Logistik GmbH</strong><br />
-              (handelnd unter: Mizo Autohaus)<br />
+              <strong className="text-primary">Mizo Autohaus</strong><br />
               Vahrenwalder Straße 35<br />
               30165 Hannover
             </p>
