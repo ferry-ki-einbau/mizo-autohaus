@@ -38,7 +38,7 @@ export default function ImpressumPage() {
             <h2 className="text-xl font-bold text-primary mb-3">Handelsregister</h2>
             <p>
               Registergericht: Amtsgericht Hannover<br />
-              Registernummer: [wird nachgetragen]
+              Registernummer: HRB 229308
             </p>
           </div>
 
@@ -46,7 +46,8 @@ export default function ImpressumPage() {
             <h2 className="text-xl font-bold text-primary mb-3">Umsatzsteuer-ID</h2>
             <p>
               Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br />
-              [wird nachgetragen]
+              USt-IdNr.: DE345627998<br />
+              Steuernummer: 25/208/13592, Finanzamt Hannover Nord
             </p>
           </div>
 
