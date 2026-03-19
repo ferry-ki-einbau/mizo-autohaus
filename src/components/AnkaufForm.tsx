@@ -1,5 +1,4 @@
 import { useState, useCallback, useRef } from 'react'
-import { motion } from 'framer-motion'
 import { Check, X, Loader2, Upload, Send, Shield, Clock, Phone, MessageCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import SectionHeading from './SectionHeading'
@@ -133,7 +132,7 @@ export default function AnkaufForm() {
     return (
       <section id="ankauf" className="py-20 bg-bg-soft">
         <div className="max-w-xl mx-auto px-4 text-center">
-          <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white rounded-2xl p-10 shadow-lg border border-border">
+          <div className="bg-white rounded-2xl p-10 shadow-lg border border-border reveal">
             <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-5">
               <Check className="w-8 h-8 text-success" />
             </div>
@@ -153,7 +152,7 @@ export default function AnkaufForm() {
                 </a>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     )
@@ -168,13 +167,10 @@ export default function AnkaufForm() {
           description="Kurzes Formular ausfüllen — wir melden uns noch heute mit einem Angebot."
         />
 
-        <motion.form
+        <form
           ref={formRef}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-xl shadow-black/5 p-6 sm:p-8 border border-border"
+          className="bg-white rounded-2xl shadow-xl shadow-black/5 p-6 sm:p-8 border border-border reveal"
         >
           {/* Honeypot */}
           <div className="absolute opacity-0 pointer-events-none" aria-hidden="true">
@@ -284,7 +280,7 @@ export default function AnkaufForm() {
           </div>
 
           <TrustBadges />
-        </motion.form>
+        </form>
       </div>
     </section>
   )

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { CheckCircle, ArrowRight } from 'lucide-react'
 import SectionHeading from './SectionHeading'
 
@@ -40,13 +39,9 @@ export default function WhyUs() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6 sm:gap-y-8 lg:gap-8 mt-4">
           {reasons.map((reason, i) => (
-            <motion.div
+            <div
               key={reason.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-30px' }}
-              transition={{ duration: 0.4, delay: i * 0.07 }}
-              className="flex gap-4 group lg:p-6 lg:rounded-2xl lg:border lg:border-transparent lg:hover:border-border lg:hover:shadow-lg lg:hover:shadow-black/5 lg:transition-all lg:duration-300"
+              className={`reveal reveal-d${Math.min(i + 1, 5)} flex gap-4 group lg:p-6 lg:rounded-2xl lg:border lg:border-transparent lg:hover:border-border lg:hover:shadow-lg lg:hover:shadow-black/5 lg:transition-all lg:duration-300`}
             >
               <div className="w-8 h-8 lg:w-11 lg:h-11 rounded-lg lg:rounded-xl bg-accent/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-accent group-hover:shadow-md group-hover:shadow-accent/20 transition-all duration-300">
                 <CheckCircle className="w-4 h-4 lg:w-5 lg:h-5 text-accent group-hover:text-white transition-colors" />
@@ -55,16 +50,11 @@ export default function WhyUs() {
                 <h3 className="font-bold text-primary text-lg lg:text-xl">{reason.title}</h3>
                 <p className="text-text-muted text-sm lg:text-base mt-1 leading-relaxed">{reason.description}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 lg:mt-16 text-center"
-        >
+        <div className="mt-12 lg:mt-16 text-center reveal">
           <button
             onClick={() => document.getElementById('ankauf')?.scrollIntoView({ behavior: 'smooth' })}
             className="group inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white px-8 py-4 lg:px-10 lg:py-5 rounded-xl text-lg lg:text-xl font-bold transition-all hover:shadow-xl hover:shadow-accent/25 hover:scale-[1.02]"
@@ -72,7 +62,7 @@ export default function WhyUs() {
             Jetzt Fahrzeug anbieten
             <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6 group-hover:translate-x-1 transition-transform" />
           </button>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

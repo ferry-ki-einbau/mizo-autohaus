@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion'
-
 interface SectionHeadingProps {
   tag?: string
   title: string
@@ -9,13 +7,7 @@ interface SectionHeadingProps {
 
 export default function SectionHeading({ tag, title, description, center = true }: SectionHeadingProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5 }}
-      className={center ? 'text-center max-w-2xl mx-auto mb-10 sm:mb-14' : 'mb-8 sm:mb-12'}
-    >
+    <div className={`reveal ${center ? 'text-center max-w-2xl mx-auto mb-10 sm:mb-14' : 'mb-8 sm:mb-12'}`}>
       {tag && (
         <span className="inline-block text-accent font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
           {tag}
@@ -29,6 +21,6 @@ export default function SectionHeading({ tag, title, description, center = true 
           {description}
         </p>
       )}
-    </motion.div>
+    </div>
   )
 }

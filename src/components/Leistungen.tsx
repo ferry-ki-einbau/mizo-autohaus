@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { Car, HandCoins, CreditCard, Shield, ArrowLeftRight, FileCheck, ArrowRight } from 'lucide-react'
 import SectionHeading from './SectionHeading'
 
@@ -46,16 +45,11 @@ export default function Leistungen() {
           description="Von Ankauf über Finanzierung bis zur Zulassung — bei Mizo Autohaus erhalten Sie den kompletten Service aus einer Hand."
         />
 
-        {/* Bento Grid — Erste Karte groß */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-6">
           {services.map((service, index) => (
-            <motion.div
+            <div
               key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
-              className={`group rounded-2xl border transition-all duration-300 ${
+              className={`reveal reveal-d${Math.min(index + 1, 5)} group rounded-2xl border transition-all duration-300 ${
                 service.highlight
                   ? 'col-span-2 lg:col-span-1 lg:row-span-2 bg-primary text-white border-white/10 p-6 sm:p-8 lg:p-10 flex flex-col justify-between hover:border-accent/30'
                   : 'bg-white border-border p-4 sm:p-6 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5'
@@ -93,7 +87,7 @@ export default function Leistungen() {
                   <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5" />
                 </button>
               )}
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
