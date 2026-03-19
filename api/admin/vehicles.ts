@@ -58,7 +58,8 @@ async function getVehicles(): Promise<Vehicle[]> {
   try {
     const { blobs } = await list({ prefix: DATA_KEY })
     if (blobs.length === 0) return []
-    const res = await fetch(blobs[0].url)
+    // cache: no-store damit immer frische Daten kommen
+    const res = await fetch(blobs[0].url, { cache: 'no-store' })
     if (!res.ok) return []
     return await res.json()
   } catch {
@@ -83,6 +84,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     if (req.method === 'GET') {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
       const vehicles = await getVehicles()
       return res.status(200).json(vehicles)
     }
