@@ -24,7 +24,7 @@ async function logAction(req: VercelRequest, action: string, details: string) {
       details,
     })
     if (logs.length > 500) logs = logs.slice(0, 500)
-    await put(LOG_KEY, JSON.stringify(logs), { access: 'public', contentType: 'application/json', addRandomSuffix: false })
+    await put(LOG_KEY, JSON.stringify(logs), { access: 'public' as const, contentType: 'application/json', addRandomSuffix: false })
   } catch { /* non-fatal */ }
 }
 
@@ -42,7 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (buffer.length > 5 * 1024 * 1024) return res.status(413).json({ error: 'Bild zu groß (max. 5MB)' })
 
     const blob = await put(`vehicles/${Date.now()}-${filename}`, buffer, {
-      access: 'public',
+      access: 'public' as const,
       contentType: contentType || 'image/jpeg',
     })
 

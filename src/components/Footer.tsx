@@ -30,7 +30,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
             <div className="mb-4">
-              <Logo inverted />
+              <Logo inverted showTagline />
             </div>
             <p className="text-white/60 text-sm leading-relaxed">
               Ihr Partner für Mobilität und Vertrauen. Ankauf, Verkauf, Finanzierung und Zulassungsdienst aus einer Hand.

@@ -43,7 +43,7 @@ export async function logAction(req: VercelRequest, action: AuditEntry['action']
     if (logs.length > 500) logs = logs.slice(0, 500)
 
     await put(LOG_KEY, JSON.stringify(logs), {
-      access: 'public',
+      access: 'public' as const,
       contentType: 'application/json',
       addRandomSuffix: false,
     })
