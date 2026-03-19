@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { put, list, del } from '@vercel/blob'
-import { logAction } from './audit-log'
+import { logAction } from './audit-log.js'
 
 const DATA_KEY = 'vehicles.json'
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'mizo2026'
