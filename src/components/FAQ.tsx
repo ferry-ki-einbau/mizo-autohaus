@@ -15,7 +15,7 @@ const faqs = [
   },
   {
     q: 'Wie läuft die Bezahlung ab?',
-    a: 'Wir zahlen sofort aus — am selben Tag, direkt nach der Fahrzeugprüfung. Bringen Sie Ihr Fahrzeug einfach vorbei. Kein Warten, keine Verzögerung.',
+    a: 'Nach der Einigung erhalten Sie ein verbindliches Fixum — kein Nachverhandeln. Sie bringen Ihr Fahrzeug vorbei oder wir holen es bundesweit ab. Bezahlung sofort: Bargeld oder Überweisung, Sie entscheiden. Am selben Tag erledigt.',
   },
   {
     q: 'Muss ich mein Auto abmelden?',
@@ -32,6 +32,10 @@ const faqs = [
   {
     q: 'Was ist der Online-Zulassungsdienst?',
     a: 'Wir erledigen Ihre Zulassung in nur 10 Minuten — Neuzulassung, Ummeldung oder Abmeldung. Kein Warten bei der Zulassungsstelle, kein Papierkram.',
+  },
+  {
+    q: 'Holen Sie mein Auto auch ab?',
+    a: 'Ja! Wir holen Ihr Fahrzeug deutschlandweit kostenlos ab. Egal ob Berlin, München oder Hamburg — wir kommen zu Ihnen. Bezahlung erfolgt bei Abholung, direkt vor Ort.',
   },
   {
     q: 'Wo finde ich Sie?',

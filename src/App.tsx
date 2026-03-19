@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import Header from './components/Header'
+import PromoBanner from './components/PromoBanner'
 import ScrollRestoration from './components/ScrollRestoration'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
@@ -42,6 +43,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <ScrollRestoration />
+      <PromoBanner />
       <Header />
       <main className="flex-1">
         <Suspense fallback={<div className="min-h-screen" />}>
