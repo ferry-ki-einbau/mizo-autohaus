@@ -77,8 +77,9 @@ export default function FahrzeugDetail({ vehicle, onClose }: Props) {
               )}
             </>
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <Car className="w-16 h-16 text-text-light/30" />
+            <div className="w-full h-full flex flex-col items-center justify-center gap-3">
+              <Car className="w-16 h-16 text-text-light/20" />
+              <span className="text-sm font-bold text-text-light/40 uppercase tracking-wider">Bilder folgen in Kürze</span>
             </div>
           )}
         </div>

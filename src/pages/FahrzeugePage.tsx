@@ -138,7 +138,10 @@ export default function FahrzeugePage() {
                           decoding="async"
                         />
                       ) : (
-                        <Car className="w-16 h-16 text-text-light/30" />
+                        <div className="flex flex-col items-center justify-center gap-2">
+                          <Car className="w-12 h-12 text-text-light/20" />
+                          <span className="text-xs font-bold text-text-light/40 uppercase tracking-wider">Bilder folgen</span>
+                        </div>
                       )}
                       {fz.kraftstoff && (
                         <div className="absolute top-3 right-3 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">

@@ -101,7 +101,10 @@ export default function Fahrzeuge() {
                     {fz.bilder && fz.bilder.length > 0 ? (
                       <img src={fz.bilder[0]} alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                     ) : (
-                      <Car className="w-12 h-12 text-text-light/30" />
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <Car className="w-10 h-10 text-text-light/20" />
+                        <span className="text-[10px] font-bold text-text-light/40 uppercase tracking-wider">Bilder folgen</span>
+                      </div>
                     )}
                     {fz.kraftstoff && (
                       <div className="absolute top-3 right-3 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full">{fz.kraftstoff}</div>
