@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mizo-autohaus.de/sitemap.xml
