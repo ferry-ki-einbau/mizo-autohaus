@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Lock, LogOut, Plus, Trash2, Car, Loader2, X, Upload,
-  Image as ImageIcon, Check, Sparkles
+  Image as ImageIcon, Check, Sparkles, Pencil
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -32,6 +32,7 @@ export default function AdminPage() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
   const [loading, setLoading] = useState(false)
   const [showForm, setShowForm] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [deleting, setDeleting] = useState<string | null>(null)
   const [uploadingImages, setUploadingImages] = useState(false)
@@ -307,6 +308,70 @@ export default function AdminPage() {
     setSubmitting(false)
   }
 
+  const startEdit = (vehicle: Vehicle) => {
+    setForm({
+      marke: vehicle.marke,
+      modell: vehicle.modell,
+      baujahr: vehicle.baujahr,
+      kilometerstand: vehicle.kilometerstand,
+      preis: vehicle.preis,
+      kraftstoff: vehicle.kraftstoff,
+      getriebe: vehicle.getriebe,
+      farbe: vehicle.farbe,
+      beschreibung: vehicle.beschreibung,
+      zusatzinfos: '',
+    })
+    setEditingId(vehicle.id)
+    setPendingImages([])
+    setShowForm(true)
+  }
+
+  const handleUpdate = async () => {
+    if (!editingId || !form.marke || !form.modell || submitting) return
+    setSubmitting(true)
+
+    try {
+      // Upload new images if any
+      let bildUrls: string[] = []
+      if (pendingImages.length > 0) {
+        setUploadingImages(true)
+        bildUrls = await Promise.all(pendingImages.map(img => uploadImage(img.file)))
+        setUploadingImages(false)
+      }
+
+      const updateData: Record<string, unknown> = { ...form }
+      delete updateData.zusatzinfos
+      if (bildUrls.length > 0) {
+        // Bestehende Bilder + neue Bilder
+        const existing = vehicles.find(v => v.id === editingId)?.bilder || []
+        updateData.bilder = [...existing, ...bildUrls]
+      }
+
+      const res = await fetch(`/api/admin/vehicles?id=${editingId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${password}`,
+        },
+        body: JSON.stringify(updateData),
+      })
+
+      if (!res.ok) throw new Error('Update failed')
+
+      setForm({ marke: '', modell: '', baujahr: '', kilometerstand: '', preis: '', kraftstoff: '', getriebe: '', farbe: '', beschreibung: '', zusatzinfos: '' })
+      pendingImages.forEach(img => URL.revokeObjectURL(img.preview))
+      setPendingImages([])
+      setEditingId(null)
+      setShowForm(false)
+      await new Promise(r => setTimeout(r, 1500))
+      await fetchVehicles()
+    } catch {
+      alert('Fehler beim Aktualisieren.')
+    }
+
+    setSubmitting(false)
+  }
+
   const handleDelete = async (id: string) => {
     if (!confirm('Fahrzeug wirklich löschen?')) return
     setDeleting(id)
@@ -405,8 +470,8 @@ export default function AdminPage() {
                 className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-2xl mb-8"
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold text-primary">Neues Fahrzeug einstellen</h2>
-                  <button onClick={() => setShowForm(false)} className="p-2 hover:bg-bg-soft rounded-lg">
+                  <h2 className="text-xl font-bold text-primary">{editingId ? 'Fahrzeug bearbeiten' : 'Neues Fahrzeug einstellen'}</h2>
+                  <button onClick={() => { setShowForm(false); setEditingId(null) }} className="p-2 hover:bg-bg-soft rounded-lg">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -505,19 +570,19 @@ export default function AdminPage() {
 
                   {/* Submit */}
                   <button
-                    onClick={handleSubmit}
+                    onClick={editingId ? handleUpdate : handleSubmit}
                     disabled={!form.marke || !form.modell || submitting}
                     className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50"
                   >
                     {submitting ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        {uploadingImages ? 'Bilder hochladen...' : 'Wird eingestellt...'}
+                        {uploadingImages ? 'Bilder hochladen...' : editingId ? 'Wird aktualisiert...' : 'Wird eingestellt...'}
                       </>
                     ) : (
                       <>
                         <Check className="w-5 h-5" />
-                        Fahrzeug einstellen
+                        {editingId ? 'Änderungen speichern' : 'Fahrzeug einstellen'}
                       </>
                     )}
                   </button>
@@ -590,21 +655,30 @@ export default function AdminPage() {
                     <span className="text-xs text-text-light">
                       {new Date(vehicle.createdAt).toLocaleDateString('de-DE')}
                     </span>
-                    <button
-                      onClick={() => handleDelete(vehicle.id)}
-                      disabled={deleting === vehicle.id}
-                      className={cn(
-                        'flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg transition-colors',
-                        'text-error/70 hover:text-error hover:bg-error/10'
-                      )}
-                    >
-                      {deleting === vehicle.id ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                      ) : (
-                        <Trash2 className="w-3.5 h-3.5" />
-                      )}
-                      Löschen
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => startEdit(vehicle)}
+                        className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg transition-colors text-accent hover:bg-accent/10"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                        Bearbeiten
+                      </button>
+                      <button
+                        onClick={() => handleDelete(vehicle.id)}
+                        disabled={deleting === vehicle.id}
+                        className={cn(
+                          'flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg transition-colors',
+                          'text-error/70 hover:text-error hover:bg-error/10'
+                        )}
+                      >
+                        {deleting === vehicle.id ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <Trash2 className="w-3.5 h-3.5" />
+                        )}
+                        Löschen
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>
