@@ -69,7 +69,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-4 sm:mt-6 lg:mt-8 text-base sm:text-xl lg:text-2xl text-white/60 max-w-xl lg:max-w-2xl leading-relaxed"
           >
-            Innerhalb von 24 Stunden ein faires Angebot. Kostenlose Bewertung, sofortige Auszahlung.
+            Innerhalb von 24 Stunden ein faires Angebot. Kostenlose Bewertung, Sofortauszahlung.
           </motion.p>
 
           <motion.div

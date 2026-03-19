@@ -6,7 +6,7 @@ const services = [
   {
     icon: HandCoins,
     title: 'Fahrzeug-Ankauf',
-    description: 'Wir kaufen Ihr Fahrzeug zu fairen Preisen. Schnelle Bewertung, sofortige Auszahlung — ohne Umwege.',
+    description: 'Wir kaufen Ihr Fahrzeug zu fairen Preisen. Schnelle Bewertung, Sofortauszahlung — ohne Umwege.',
     highlight: true,
   },
   {

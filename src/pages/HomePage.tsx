@@ -14,8 +14,15 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      {/* Mobile: Formular direkt nach Hero (Conversion first) */}
+      <div className="sm:hidden">
+        <AnkaufForm />
+      </div>
       <Prozess />
-      <AnkaufForm />
+      {/* Desktop/Tablet: Formular nach Prozess */}
+      <div className="hidden sm:block">
+        <AnkaufForm />
+      </div>
       <WhyUs />
       <Bewertungen />
       <Leistungen />
