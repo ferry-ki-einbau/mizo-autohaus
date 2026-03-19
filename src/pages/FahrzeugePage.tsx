@@ -138,9 +138,15 @@ export default function FahrzeugePage() {
                           decoding="async"
                         />
                       ) : (
-                        <div className="flex flex-col items-center justify-center gap-2">
-                          <Car className="w-12 h-12 text-text-light/20" />
-                          <span className="text-xs font-bold text-text-light/40 uppercase tracking-wider">Bilder folgen</span>
+                        <div className="w-full h-full bg-gradient-to-br from-primary/5 via-bg-muted to-accent/5 flex flex-col items-center justify-center gap-3 relative">
+                          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+                          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary/[0.06] flex items-center justify-center">
+                            <Car className="w-7 h-7 sm:w-8 sm:h-8 text-primary/20" />
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs sm:text-sm font-bold text-primary/30">Bilder folgen</p>
+                            <p className="text-[10px] text-text-light/40 mt-0.5">{fz.marke} {fz.modell}</p>
+                          </div>
                         </div>
                       )}
                       {fz.kraftstoff && (

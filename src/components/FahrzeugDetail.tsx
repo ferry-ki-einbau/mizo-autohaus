@@ -77,9 +77,15 @@ export default function FahrzeugDetail({ vehicle, onClose }: Props) {
               )}
             </>
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center gap-3">
-              <Car className="w-16 h-16 text-text-light/20" />
-              <span className="text-sm font-bold text-text-light/40 uppercase tracking-wider">Bilder folgen in Kürze</span>
+            <div className="w-full h-full bg-gradient-to-br from-primary/5 via-bg-muted to-accent/5 flex flex-col items-center justify-center gap-4 relative">
+              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+              <div className="w-20 h-20 rounded-2xl bg-primary/[0.06] flex items-center justify-center">
+                <Car className="w-10 h-10 text-primary/20" />
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-bold text-primary/30">Bilder folgen in Kürze</p>
+                <p className="text-xs text-text-light/40 mt-1">{fz.marke} {fz.modell}</p>
+              </div>
             </div>
           )}
         </div>

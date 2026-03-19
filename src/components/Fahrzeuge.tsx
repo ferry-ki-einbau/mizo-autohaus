@@ -101,9 +101,12 @@ export default function Fahrzeuge() {
                     {fz.bilder && fz.bilder.length > 0 ? (
                       <img src={fz.bilder[0]} alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                     ) : (
-                      <div className="flex flex-col items-center justify-center gap-2">
-                        <Car className="w-10 h-10 text-text-light/20" />
-                        <span className="text-[10px] font-bold text-text-light/40 uppercase tracking-wider">Bilder folgen</span>
+                      <div className="w-full h-full bg-gradient-to-br from-primary/5 via-bg-muted to-accent/5 flex flex-col items-center justify-center gap-2 relative">
+                        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+                        <div className="w-12 h-12 rounded-xl bg-primary/[0.06] flex items-center justify-center">
+                          <Car className="w-6 h-6 text-primary/20" />
+                        </div>
+                        <p className="text-[10px] font-bold text-primary/30">Bilder folgen</p>
                       </div>
                     )}
                     {fz.kraftstoff && (
