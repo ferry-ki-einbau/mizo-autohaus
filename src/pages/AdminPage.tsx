@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Lock, LogOut, Plus, Trash2, Car, Loader2, X, Upload,
-  Image as ImageIcon, Check
+  Image as ImageIcon, Check, Sparkles
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -99,7 +99,40 @@ export default function AdminPage() {
       file,
       preview: URL.createObjectURL(file),
     }))
-    setPendingImages(prev => [...prev, ...newImages].slice(0, 8))
+    setPendingImages(prev => [...prev, ...newImages].slice(0, 20))
+  }
+
+  const generateDescription = () => {
+    const { marke, modell, baujahr, kilometerstand, kraftstoff, getriebe, farbe } = form
+    if (!marke || !modell) return
+
+    const parts: string[] = []
+
+    // Hauptsatz
+    parts.push(`${marke} ${modell}${baujahr ? ` (${baujahr})` : ''} in ${farbe ? farbe.toLowerCase() : 'gepflegtem Zustand'}.`)
+
+    // Technische Details
+    const techDetails: string[] = []
+    if (kilometerstand) techDetails.push(`${Number(kilometerstand).toLocaleString('de-DE')} km gelaufen`)
+    if (kraftstoff) techDetails.push(kraftstoff)
+    if (getriebe) techDetails.push(getriebe)
+    if (techDetails.length > 0) parts.push(techDetails.join(', ') + '.')
+
+    // Verkaufstext
+    const verkauf = [
+      'Scheckheftgepflegt und unfallfrei.',
+      'Technisch einwandfrei, TÜV/AU neu.',
+      'Nichtraucher-Fahrzeug, gepflegter Innenraum.',
+      'Alle Inspektionen durchgeführt.',
+      'Sofort verfügbar und abholbereit.',
+    ]
+    // 2-3 zufällige Verkaufsargumente
+    const shuffled = verkauf.sort(() => Math.random() - 0.5)
+    parts.push(shuffled.slice(0, 2 + Math.floor(Math.random() * 2)).join(' '))
+
+    parts.push('Finanzierung und Inzahlungnahme möglich. Kommen Sie vorbei für eine Probefahrt!')
+
+    setForm(f => ({ ...f, beschreibung: parts.join(' ') }))
   }
 
   const removeImage = (index: number) => {
@@ -109,33 +142,55 @@ export default function AdminPage() {
     })
   }
 
-  const uploadImage = async (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = async () => {
-        const base64 = (reader.result as string).split(',')[1]
-        try {
-          const res = await fetch('/api/admin/upload', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${password}`,
-            },
-            body: JSON.stringify({
-              filename: file.name,
-              contentType: file.type,
-              data: base64,
-            }),
-          })
-          if (!res.ok) throw new Error('Upload failed')
-          const { url } = await res.json()
-          resolve(url)
-        } catch (err) {
-          reject(err)
+  // Bild komprimieren: max 1200px, JPEG 70% → aus 5MB werden ~150KB
+  const compressImage = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        const maxPx = 1200
+        let { width, height } = img
+        if (width > maxPx || height > maxPx) {
+          const ratio = Math.min(maxPx / width, maxPx / height)
+          width = Math.round(width * ratio)
+          height = Math.round(height * ratio)
         }
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext('2d')!
+        ctx.drawImage(img, 0, 0, width, height)
+        resolve(canvas.toDataURL('image/jpeg', 0.7))
       }
-      reader.readAsDataURL(file)
+      img.onerror = () => {
+        // Fallback: Original als base64
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result as string)
+        reader.readAsDataURL(file)
+      }
+      img.src = URL.createObjectURL(file)
     })
+  }
+
+  const uploadImage = async (file: File): Promise<string> => {
+    // Komprimieren vor Upload
+    const compressed = await compressImage(file)
+    const base64 = compressed.split(',')[1]
+
+    const res = await fetch('/api/admin/upload', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${password}`,
+      },
+      body: JSON.stringify({
+        filename: file.name.replace(/\.\w+$/, '.jpg'),
+        contentType: 'image/jpeg',
+        data: base64,
+      }),
+    })
+    if (!res.ok) throw new Error('Upload failed')
+    const { url } = await res.json()
+    return url
   }
 
   const handleSubmit = async () => {
@@ -326,13 +381,24 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-text mb-1">Beschreibung</label>
-                    <textarea value={form.beschreibung} onChange={e => setForm(f => ({ ...f, beschreibung: e.target.value }))} rows={3} placeholder="z.B. Scheckheftgepflegt, Winterreifen dabei, ..." className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent resize-none" />
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-sm font-medium text-text">Beschreibung</label>
+                      <button
+                        type="button"
+                        onClick={generateDescription}
+                        disabled={!form.marke || !form.modell}
+                        className="flex items-center gap-1.5 text-xs font-bold text-accent hover:text-accent-dark disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                        Text generieren
+                      </button>
+                    </div>
+                    <textarea value={form.beschreibung} onChange={e => setForm(f => ({ ...f, beschreibung: e.target.value }))} rows={3} placeholder="z.B. Scheckheftgepflegt, Winterreifen dabei, ... (oder klicke 'Text generieren')" className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent resize-none" />
                   </div>
 
                   {/* Image Upload */}
                   <div>
-                    <label className="block text-sm font-medium text-text mb-2">Fotos (max. 8)</label>
+                    <label className="block text-sm font-medium text-text mb-2">Fotos (max. 20)</label>
                     <div className="flex flex-wrap gap-3">
                       {pendingImages.map((img, i) => (
                         <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden group border border-border">
@@ -345,7 +411,7 @@ export default function AdminPage() {
                           </button>
                         </div>
                       ))}
-                      {pendingImages.length < 8 && (
+                      {pendingImages.length < 20 && (
                         <label className="w-24 h-24 rounded-lg border-2 border-dashed border-border hover:border-accent flex flex-col items-center justify-center cursor-pointer transition-colors">
                           <Upload className="w-5 h-5 text-text-light mb-1" />
                           <span className="text-xs text-text-light">Foto</span>
