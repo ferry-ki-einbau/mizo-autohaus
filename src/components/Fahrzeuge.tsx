@@ -95,6 +95,9 @@ export default function Fahrzeuge() {
                   className="min-w-[260px] sm:min-w-[300px] lg:min-w-[340px] max-w-[340px] snap-start shrink-0 bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-xl transition-all duration-300 group cursor-pointer"
                 >
                   <div className="aspect-[16/10] bg-bg-muted flex items-center justify-center relative overflow-hidden">
+                    {fz.preis && (
+                      <div className="absolute top-3 left-3 z-10 bg-accent text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-lg uppercase tracking-wider">Aktionspreis</div>
+                    )}
                     {fz.bilder && fz.bilder.length > 0 ? (
                       <img src={fz.bilder[0]} alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                     ) : (

@@ -48,6 +48,11 @@ export default function FahrzeugDetail({ vehicle, onClose }: Props) {
 
         {/* Bild-Galerie */}
         <div className="relative aspect-[16/10] bg-bg-muted">
+          {fz.preis && (
+            <div className="absolute top-3 left-3 z-10 bg-accent text-white text-xs font-black px-3 py-1.5 rounded-lg shadow-lg uppercase tracking-wider">
+              Aktionspreis
+            </div>
+          )}
           {fz.bilder.length > 0 ? (
             <>
               <img
