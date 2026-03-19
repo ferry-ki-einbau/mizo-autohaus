@@ -26,6 +26,7 @@ const routes = [
   '/kontakt',
   '/impressum',
   '/datenschutz',
+  '/fahrzeuge',
   // SEO Landing Pages
   '/auto-verkaufen-hannover',
   '/gebrauchtwagen-hannover',

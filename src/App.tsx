@@ -16,6 +16,7 @@ import UnfallwagenAnkaufPage from './pages/UnfallwagenAnkaufPage'
 import FinanzierungPage from './pages/FinanzierungPage'
 import AutoBewertungPage from './pages/AutoBewertungPage'
 import StadtAnkaufPage from './pages/StadtAnkaufPage'
+import FahrzeugePage from './pages/FahrzeugePage'
 
 // Admin only lazy (no SEO needed)
 const Admin = lazy(() => import('./pages/AdminPage'))
@@ -58,6 +59,7 @@ function App() {
             <Route path="/unfallwagen-ankauf" element={<UnfallwagenAnkaufPage />} />
             <Route path="/kfz-finanzierung-hannover" element={<FinanzierungPage />} />
             <Route path="/auto-bewertung-kostenlos" element={<AutoBewertungPage />} />
+            <Route path="/fahrzeuge" element={<FahrzeugePage />} />
             <Route path="/auto-verkaufen/:stadt" element={<StadtAnkaufPage />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFoundPage />} />

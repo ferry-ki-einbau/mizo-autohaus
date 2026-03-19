@@ -7,7 +7,7 @@ import Logo from './Logo'
 const navItems = [
   { label: 'Ankauf', href: '/#ankauf' },
   { label: 'Leistungen', href: '/#leistungen' },
-  { label: 'Fahrzeuge', href: '/#fahrzeuge' },
+  { label: 'Fahrzeuge', href: '/fahrzeuge' },
   { label: 'Online-Zulassung', href: '/online-zulassung' },
   { label: 'Kontakt', href: '/kontakt' },
 ]
