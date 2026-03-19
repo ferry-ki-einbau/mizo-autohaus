@@ -40,6 +40,7 @@ export default function AdminPage() {
   const [form, setForm] = useState({
     marke: '', modell: '', baujahr: '', kilometerstand: '',
     preis: '', kraftstoff: '', getriebe: '', farbe: '', beschreibung: '',
+    zusatzinfos: '',
   })
   const [pendingImages, setPendingImages] = useState<{ file: File; preview: string }[]>([])
 
@@ -95,7 +96,7 @@ export default function AdminPage() {
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files) return
-    const newImages = Array.from(files).slice(0, 8 - pendingImages.length).map(file => ({
+    const newImages = Array.from(files).slice(0, 20 - pendingImages.length).map(file => ({
       file,
       preview: URL.createObjectURL(file),
     }))
@@ -103,34 +104,71 @@ export default function AdminPage() {
   }
 
   const generateDescription = () => {
-    const { marke, modell, baujahr, kilometerstand, kraftstoff, getriebe, farbe } = form
+    const { marke, modell, baujahr, kilometerstand, kraftstoff, getriebe, farbe, zusatzinfos } = form
     if (!marke || !modell) return
 
     const parts: string[] = []
+    const info = zusatzinfos.toLowerCase()
 
     // Hauptsatz
-    parts.push(`${marke} ${modell}${baujahr ? ` (${baujahr})` : ''} in ${farbe ? farbe.toLowerCase() : 'gepflegtem Zustand'}.`)
+    parts.push(`${marke} ${modell}${baujahr ? ` (${baujahr})` : ''}${farbe ? ` in ${farbe}` : ''}.`)
 
     // Technische Details
     const techDetails: string[] = []
-    if (kilometerstand) techDetails.push(`${Number(kilometerstand).toLocaleString('de-DE')} km gelaufen`)
+    if (kilometerstand) techDetails.push(`${Number(kilometerstand).toLocaleString('de-DE')} km`)
     if (kraftstoff) techDetails.push(kraftstoff)
     if (getriebe) techDetails.push(getriebe)
     if (techDetails.length > 0) parts.push(techDetails.join(', ') + '.')
 
-    // Verkaufstext
-    const verkauf = [
-      'Scheckheftgepflegt und unfallfrei.',
-      'Technisch einwandfrei, TÜV/AU neu.',
-      'Nichtraucher-Fahrzeug, gepflegter Innenraum.',
-      'Alle Inspektionen durchgeführt.',
-      'Sofort verfügbar und abholbereit.',
-    ]
-    // 2-3 zufällige Verkaufsargumente
-    const shuffled = verkauf.sort(() => Math.random() - 0.5)
-    parts.push(shuffled.slice(0, 2 + Math.floor(Math.random() * 2)).join(' '))
+    // Zusatzinfos intelligent verarbeiten
+    const istUnfall = info.includes('unfall') || info.includes('schaden') || info.includes('crash')
+    const istMotorschaden = info.includes('motorschaden') || info.includes('motor defekt')
+    const hatMaengel = info.includes('mangel') || info.includes('mängel') || info.includes('rost') || info.includes('delle')
+    const mehrereHand = info.match(/(\d)\.\s*hand/)
+    const hatAusstattung = info.includes('navi') || info.includes('leder') || info.includes('sitzheizung') || info.includes('panorama') || info.includes('xenon') || info.includes('led') || info.includes('kamera')
 
-    parts.push('Finanzierung und Inzahlungnahme möglich. Kommen Sie vorbei für eine Probefahrt!')
+    if (istMotorschaden) {
+      parts.push('Hinweis: Fahrzeug hat einen Motorschaden und wird im aktuellen Zustand verkauft. Ideal für Bastler, Händler oder als Teilespender.')
+    } else if (istUnfall) {
+      parts.push('Hinweis: Unfallfahrzeug — wird ehrlich und transparent im aktuellen Zustand angeboten. Preis entsprechend angepasst.')
+    } else if (hatMaengel) {
+      parts.push('Das Fahrzeug weist Gebrauchsspuren auf, die sich im Preis widerspiegeln. Ehrlich und transparent — bei uns wissen Sie was Sie kaufen.')
+    } else {
+      // Positiv-Texte nur wenn kein Schaden
+      const positiv = [
+        'Gepflegter Zustand, regelmäßig gewartet.',
+        'Technisch einwandfrei geprüft.',
+        'Nichtraucher-Fahrzeug.',
+        'Sofort verfügbar und fahrbereit.',
+      ]
+      const shuffled = positiv.sort(() => Math.random() - 0.5)
+      parts.push(shuffled.slice(0, 2).join(' '))
+    }
+
+    if (mehrereHand) {
+      const handNr = mehrereHand[1] || '2'
+      parts.push(`${handNr}. Hand.`)
+    }
+
+    // Ausstattung aus Zusatzinfos extrahieren
+    if (hatAusstattung) {
+      const features: string[] = []
+      if (info.includes('navi')) features.push('Navigation')
+      if (info.includes('leder')) features.push('Lederausstattung')
+      if (info.includes('sitzheizung')) features.push('Sitzheizung')
+      if (info.includes('panorama')) features.push('Panoramadach')
+      if (info.includes('xenon') || info.includes('led')) features.push('LED/Xenon-Scheinwerfer')
+      if (info.includes('kamera')) features.push('Rückfahrkamera')
+      if (info.includes('standheizung')) features.push('Standheizung')
+      if (features.length > 0) parts.push(`Ausstattung: ${features.join(', ')}.`)
+    }
+
+    // Restliche Zusatzinfos die nicht erkannt wurden → direkt einfügen
+    if (zusatzinfos && !istMotorschaden && !istUnfall && !hatMaengel && !hatAusstattung) {
+      parts.push(zusatzinfos.charAt(0).toUpperCase() + zusatzinfos.slice(1) + (zusatzinfos.endsWith('.') ? '' : '.'))
+    }
+
+    parts.push('Finanzierung und Inzahlungnahme möglich. Probefahrt jederzeit nach Vereinbarung.')
 
     setForm(f => ({ ...f, beschreibung: parts.join(' ') }))
   }
@@ -219,7 +257,7 @@ export default function AdminPage() {
       if (!res.ok) throw new Error('Failed to create')
 
       // Reset form
-      setForm({ marke: '', modell: '', baujahr: '', kilometerstand: '', preis: '', kraftstoff: '', getriebe: '', farbe: '', beschreibung: '' })
+      setForm({ marke: '', modell: '', baujahr: '', kilometerstand: '', preis: '', kraftstoff: '', getriebe: '', farbe: '', beschreibung: '', zusatzinfos: '' })
       pendingImages.forEach(img => URL.revokeObjectURL(img.preview))
       setPendingImages([])
       setShowForm(false)
@@ -378,6 +416,12 @@ export default function AdminPage() {
                       <label className="block text-sm font-medium text-text mb-1">Farbe</label>
                       <input type="text" value={form.farbe} onChange={e => setForm(f => ({ ...f, farbe: e.target.value }))} placeholder="z.B. Schwarz Metallic" className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent" />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text mb-1">Zusatzinfos für KI-Text</label>
+                    <textarea value={form.zusatzinfos} onChange={e => setForm(f => ({ ...f, zusatzinfos: e.target.value }))} rows={2} placeholder="z.B. Motorschaden, 3. Hand, Navi, Leder, Sitzheizung, Panoramadach, Rost an Schweller, TÜV neu..." className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent resize-none text-sm" />
+                    <p className="text-[11px] text-text-light mt-1">Je mehr Infos, desto besser der generierte Text. Stichworte reichen.</p>
                   </div>
 
                   <div>
