@@ -58,7 +58,7 @@ export default function AdminPage() {
     if (!authed) return
     setLoading(true)
     try {
-      const res = await fetch('/api/admin/vehicles')
+      const res = await fetch(`/api/admin/vehicles?t=${Date.now()}`)
       if (res.ok) {
         const data = await res.json()
         setVehicles(data)
@@ -297,6 +297,8 @@ export default function AdminPage() {
       pendingImages.forEach(img => URL.revokeObjectURL(img.preview))
       setPendingImages([])
       setShowForm(false)
+      // Kurz warten damit Blob-Cache aktualisiert ist
+      await new Promise(r => setTimeout(r, 1500))
       await fetchVehicles()
     } catch {
       alert('Fehler beim Einstellen. Bitte versuche es erneut.')
