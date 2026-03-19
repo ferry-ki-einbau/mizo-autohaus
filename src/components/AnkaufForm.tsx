@@ -95,15 +95,11 @@ export default function AnkaufForm() {
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {}
     if (!data.marke) newErrors.marke = 'Bitte Marke wählen'
-    if (!data.modell) newErrors.modell = 'Bitte Modell eingeben'
-    if (!data.baujahr) newErrors.baujahr = 'Bitte Baujahr eingeben'
-    if (!data.kilometerstand) newErrors.kilometerstand = 'Bitte KM eingeben'
     if (!data.name) newErrors.name = 'Bitte Name eingeben'
     if (!data.telefon) newErrors.telefon = 'Bitte Telefon eingeben'
     setErrors(newErrors)
 
     if (Object.keys(newErrors).length > 0) {
-      // Scroll to first error
       const firstErrorField = formRef.current?.querySelector(`[data-field="${Object.keys(newErrors)[0]}"]`)
       firstErrorField?.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return false
@@ -137,11 +133,11 @@ export default function AnkaufForm() {
     return (
       <section id="ankauf" className="py-20 bg-bg-soft">
         <div className="max-w-xl mx-auto px-4 text-center">
-          <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white rounded-2xl p-10 shadow-lg">
+          <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white rounded-2xl p-10 shadow-lg border border-border">
             <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-5">
               <Check className="w-8 h-8 text-success" />
             </div>
-            <h3 className="text-2xl font-bold text-primary mb-2">Anfrage erhalten!</h3>
+            <h3 className="text-2xl font-black text-primary mb-2">Anfrage erhalten!</h3>
             <p className="text-text-muted mb-6">
               Wir prüfen Ihre Angaben und melden uns in der Regel <strong className="text-primary">noch heute</strong> bei Ihnen mit einem fairen Angebot.
             </p>
@@ -149,10 +145,10 @@ export default function AnkaufForm() {
             <div className="bg-bg-soft rounded-xl p-5 mb-4">
               <p className="text-sm text-text-muted mb-3">Lieber nicht warten? Erreichen Sie uns sofort:</p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <a href="tel:+4915161861808" className="flex-1 flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-3 rounded-lg font-semibold transition-colors no-underline text-sm">
+                <a href="tel:+4915161861808" className="flex-1 flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-3 rounded-lg font-bold transition-colors no-underline text-sm">
                   <Phone className="w-4 h-4" /> 0151 618 618 08
                 </a>
-                <a href="https://wa.me/4915161861808?text=Hallo%2C%20ich%20habe%20gerade%20eine%20Ankauf-Anfrage%20gesendet." target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fb855] text-white py-3 rounded-lg font-semibold transition-colors no-underline text-sm">
+                <a href="https://wa.me/4915161861808?text=Hallo%2C%20ich%20habe%20gerade%20eine%20Ankauf-Anfrage%20gesendet." target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fb855] text-white py-3 rounded-lg font-bold transition-colors no-underline text-sm">
                   <MessageCircle className="w-4 h-4" /> WhatsApp
                 </a>
               </div>
@@ -164,7 +160,7 @@ export default function AnkaufForm() {
   }
 
   return (
-    <section id="ankauf" className="py-20 bg-bg-soft">
+    <section id="ankauf" className="py-16 sm:py-24 bg-bg-soft">
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
         <SectionHeading
           tag="Fahrzeug-Ankauf"
@@ -178,7 +174,7 @@ export default function AnkaufForm() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-lg p-6 sm:p-8"
+          className="bg-white rounded-2xl shadow-xl shadow-black/5 p-6 sm:p-8 border border-border"
         >
           {/* Honeypot */}
           <div className="absolute opacity-0 pointer-events-none" aria-hidden="true">
@@ -186,7 +182,7 @@ export default function AnkaufForm() {
           </div>
 
           {/* Fahrzeug */}
-          <p className="text-xs font-semibold text-accent uppercase tracking-wider mb-4">Fahrzeug</p>
+          <p className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Fahrzeug</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
             <div className="col-span-2 sm:col-span-1" data-field="marke">
               <select value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
@@ -195,19 +191,16 @@ export default function AnkaufForm() {
               </select>
               {errors.marke && <p className="text-error text-xs mt-1">{errors.marke}</p>}
             </div>
-            <div className="col-span-2 sm:col-span-1" data-field="modell">
-              <input type="text" value={data.modell} onChange={e => update('modell', e.target.value)} placeholder="Modell *" className={cn(fieldClass, errors.modell && errorClass)} />
-              {errors.modell && <p className="text-error text-xs mt-1">{errors.modell}</p>}
+            <div className="col-span-2 sm:col-span-1">
+              <input type="text" value={data.modell} onChange={e => update('modell', e.target.value)} placeholder="Modell" className={fieldClass} />
             </div>
-            <div data-field="baujahr">
-              <input type="number" value={data.baujahr} onChange={e => update('baujahr', e.target.value)} placeholder="Baujahr *" className={cn(fieldClass, errors.baujahr && errorClass)} />
-              {errors.baujahr && <p className="text-error text-xs mt-1">{errors.baujahr}</p>}
+            <div>
+              <input type="text" inputMode="numeric" value={data.baujahr} onChange={e => update('baujahr', e.target.value)} placeholder="Baujahr" className={fieldClass} />
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
-            <div data-field="kilometerstand">
-              <input type="number" value={data.kilometerstand} onChange={e => update('kilometerstand', e.target.value)} placeholder="Kilometerstand *" className={cn(fieldClass, errors.kilometerstand && errorClass)} />
-              {errors.kilometerstand && <p className="text-error text-xs mt-1">{errors.kilometerstand}</p>}
+            <div>
+              <input type="text" inputMode="numeric" value={data.kilometerstand} onChange={e => update('kilometerstand', e.target.value)} placeholder="Kilometerstand" className={fieldClass} />
             </div>
             <select value={data.zustand} onChange={e => update('zustand', e.target.value)} className={fieldClass}>
               <option value="">Zustand</option>
@@ -219,7 +212,6 @@ export default function AnkaufForm() {
             </select>
           </div>
 
-          {/* Beschreibung als Textarea */}
           <textarea
             value={data.beschreibung}
             onChange={e => update('beschreibung', e.target.value)}
@@ -228,10 +220,10 @@ export default function AnkaufForm() {
             className={cn(fieldClass, 'mb-4 resize-none')}
           />
 
-          {/* Foto-Upload — prominenter */}
-          <div className="border-2 border-dashed border-border hover:border-accent rounded-xl p-4 mb-6 transition-colors">
+          {/* Foto-Upload */}
+          <div className="border-2 border-dashed border-border hover:border-accent/40 rounded-xl p-4 mb-6 transition-colors">
             <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent/10 text-accent text-sm font-medium cursor-pointer hover:bg-accent/20 transition-colors">
+              <label className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent/10 text-accent text-sm font-bold cursor-pointer hover:bg-accent/20 transition-colors">
                 <Upload className="w-4 h-4" />
                 Fotos hinzufügen
                 <input type="file" accept="image/*" multiple onChange={handleImages} className="hidden" />
@@ -254,11 +246,10 @@ export default function AnkaufForm() {
             )}
           </div>
 
-          {/* Divider */}
           <div className="border-t border-border my-5" />
 
           {/* Kontakt */}
-          <p className="text-xs font-semibold text-accent uppercase tracking-wider mb-4">Kontakt</p>
+          <p className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Kontakt</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
             <div data-field="name">
               <input type="text" value={data.name} onChange={e => update('name', e.target.value)} placeholder="Ihr Name *" className={cn(fieldClass, errors.name && errorClass)} />
@@ -275,11 +266,11 @@ export default function AnkaufForm() {
             <p className="text-error text-sm bg-error/10 px-4 py-2 rounded-lg mb-4">{error}</p>
           )}
 
-          {/* Submit — IMMER aktiv */}
+          {/* Submit */}
           <button
             type="submit"
             disabled={submitting}
-            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-semibold text-base bg-accent hover:bg-accent-dark text-white shadow-md shadow-accent/20 hover:shadow-lg hover:shadow-accent/30 transition-all disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base bg-accent hover:bg-accent-dark text-white shadow-lg shadow-accent/20 hover:shadow-xl hover:shadow-accent/30 transition-all disabled:opacity-50 hover:scale-[1.01]"
           >
             {submitting ? (
               <><Loader2 className="w-5 h-5 animate-spin" /> Wird gesendet...</>
@@ -302,5 +293,5 @@ export default function AnkaufForm() {
   )
 }
 
-const fieldClass = 'w-full px-3.5 py-2.5 rounded-lg border border-border bg-white text-text text-sm focus:border-accent focus:ring-1 focus:ring-accent transition-colors placeholder:text-text-light'
+const fieldClass = 'w-full px-3.5 py-3 sm:py-2.5 rounded-lg border border-border bg-white text-text text-base sm:text-sm focus:border-accent focus:ring-1 focus:ring-accent transition-colors placeholder:text-text-light min-h-[44px]'
 const errorClass = 'border-error focus:border-error focus:ring-error'

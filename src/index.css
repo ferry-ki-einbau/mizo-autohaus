@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  /* Primary — Schwarz (seriös) */
-  --color-primary: #111111;
-  --color-primary-light: #1f1f1f;
+  /* Primary — Tiefes Schwarz (Macht, Premium) */
+  --color-primary: #0a0a0a;
+  --color-primary-light: #161616;
 
-  /* Accent — Gold (Premium, Vertrauen) */
-  --color-accent: #C9A84C;
-  --color-accent-light: #d4b85c;
-  --color-accent-dark: #b08f3a;
+  /* Accent — Racing Rot (Energie, Leidenschaft, Action) */
+  --color-accent: #E31937;
+  --color-accent-light: #FF2D4B;
+  --color-accent-dark: #C2102C;
 
-  /* Neutral — Sauberes Weiß/Grau */
+  /* Neutral — Klinisch sauber */
   --color-bg: #ffffff;
-  --color-bg-soft: #f5f5f5;
-  --color-bg-muted: #eeeeee;
-  --color-text: #111111;
-  --color-text-muted: #555555;
-  --color-text-light: #999999;
-  --color-border: #e0e0e0;
+  --color-bg-soft: #f7f7f8;
+  --color-bg-muted: #eeeef0;
+  --color-text: #0a0a0a;
+  --color-text-muted: #52525b;
+  --color-text-light: #a1a1aa;
+  --color-border: #e4e4e7;
 
   /* Semantic */
   --color-success: #10b981;

@@ -36,7 +36,7 @@ export default function Fahrzeuge() {
   }, [])
 
   return (
-    <section id="fahrzeuge" className="py-20 bg-bg-soft">
+    <section id="fahrzeuge" className="py-20 sm:py-24 bg-bg-soft">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           tag="Aktuelle Fahrzeuge"
@@ -45,7 +45,6 @@ export default function Fahrzeuge() {
         />
 
         {loaded && vehicles.length === 0 ? (
-          /* Keine Autos hochgeladen — einladende Nachricht */
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -56,28 +55,27 @@ export default function Fahrzeuge() {
               <div className="w-20 h-20 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Search className="w-10 h-10 text-accent" />
               </div>
-              <h3 className="text-2xl font-bold text-primary mb-3">
+              <h3 className="text-2xl font-black text-primary mb-3">
                 Wir sind auf der Suche nach Fahrzeugen
               </h3>
               <p className="text-text-muted leading-relaxed mb-2">
                 Unser Bestand wechselt ständig — gute Autos sind schnell verkauft!
-                Rufen Sie uns an oder nutzen Sie unser Ankauf-Formular, um zu erfahren welche Fahrzeuge aktuell verfügbar sind.
+                Rufen Sie uns an oder nutzen Sie unser Ankauf-Formular.
               </p>
               <p className="text-text-muted leading-relaxed mb-8">
                 <strong className="text-primary">Sie möchten Ihr Fahrzeug verkaufen?</strong> Perfekt — wir suchen genau Ihr Auto.
-                Stellen Sie jetzt eine unverbindliche Anfrage und erhalten Sie innerhalb von 24 Stunden ein faires Angebot.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
                   href="tel:+4915161861808"
-                  className="flex items-center gap-2 bg-accent hover:bg-accent-dark text-white px-8 py-3.5 rounded-xl font-semibold transition-all hover:shadow-lg hover:shadow-accent/20 no-underline"
+                  className="flex items-center gap-2 bg-accent hover:bg-accent-dark text-white px-8 py-3.5 rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-accent/20 no-underline"
                 >
                   <Phone className="w-5 h-5" />
                   0151 618 618 08
                 </a>
                 <button
                   onClick={() => document.getElementById('ankauf')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="flex items-center gap-2 border-2 border-primary/20 hover:border-primary/40 text-primary px-8 py-3.5 rounded-xl font-semibold transition-all"
+                  className="flex items-center gap-2 border-2 border-primary/20 hover:border-accent/40 text-primary px-8 py-3.5 rounded-xl font-bold transition-all"
                 >
                   Fahrzeug anbieten
                   <ArrowRight className="w-5 h-5" />
@@ -95,7 +93,7 @@ export default function Fahrzeuge() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.4, delay: index * 0.08 }}
-                  className="bg-white rounded-2xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300 group"
+                  className="bg-white rounded-2xl overflow-hidden border border-border hover:border-accent/20 hover:shadow-xl transition-all duration-300 group"
                 >
                   <div className="aspect-[16/10] bg-bg-muted flex items-center justify-center relative overflow-hidden">
                     {fz.bilder && fz.bilder.length > 0 ? (
@@ -122,7 +120,7 @@ export default function Fahrzeuge() {
                   </div>
 
                   <div className="p-5">
-                    <h3 className="text-lg font-semibold text-primary">
+                    <h3 className="text-lg font-bold text-primary">
                       {fz.marke} {fz.modell}
                     </h3>
                     <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-sm text-text-muted">
@@ -136,13 +134,13 @@ export default function Fahrzeuge() {
                     )}
                     <div className="mt-4 flex items-center justify-between">
                       {fz.preis && (
-                        <span className="text-xl font-bold text-accent">
+                        <span className="text-xl font-black text-accent">
                           {Number(fz.preis).toLocaleString('de-DE')} €
                         </span>
                       )}
                       <a
                         href="tel:+4915161861808"
-                        className="flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-dark transition-colors no-underline"
+                        className="flex items-center gap-1 text-sm font-bold text-accent hover:text-accent-dark transition-colors no-underline"
                       >
                         Anfragen
                         <ArrowRight className="w-4 h-4" />
@@ -156,7 +154,7 @@ export default function Fahrzeuge() {
             <div className="text-center mt-10">
               <a
                 href="tel:+4915161861808"
-                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-white px-8 py-3.5 rounded-xl font-semibold transition-colors no-underline"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-white px-8 py-3.5 rounded-xl font-bold transition-colors no-underline"
               >
                 <Phone className="w-5 h-5" />
                 Alle Fahrzeuge anfragen

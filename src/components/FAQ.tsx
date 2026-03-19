@@ -45,9 +45,9 @@ function FAQItem({ q, a }: { q: string; a: string }) {
     <div className="border border-border rounded-xl overflow-hidden bg-white">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-bg-soft/50 transition-colors"
+        className="w-full flex items-center justify-between px-5 sm:px-6 py-4 sm:py-4 text-left hover:bg-bg-soft/50 transition-colors min-h-[52px]"
       >
-        <span className="font-semibold text-primary pr-4">{q}</span>
+        <span className="font-bold text-primary pr-4 text-sm sm:text-base">{q}</span>
         <ChevronDown className={cn(
           'w-5 h-5 text-text-muted shrink-0 transition-transform duration-200',
           open && 'rotate-180'
@@ -62,7 +62,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <p className="px-6 pb-5 text-text-muted leading-relaxed">{a}</p>
+            <p className="px-5 sm:px-6 pb-5 text-text-muted leading-relaxed text-sm sm:text-base">{a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -72,7 +72,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
 export default function FAQ() {
   return (
-    <section className="py-20">
+    <section className="py-16 sm:py-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <SectionHeading
           tag="Häufige Fragen"

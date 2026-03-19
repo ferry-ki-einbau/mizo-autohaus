@@ -24,7 +24,7 @@ export default function MobileCTA() {
           <div className="bg-white/95 backdrop-blur-md border-t border-border shadow-[0_-4px_20px_rgba(0,0,0,0.1)] px-4 py-3 flex gap-3">
             <a
               href="tel:+4915161861808"
-              className="flex-1 flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-3 rounded-xl font-semibold transition-colors no-underline text-sm"
+              className="flex-1 flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-3.5 rounded-xl font-bold transition-colors no-underline text-sm"
             >
               <Phone className="w-4 h-4" />
               Anrufen
@@ -33,7 +33,7 @@ export default function MobileCTA() {
               href="https://wa.me/4915161861808?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20Fahrzeug-Ankauf."
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fb855] text-white py-3 rounded-xl font-semibold transition-colors no-underline text-sm"
+              className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fb855] text-white py-3.5 rounded-xl font-bold transition-colors no-underline text-sm"
             >
               <MessageCircle className="w-4 h-4" />
               WhatsApp

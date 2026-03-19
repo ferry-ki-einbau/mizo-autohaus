@@ -18,7 +18,6 @@ export default function Header() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  // Header shadow on scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -27,8 +26,6 @@ export default function Header() {
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false)
-
-    // Scroll-to-anchor links (/#section)
     if (href.startsWith('/#')) {
       const id = href.slice(2)
       if (location.pathname === '/') {
@@ -41,20 +38,17 @@ export default function Header() {
       }
       return
     }
-
-    // Normal page links — scroll to top
     navigate(href)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
     <header className={cn(
-      'sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b transition-shadow duration-300',
-      scrolled ? 'border-border shadow-md' : 'border-transparent'
+      'sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b transition-all duration-300',
+      scrolled ? 'border-border shadow-lg shadow-black/5' : 'border-transparent'
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 no-underline" onClick={() => { setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
             <Logo />
           </Link>
@@ -96,7 +90,7 @@ export default function Header() {
             </a>
             <button
               onClick={() => handleNavClick('/#ankauf')}
-              className="bg-accent hover:bg-accent-dark text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all hover:shadow-lg hover:shadow-accent/20"
+              className="bg-accent hover:bg-accent-dark text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all hover:shadow-lg hover:shadow-accent/25"
             >
               Auto verkaufen
             </button>
@@ -135,7 +129,7 @@ export default function Header() {
             </a>
             <button
               onClick={() => handleNavClick('/#ankauf')}
-              className="mt-2 bg-accent hover:bg-accent-dark text-white px-5 py-3 rounded-lg text-base font-semibold text-center transition-colors"
+              className="mt-2 bg-accent hover:bg-accent-dark text-white px-5 py-3 rounded-lg text-base font-bold text-center transition-colors"
             >
               Auto verkaufen
             </button>

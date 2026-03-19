@@ -14,18 +14,18 @@ export default function SectionHeading({ tag, title, description, center = true 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5 }}
-      className={center ? 'text-center max-w-2xl mx-auto mb-12' : 'mb-12'}
+      className={center ? 'text-center max-w-2xl mx-auto mb-10 sm:mb-14' : 'mb-8 sm:mb-12'}
     >
       {tag && (
-        <span className="inline-block text-accent font-semibold text-sm tracking-wider uppercase mb-3">
+        <span className="inline-block text-accent font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
           {tag}
         </span>
       )}
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary leading-tight">
+      <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary leading-tight">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-text-muted text-lg leading-relaxed">
+        <p className="mt-3 sm:mt-4 text-text-muted text-sm sm:text-lg leading-relaxed">
           {description}
         </p>
       )}

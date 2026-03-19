@@ -11,14 +11,14 @@ const values = [
 
 export default function UeberUns() {
   return (
-    <section id="ueber-uns" className="py-20 bg-bg-soft">
+    <section id="ueber-uns" className="py-16 sm:py-24 bg-bg-soft">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-start">
           <div>
             <SectionHeading
               tag="Über Uns"
               title="Ihr Autohaus in Hannover"
-              description="Mizo Autohaus steht für fairen Fahrzeughandel, persönliche Beratung und schnelle Abwicklung. Als Ihr lokaler Partner bieten wir alles rund ums Auto — von Ankauf und Verkauf über Finanzierung bis zur Zulassung."
+              description="Mizo Autohaus steht für fairen Fahrzeughandel, persönliche Beratung und schnelle Abwicklung. Als Ihr lokaler Partner bieten wir alles rund ums Auto."
               center={false}
             />
             <div className="space-y-4">
@@ -29,13 +29,13 @@ export default function UeberUns() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-start gap-4"
+                  className="flex items-start gap-4 group"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <item.icon className="w-5 h-5 text-accent" />
+                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-accent group-hover:shadow-md group-hover:shadow-accent/20 transition-all duration-300">
+                    <item.icon className="w-5 h-5 text-accent group-hover:text-white transition-colors" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-primary">{item.title}</h4>
+                    <h4 className="font-bold text-primary">{item.title}</h4>
                     <p className="text-sm text-text-muted mt-0.5">{item.description}</p>
                   </div>
                 </motion.div>
@@ -45,7 +45,6 @@ export default function UeberUns() {
 
           {/* Bilder + Map */}
           <div className="space-y-4">
-            {/* Autohaus Fotos */}
             <div className="grid grid-cols-2 gap-4">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -55,7 +54,7 @@ export default function UeberUns() {
                 className="rounded-2xl overflow-hidden border border-border shadow-sm"
               >
                 <img
-                  src="/images/hof-1.jpg"
+                  src="/images/hof-1-md.webp"
                   alt="Mizo Autohaus Hof — Fahrzeugauswahl"
                   className="w-full h-48 object-cover"
                   loading="lazy"
@@ -70,7 +69,7 @@ export default function UeberUns() {
                 className="rounded-2xl overflow-hidden border border-border shadow-sm"
               >
                 <img
-                  src="/images/hof-2.jpg"
+                  src="/images/hof-2-md.webp"
                   alt="Mizo Autohaus Hof — Premium Gebrauchtwagen"
                   className="w-full h-48 object-cover"
                   loading="lazy"
@@ -79,7 +78,6 @@ export default function UeberUns() {
               </motion.div>
             </div>
 
-            {/* Map */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

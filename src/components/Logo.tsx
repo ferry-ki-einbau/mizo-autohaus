@@ -8,7 +8,7 @@ interface LogoProps {
 export default function Logo({ className = '', inverted = false }: LogoProps) {
   return (
     <span className={cn(
-      'text-xl font-extrabold tracking-wide',
+      'text-xl font-black tracking-wide uppercase',
       inverted ? 'text-white' : 'text-primary',
       className
     )}>
