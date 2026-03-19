@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { put, list, del, head } from '@vercel/blob'
+import { put, list, del } from '@vercel/blob'
+import { logAction } from './audit-log'
 
 const DATA_KEY = 'vehicles.json'
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'mizo2026'
@@ -82,6 +83,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     vehicles.unshift(newVehicle)
     await saveVehicles(vehicles)
+
+    await logAction(req, 'vehicle_created', `${body.marke} ${body.modell} — ${body.preis || 'kein Preis'}€`, newVehicle.id)
+
     return res.status(201).json(newVehicle)
   }
 
@@ -99,17 +103,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(404).json({ error: 'Fahrzeug nicht gefunden' })
     }
 
-    // Delete associated images from blob
     for (const bildUrl of vehicle.bilder) {
-      try {
-        await del(bildUrl)
-      } catch {
-        // Image might already be deleted
-      }
+      try { await del(bildUrl) } catch { /* already deleted */ }
     }
 
     const filtered = vehicles.filter(v => v.id !== id)
     await saveVehicles(filtered)
+
+    await logAction(req, 'vehicle_deleted', `${vehicle.marke} ${vehicle.modell} (ID: ${id})`, id)
+
     return res.status(200).json({ success: true })
   }
 
@@ -127,8 +129,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const body = req.body
+    const changed = Object.keys(body).filter(k => k !== 'id').join(', ')
     vehicles[index] = { ...vehicles[index], ...body, id: vehicles[index].id }
     await saveVehicles(vehicles)
+
+    await logAction(req, 'vehicle_updated', `${vehicles[index].marke} ${vehicles[index].modell} — geändert: ${changed}`, id as string)
+
     return res.status(200).json(vehicles[index])
   }
 

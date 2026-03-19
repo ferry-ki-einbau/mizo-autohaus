@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { put } from '@vercel/blob'
+import { logAction } from './audit-log'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'mizo2026'
 
@@ -8,7 +9,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  // Auth check
   const auth = req.headers.authorization
   if (!auth || auth.slice(7) !== ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'Unauthorized' })
@@ -21,10 +21,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // data is base64 encoded image
     const buffer = Buffer.from(data, 'base64')
 
-    // Max 5MB per image
     if (buffer.length > 5 * 1024 * 1024) {
       return res.status(413).json({ error: 'Bild zu groß (max. 5MB)' })
     }
@@ -33,6 +31,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       access: 'public',
       contentType: contentType || 'image/jpeg',
     })
+
+    await logAction(req, 'image_uploaded', `${filename} (${(buffer.length / 1024).toFixed(0)}KB)`)
 
     return res.status(200).json({ url: blob.url })
   } catch (err) {
