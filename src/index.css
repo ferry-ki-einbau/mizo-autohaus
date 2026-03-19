@@ -30,6 +30,13 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Verhindert horizontalen Scroll auf Mobile */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {

@@ -183,31 +183,28 @@ export default function AnkaufForm() {
 
           {/* Fahrzeug */}
           <p className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Fahrzeug</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
-            <div className="col-span-2 sm:col-span-1" data-field="marke">
-              <select value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
-                <option value="">Marke *</option>
-                {marken.map(m => <option key={m} value={m}>{m}</option>)}
-              </select>
-              {errors.marke && <p className="text-error text-xs mt-1">{errors.marke}</p>}
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <input type="text" value={data.modell} onChange={e => update('modell', e.target.value)} placeholder="Modell" className={fieldClass} />
-            </div>
-            <div>
-              <input type="text" inputMode="numeric" value={data.baujahr} onChange={e => update('baujahr', e.target.value)} placeholder="Baujahr" className={fieldClass} />
-            </div>
+          {/* Zeile 1: Marke full-width auf Mobile */}
+          <div className="mb-3" data-field="marke">
+            <select value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
+              <option value="">Marke *</option>
+              {marken.map(m => <option key={m} value={m}>{m}</option>)}
+            </select>
+            {errors.marke && <p className="text-error text-xs mt-1">{errors.marke}</p>}
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
-            <div>
-              <input type="text" inputMode="numeric" value={data.kilometerstand} onChange={e => update('kilometerstand', e.target.value)} placeholder="Kilometerstand" className={fieldClass} />
-            </div>
+          {/* Zeile 2: Modell + Baujahr + KM */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+            <input type="text" value={data.modell} onChange={e => update('modell', e.target.value)} placeholder="Modell" className={fieldClass} />
+            <input type="text" inputMode="numeric" value={data.baujahr} onChange={e => update('baujahr', e.target.value)} placeholder="Baujahr" className={fieldClass} />
+            <input type="text" inputMode="numeric" value={data.kilometerstand} onChange={e => update('kilometerstand', e.target.value)} placeholder="KM-Stand" className={fieldClass} />
+          </div>
+          {/* Zeile 3: Zustand + TÜV */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mb-3">
             <select value={data.zustand} onChange={e => update('zustand', e.target.value)} className={fieldClass}>
               <option value="">Zustand</option>
               {zustaende.map(z => <option key={z} value={z}>{z}</option>)}
             </select>
             <select value={data.tuev} onChange={e => update('tuev', e.target.value)} className={fieldClass}>
-              <option value="">TÜV Status</option>
+              <option value="">TÜV</option>
               {tuevOptionen.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>

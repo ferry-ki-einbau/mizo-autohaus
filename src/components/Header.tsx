@@ -99,7 +99,7 @@ export default function Header() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-bg-soft transition-colors"
+            className="lg:hidden p-2.5 -mr-1 rounded-lg hover:bg-bg-soft transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Navigation umschalten"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

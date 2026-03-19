@@ -58,21 +58,21 @@ export default function Prozess() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.15 }}
-                className="relative p-4 sm:p-6 lg:p-8 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-sm hover:bg-white/[0.08] hover:border-accent/25 transition-all duration-300 group lg:text-center"
+                className="relative p-3.5 sm:p-6 lg:p-8 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-sm hover:bg-white/[0.08] hover:border-accent/25 transition-all duration-300 group lg:text-center"
               >
                 {/* Nummern-Badge — Desktop zentriert */}
-                <div className="flex items-center justify-between lg:justify-center mb-4 lg:mb-6">
-                  <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-accent/15 flex items-center justify-center group-hover:bg-accent group-hover:shadow-lg group-hover:shadow-accent/30 transition-all duration-300">
-                    <step.icon className="w-6 h-6 lg:w-7 lg:h-7 text-accent group-hover:text-white transition-colors" />
+                <div className="flex items-center justify-between lg:justify-center mb-3 lg:mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-accent/15 flex items-center justify-center group-hover:bg-accent group-hover:shadow-lg group-hover:shadow-accent/30 transition-all duration-300">
+                    <step.icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-accent group-hover:text-white transition-colors" />
                   </div>
-                  <span className="text-3xl sm:text-5xl lg:hidden font-black text-white/[0.06] group-hover:text-accent/10 transition-colors">{step.num}</span>
+                  <span className="text-2xl sm:text-5xl lg:hidden font-black text-white/[0.06]">{step.num}</span>
                 </div>
 
                 {/* Desktop: Nummer als Badge */}
                 <div className="hidden lg:block text-accent/40 text-xs font-bold tracking-widest uppercase mb-2">Schritt {step.num}</div>
 
-                <h3 className="text-lg lg:text-xl font-bold text-white mb-2">{step.title}</h3>
-                <p className="text-sm lg:text-base text-white/50 leading-relaxed">{step.description}</p>
+                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-1 sm:mb-2">{step.title}</h3>
+                <p className="text-xs sm:text-sm lg:text-base text-white/50 leading-relaxed">{step.description}</p>
               </motion.div>
             ))}
           </div>
