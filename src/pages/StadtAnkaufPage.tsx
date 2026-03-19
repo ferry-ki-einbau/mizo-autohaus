@@ -56,7 +56,7 @@ export default function StadtAnkaufPage() {
       {/* Hero mit Bild */}
       <section className="relative text-white py-16 lg:py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/hero-autohaus.jpg" alt="" className="w-full h-full object-cover object-bottom" loading="eager" />
+          <img src="/images/hero-autohaus-desktop.webp" alt={`Auto verkaufen in ${info.name} — Mizo Autohaus`} className="w-full h-full object-cover object-bottom" loading="eager" />
           <div className="absolute inset-0 bg-primary/85" />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 text-center">

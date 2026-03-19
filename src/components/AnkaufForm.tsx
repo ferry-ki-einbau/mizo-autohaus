@@ -122,7 +122,7 @@ export default function AnkaufForm() {
       if (!res.ok) throw new Error('Fehler')
       setSubmitted(true)
     } catch {
-      setError('Fehler beim Senden. Bitte rufen Sie uns an: 0151 618 618 08')
+      setError('Fehler beim Senden. Rufen Sie uns an: 0151 618 618 08 oder schreiben Sie per WhatsApp.')
     } finally {
       setSubmitting(false)
     }
@@ -144,10 +144,10 @@ export default function AnkaufForm() {
             <div className="bg-bg-soft rounded-xl p-5 mb-4">
               <p className="text-sm text-text-muted mb-3">Lieber nicht warten? Erreichen Sie uns sofort:</p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <a href="tel:+4915161861808" className="flex-1 flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-3 rounded-lg font-bold transition-colors no-underline text-sm">
+                <a href="tel:+4915161861808" className="flex-1 flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-3.5 rounded-lg font-bold transition-colors no-underline text-sm min-h-[48px]">
                   <Phone className="w-4 h-4" /> 0151 618 618 08
                 </a>
-                <a href="https://wa.me/4915161861808?text=Hallo%2C%20ich%20habe%20gerade%20eine%20Ankauf-Anfrage%20gesendet." target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fb855] text-white py-3 rounded-lg font-bold transition-colors no-underline text-sm">
+                <a href="https://wa.me/4915161861808?text=Hallo%2C%20ich%20habe%20gerade%20eine%20Ankauf-Anfrage%20gesendet." target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1fb855] text-white py-3.5 rounded-lg font-bold transition-colors no-underline text-sm min-h-[48px]">
                   <MessageCircle className="w-4 h-4" /> WhatsApp
                 </a>
               </div>
@@ -181,7 +181,7 @@ export default function AnkaufForm() {
           <p className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Fahrzeug</p>
           {/* Zeile 1: Marke full-width auf Mobile */}
           <div className="mb-3" data-field="marke">
-            <select value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
+            <select required value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
               <option value="">Marke *</option>
               {marken.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
@@ -222,7 +222,7 @@ export default function AnkaufForm() {
                 <input type="file" accept="image/*" multiple onChange={handleImages} className="hidden" />
               </label>
               <span className="text-xs text-text-light">
-                {data.bilder.length > 0 ? `${data.bilder.length}/5 Fotos` : 'Mit Fotos erhalten Sie ein genaueres Angebot'}
+                {data.bilder.length > 0 ? `${data.bilder.length}/5 Fotos` : 'Fotos helfen uns, ein besseres Angebot zu machen (optional)'}
               </span>
             </div>
             {data.bilder.length > 0 && (
@@ -245,11 +245,11 @@ export default function AnkaufForm() {
           <p className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Kontakt</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
             <div data-field="name">
-              <input type="text" value={data.name} onChange={e => update('name', e.target.value)} placeholder="Ihr Name *" className={cn(fieldClass, errors.name && errorClass)} />
+              <input required type="text" value={data.name} onChange={e => update('name', e.target.value)} placeholder="Ihr Name *" className={cn(fieldClass, errors.name && errorClass)} />
               {errors.name && <p className="text-error text-xs mt-1">{errors.name}</p>}
             </div>
             <div data-field="telefon">
-              <input type="tel" value={data.telefon} onChange={e => update('telefon', e.target.value)} placeholder="Telefon *" className={cn(fieldClass, errors.telefon && errorClass)} />
+              <input required type="tel" value={data.telefon} onChange={e => update('telefon', e.target.value)} placeholder="Telefon *" className={cn(fieldClass, errors.telefon && errorClass)} />
               {errors.telefon && <p className="text-error text-xs mt-1">{errors.telefon}</p>}
             </div>
             <input type="email" value={data.email} onChange={e => update('email', e.target.value)} placeholder="E-Mail" className={fieldClass} />

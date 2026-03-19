@@ -13,7 +13,7 @@ const vorteile = [
 export default function GebrauchtwagenHannoverPage() {
   return (
     <div>
-      <section className="relative text-white py-16 lg:py-24 overflow-hidden"><div className="absolute inset-0"><img src="/images/hero-autohaus.jpg" alt="" className="w-full h-full object-cover object-bottom" loading="eager" /><div className="absolute inset-0 bg-primary/85" /></div>
+      <section className="relative text-white py-16 lg:py-24 overflow-hidden"><div className="absolute inset-0"><img src="/images/hero-autohaus-desktop.webp" alt="Gebrauchtwagen kaufen in Hannover — Mizo Autohaus" className="w-full h-full object-cover object-bottom" loading="eager" /><div className="absolute inset-0 bg-primary/85" /></div>
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
