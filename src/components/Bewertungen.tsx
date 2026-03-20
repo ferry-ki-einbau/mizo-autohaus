@@ -12,11 +12,9 @@ const bewertungen = [
   { name: 'Tarek G.', zeit: 'vor 2 Jahren', sterne: 5, text: 'Der beste Mann und sehr hilfreich. Bin ich immer wieder bei ihm.' },
 ]
 
-const mobileReviews = bewertungen.slice(0, 4)
-
 function ReviewCard({ b }: { b: typeof bewertungen[0] }) {
   return (
-    <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 sm:p-6 flex flex-col">
+    <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 sm:p-6 flex flex-col h-full">
       <div className="flex items-start justify-between mb-3 sm:mb-4">
         <Quote className="w-7 h-7 sm:w-8 sm:h-8 text-accent/20" />
         <div className="flex gap-0.5">
@@ -43,6 +41,7 @@ export default function Bewertungen() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
+  const [userTouched, setUserTouched] = useState(false)
 
   const checkScroll = () => {
     const el = scrollRef.current
@@ -58,6 +57,27 @@ export default function Bewertungen() {
     checkScroll()
     return () => el.removeEventListener('scroll', checkScroll)
   }, [])
+
+  // Auto-Rotation auf Mobile (stoppt bei Touch)
+  useEffect(() => {
+    if (userTouched) return
+    const isMobile = window.matchMedia('(max-width: 640px)').matches
+    if (!isMobile) return
+
+    const interval = setInterval(() => {
+      const el = scrollRef.current
+      if (!el) return
+      const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 10
+      if (atEnd) {
+        el.scrollTo({ left: 0, behavior: 'smooth' })
+      } else {
+        const cardWidth = el.querySelector('[data-review]')?.clientWidth || 280
+        el.scrollBy({ left: cardWidth + 16, behavior: 'smooth' })
+      }
+    }, 3500)
+
+    return () => clearInterval(interval)
+  }, [userTouched])
 
   const scroll = (dir: 'left' | 'right') => {
     const el = scrollRef.current
@@ -116,21 +136,15 @@ export default function Bewertungen() {
           </div>
         </div>
 
-        {/* MOBILE: Vertikales Grid */}
-        <div className="grid grid-cols-1 gap-4 sm:hidden">
-          {mobileReviews.map((b, i) => (
-            <ReviewCard key={i} b={b} />
-          ))}
-        </div>
-
-        {/* DESKTOP: Horizontaler Scroll */}
+        {/* Horizontaler Scroll — Mobile + Desktop, Auto-Rotation auf Mobile */}
         <div
           ref={scrollRef}
-          className="hidden sm:flex gap-5 overflow-x-auto snap-x snap-mandatory pb-2"
-          style={{ scrollbarWidth: 'none' }}
+          onTouchStart={() => setUserTouched(true)}
+          className="flex gap-4 sm:gap-5 overflow-x-auto snap-x snap-mandatory pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
+          style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
         >
           {bewertungen.map((b, i) => (
-            <div key={i} data-review className="min-w-[340px] lg:min-w-[360px] max-w-[360px] snap-start shrink-0">
+            <div key={i} data-review className="min-w-[280px] sm:min-w-[340px] lg:min-w-[360px] max-w-[360px] snap-start shrink-0">
               <ReviewCard b={b} />
             </div>
           ))}

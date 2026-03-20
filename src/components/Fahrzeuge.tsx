@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Car, ArrowRight, Phone, Search, ChevronRight } from 'lucide-react'
+import { ArrowRight, Phone, Search, ChevronRight, Camera } from 'lucide-react'
 import FahrzeugDetail from './FahrzeugDetail'
 
 interface Vehicle {
@@ -101,12 +101,14 @@ export default function Fahrzeuge() {
                     {fz.bilder && fz.bilder.length > 0 ? (
                       <img src={fz.bilder[0]} alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-primary/5 via-bg-muted to-accent/5 flex flex-col items-center justify-center gap-2 relative">
-                        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '20px 20px' }} />
-                        <div className="w-12 h-12 rounded-xl bg-primary/[0.06] flex items-center justify-center">
-                          <Car className="w-6 h-6 text-primary/20" />
+                      <div className="flex flex-col items-center gap-3 px-4">
+                        <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center animate-pulse">
+                          <Camera className="w-7 h-7 text-accent" />
                         </div>
-                        <p className="text-[10px] font-bold text-primary/30">Bilder folgen</p>
+                        <div className="text-center">
+                          <p className="text-sm font-bold text-primary/70">Frisch eingetroffen</p>
+                          <p className="text-xs text-text-light mt-0.5">Bilder folgen in Kürze</p>
+                        </div>
                       </div>
                     )}
                     {fz.kraftstoff && (
