@@ -57,6 +57,7 @@ export default function Bewertungen() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
+  const [userTouched, setUserTouched] = useState(false)
 
   const checkScroll = () => {
     const el = scrollRef.current
@@ -72,6 +73,27 @@ export default function Bewertungen() {
     checkScroll()
     return () => el.removeEventListener('scroll', checkScroll)
   }, [])
+
+  // Auto-Rotation auf Mobile (stoppt bei Touch)
+  useEffect(() => {
+    if (userTouched) return
+    const isMobile = window.matchMedia('(max-width: 640px)').matches
+    if (!isMobile) return
+
+    const interval = setInterval(() => {
+      const el = scrollRef.current
+      if (!el) return
+      const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 10
+      if (atEnd) {
+        el.scrollTo({ left: 0, behavior: 'smooth' })
+      } else {
+        const cardWidth = el.querySelector('[data-review]')?.clientWidth || 280
+        el.scrollBy({ left: cardWidth + 20, behavior: 'smooth' })
+      }
+    }, 3500)
+
+    return () => clearInterval(interval)
+  }, [userTouched])
 
   const scroll = (dir: 'left' | 'right') => {
     const el = scrollRef.current
@@ -155,6 +177,7 @@ export default function Bewertungen() {
         {/* Scrollable Reviews — Touch-Swipe native */}
         <div
           ref={scrollRef}
+          onTouchStart={() => setUserTouched(true)}
           className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
           style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
         >
