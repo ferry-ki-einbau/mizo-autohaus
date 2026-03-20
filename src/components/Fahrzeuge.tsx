@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Car, ArrowRight, Phone, Search } from 'lucide-react'
+import { ArrowRight, Phone, Search, Camera } from 'lucide-react'
 import SectionHeading from './SectionHeading'
 
 interface Vehicle {
@@ -105,7 +105,15 @@ export default function Fahrzeuge() {
                         decoding="async"
                       />
                     ) : (
-                      <Car className="w-16 h-16 text-text-light/30" />
+                      <div className="flex flex-col items-center gap-3 px-4">
+                        <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center animate-pulse">
+                          <Camera className="w-7 h-7 text-accent" />
+                        </div>
+                        <div className="text-center">
+                          <p className="text-sm font-bold text-primary/70">Frisch eingetroffen</p>
+                          <p className="text-xs text-text-light mt-0.5">Bilder folgen in Kürze</p>
+                        </div>
+                      </div>
                     )}
                     {fz.kraftstoff && (
                       <div className="absolute top-3 right-3 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
