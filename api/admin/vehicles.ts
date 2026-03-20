@@ -57,12 +57,19 @@ async function logAction(req: VercelRequest, action: string, details: string, ve
 async function getVehicles(): Promise<Vehicle[]> {
   try {
     const { blobs } = await list({ prefix: DATA_KEY })
-    if (blobs.length === 0) return []
+    if (blobs.length === 0) {
+      console.error('[getVehicles] No blobs found for prefix:', DATA_KEY)
+      return []
+    }
     // cache: no-store damit immer frische Daten kommen
     const res = await fetch(blobs[0].url, { cache: 'no-store' })
-    if (!res.ok) return []
+    if (!res.ok) {
+      console.error('[getVehicles] Fetch failed:', res.status, res.statusText)
+      return []
+    }
     return await res.json()
-  } catch {
+  } catch (err) {
+    console.error('[getVehicles] Error:', err)
     return []
   }
 }
@@ -85,6 +92,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (req.method === 'GET') {
       res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+      // Debug mode: ?debug=1 zeigt Blob-Status
+      if (req.query.debug === '1') {
+        try {
+          const { blobs } = await list({ prefix: DATA_KEY })
+          const hasToken = !!process.env.BLOB_READ_WRITE_TOKEN
+          return res.status(200).json({
+            hasToken,
+            tokenPrefix: hasToken ? process.env.BLOB_READ_WRITE_TOKEN!.substring(0, 20) + '...' : 'MISSING',
+            dataKey: DATA_KEY,
+            blobsFound: blobs.length,
+            blobs: blobs.map(b => ({ pathname: b.pathname, size: b.size })),
+          })
+        } catch (err) {
+          return res.status(200).json({ error: String(err), hasToken: !!process.env.BLOB_READ_WRITE_TOKEN })
+        }
+      }
       const vehicles = await getVehicles()
       return res.status(200).json(vehicles)
     }
