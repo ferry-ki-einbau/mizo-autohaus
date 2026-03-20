@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { FileCheck, Clock, Shield, CheckCircle, Send, Loader2, Check } from 'lucide-react'
+import { FileCheck, Clock, Shield, CheckCircle } from 'lucide-react'
 import SectionHeading from '@/components/SectionHeading'
+import ZulassungForm from '@/components/ZulassungForm'
 
 const steps = [
   { num: '01', title: 'Formular ausfüllen', description: 'Tragen Sie Ihre Fahrzeug- und Halterdaten ein.' },
@@ -17,27 +17,6 @@ const advantages = [
 ]
 
 export default function ZulassungPage() {
-  const [data, setData] = useState({
-    art: '', name: '', telefon: '', email: '', kennzeichen: '', fahrzeug: '', nachricht: '', website: '',
-  })
-  const [submitting, setSubmitting] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (data.website || submitting) return
-    setSubmitting(true)
-    try {
-      const res = await fetch('/api/send-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'zulassung', ...data }),
-      })
-      if (res.ok) setSubmitted(true)
-    } catch { /* handled by UI */ }
-    setSubmitting(false)
-  }
-
   return (
     <div className="pt-8">
       {/* Hero */}
@@ -109,86 +88,9 @@ export default function ZulassungPage() {
           <SectionHeading
             tag="Zulassung beauftragen"
             title="Jetzt Antrag stellen"
-            description="Füllen Sie das Formular aus und wir kümmern uns um den Rest."
+            description="Füllen Sie das Formular Schritt für Schritt aus — wir kümmern uns um den Rest."
           />
-
-          {submitted ? (
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="bg-white rounded-2xl p-12 shadow-lg text-center"
-            >
-              <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Check className="w-8 h-8 text-success" />
-              </div>
-              <h3 className="text-2xl font-bold text-primary mb-3">Antrag gesendet!</h3>
-              <p className="text-text-muted">Wir melden uns kurzfristig bei Ihnen.</p>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-4">
-              <div className="absolute opacity-0 pointer-events-none" aria-hidden="true">
-                <input type="text" name="website" tabIndex={-1} autoComplete="off" value={data.website} onChange={e => setData(d => ({ ...d, website: e.target.value }))} />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-text mb-1.5">Art der Zulassung *</label>
-                <select
-                  value={data.art}
-                  onChange={e => setData(d => ({ ...d, art: e.target.value }))}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent"
-                >
-                  <option value="">Bitte wählen</option>
-                  <option value="neuzulassung">Neuzulassung</option>
-                  <option value="ummeldung">Ummeldung</option>
-                  <option value="abmeldung">Abmeldung</option>
-                  <option value="kurzzeitkennzeichen">Kurzzeitkennzeichen</option>
-                  <option value="saisonkennzeichen">Saisonkennzeichen</option>
-                </select>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-text mb-1.5">Name *</label>
-                  <input type="text" required value={data.name} onChange={e => setData(d => ({ ...d, name: e.target.value }))} placeholder="Ihr Name" className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-text mb-1.5">Telefon *</label>
-                  <input type="tel" required value={data.telefon} onChange={e => setData(d => ({ ...d, telefon: e.target.value }))} placeholder="0151..." className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-text mb-1.5">E-Mail</label>
-                <input type="email" value={data.email} onChange={e => setData(d => ({ ...d, email: e.target.value }))} placeholder="ihre@email.de" className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent" />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-text mb-1.5">Kennzeichen</label>
-                  <input type="text" value={data.kennzeichen} onChange={e => setData(d => ({ ...d, kennzeichen: e.target.value }))} placeholder="z.B. H-AB 1234" className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-text mb-1.5">Fahrzeug</label>
-                  <input type="text" value={data.fahrzeug} onChange={e => setData(d => ({ ...d, fahrzeug: e.target.value }))} placeholder="z.B. VW Golf" className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-text mb-1.5">Nachricht</label>
-                <textarea value={data.nachricht} onChange={e => setData(d => ({ ...d, nachricht: e.target.value }))} rows={3} placeholder="Zusätzliche Informationen..." className="w-full px-4 py-3 rounded-lg border border-border bg-white text-text focus:border-accent focus:ring-1 focus:ring-accent resize-none" />
-              </div>
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white px-8 py-3.5 rounded-xl font-semibold transition-all disabled:opacity-50"
-              >
-                {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-                {submitting ? 'Wird gesendet...' : 'Antrag absenden'}
-              </button>
-            </form>
-          )}
+          <ZulassungForm />
         </div>
       </section>
 

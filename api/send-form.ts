@@ -151,6 +151,85 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // ============================================================
   // ZULASSUNG
   // ============================================================
+  // ============================================================
+  // ZULASSUNG DETAIL (neues mehrstufiges Formular)
+  // ============================================================
+  if (body.type === 'zulassung_detail') {
+    const name = `${esc(body.anrede || '')} ${esc(body.vorname || '')} ${esc(body.nachname || '')}`
+    const dealerSubject = `📋 Online-Zulassung: ${name} — ${esc(body.fahrzeugtyp || '')} (${esc(body.vorgang || '')})`
+    const dealerHtml = `
+      <div style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;">
+        <div style="background:#1a1a2e;padding:20px 24px;border-radius:12px 12px 0 0;">
+          <h2 style="color:#E31937;margin:0;font-size:20px;">🚗 Neue Online-Zulassung</h2>
+          <p style="color:rgba(255,255,255,0.7);margin:6px 0 0;font-size:14px;">${new Date().toLocaleDateString('de-DE')} um ${new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</p>
+        </div>
+        <div style="border:1px solid #eee;border-top:none;border-radius:0 0 12px 12px;overflow:hidden;">
+          <table style="border-collapse:collapse;width:100%;">
+            <tr><td colspan="2" style="padding:10px 12px;background:#f8f8f8;font-weight:700;color:#1a1a2e;">👤 Halterdaten</td></tr>
+            ${ROW('Name', `<strong>${name}</strong>`)}
+            ${ROW('Adresse', `${esc(body.strasse || '')}, ${esc(body.plz || '')} ${esc(body.ort || '')}, ${esc(body.land || 'Deutschland')}`)}
+            ${ROW('Telefon', `<a href="tel:${esc(body.telefon || '')}" style="color:#E31937;font-weight:600;">${esc(body.telefon || '')}</a>`)}
+            ${ROW('E-Mail', esc(body.email || '-'))}
+            <tr><td colspan="2" style="padding:10px 12px;background:#f8f8f8;font-weight:700;color:#1a1a2e;">🚗 Fahrzeug</td></tr>
+            ${ROW('Fahrzeugtyp', esc(body.fahrzeugtyp || '-'))}
+            ${ROW('Vorgang', esc(body.vorgang || '-'))}
+            <tr><td colspan="2" style="padding:10px 12px;background:#f8f8f8;font-weight:700;color:#1a1a2e;">📄 Fahrzeugdaten</td></tr>
+            ${ROW('FIN', `<code style="font-size:14px;">${esc(body.fin || '-')}</code>`)}
+            ${ROW('Prüfziffer', body.keinePruefziffer ? '<em>Keine Prüfziffer</em>' : esc(body.pruefziffer || '-'))}
+            ${ROW('Sicherheitscode', esc(body.sicherheitscode || '-'))}
+            ${ROW('Fahrzeugbriefnummer', esc(body.fahrzeugbriefnummer || '-'))}
+            <tr><td colspan="2" style="padding:10px 12px;background:#f8f8f8;font-weight:700;color:#1a1a2e;">🔢 Kennzeichen</td></tr>
+            ${ROW('Option', esc(body.kennzeichenOption || '-'))}
+            ${body.wunschkennzeichen ? ROW('Wunschkennzeichen', `<strong>${esc(body.wunschkennzeichen)}</strong>`) : ''}
+            ${body.reservierungspin ? ROW('Reservierungspin', esc(body.reservierungspin)) : ''}
+            ${ROW('Elektro-Kennzeichen', body.elektrokennzeichen ? 'Ja' : 'Nein')}
+            ${ROW('Saison-Kennzeichen', body.saisonkennzeichen ? 'Ja' : 'Nein')}
+            ${ROW('Kennzeichen-Lieferung', esc(body.kennzeichenLieferung || '-'))}
+            ${body.nummernschild ? ROW('Nummernschild', esc(body.nummernschild)) : ''}
+            ${ROW('Umweltplakette', esc(body.umweltplakette || '-'))}
+            <tr><td colspan="2" style="padding:10px 12px;background:#f8f8f8;font-weight:700;color:#1a1a2e;">🛡️ Versicherung & Bank</td></tr>
+            ${ROW('Versicherung', esc(body.versicherungOption || '-'))}
+            ${body.evbNummer ? ROW('eVB-Nummer', `<strong>${esc(body.evbNummer)}</strong>`) : ''}
+            ${ROW('IBAN', `<code>${esc(body.iban || '-')}</code>`)}
+          </table>
+        </div>
+      </div>
+    `
+    try {
+      await sendEmail(RESEND_API_KEY, FROM_EMAIL, DEALER_EMAIL, dealerSubject, dealerHtml)
+    } catch {
+      return res.status(500).json({ error: 'Email sending failed' })
+    }
+
+    if (body.email) {
+      try {
+        const kundenName = `${esc(body.vorname || '')} ${esc(body.nachname || '')}`
+        await sendEmail(RESEND_API_KEY, FROM_EMAIL, body.email, 'Ihre Zulassungs-Anfrage bei Mizo Autohaus', `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+            <div style="background:#1a1a2e;padding:24px;border-radius:12px 12px 0 0;text-align:center;">
+              <h1 style="color:white;margin:0;font-size:22px;">MIZO <span style="color:#E31937;">AUTOHAUS</span></h1>
+            </div>
+            <div style="border:1px solid #eee;border-top:3px solid #E31937;padding:32px 24px;border-radius:0 0 12px 12px;">
+              <h2 style="color:#1a1a2e;margin:0 0 12px;">Danke, ${kundenName}!</h2>
+              <p style="color:#666;line-height:1.7;">Wir haben Ihren Zulassungsantrag erhalten und kümmern uns darum. Sie erhalten kurzfristig eine Rückmeldung.</p>
+              <div style="background:#f8f8f8;border-radius:8px;padding:16px;margin:20px 0;">
+                <p style="margin:0;font-size:14px;color:#333;"><strong>Ihr Antrag:</strong> ${esc(body.vorgang || '')} — ${esc(body.fahrzeugtyp || '')}</p>
+                ${body.wunschkennzeichen ? `<p style="margin:6px 0 0;font-size:14px;color:#333;"><strong>Wunschkennzeichen:</strong> ${esc(body.wunschkennzeichen)}</p>` : ''}
+              </div>
+              <p style="color:#666;font-size:14px;">📞 <a href="tel:+4915161861808" style="color:#E31937;font-weight:600;">0151 618 618 08</a></p>
+              <p style="color:#999;font-size:12px;margin:20px 0 0;">Mizo Autohaus · Vahrenwalder Str. 35 · 30165 Hannover</p>
+            </div>
+          </div>
+        `)
+      } catch { /* non-critical */ }
+    }
+
+    return res.status(200).json({ success: true })
+  }
+
+  // ============================================================
+  // ZULASSUNG ALT (einfaches Formular — bleibt als Fallback)
+  // ============================================================
   if (body.type === 'zulassung') {
     const dealerHtml = `
       <div style="font-family:Arial,sans-serif;max-width:600px;">
