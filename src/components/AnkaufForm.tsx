@@ -11,6 +11,7 @@ interface FormData {
   kilometerstand: string
   zustand: string
   tuev: string
+  preisvorstellung: string
   beschreibung: string
   bilder: string[]
   name: string
@@ -21,7 +22,7 @@ interface FormData {
 
 const initialData: FormData = {
   marke: '', modell: '', baujahr: '', kilometerstand: '',
-  zustand: '', tuev: '', beschreibung: '',
+  zustand: '', tuev: '', preisvorstellung: '', beschreibung: '',
   bilder: [], name: '', telefon: '', email: '', website: '',
 }
 
@@ -204,6 +205,8 @@ export default function AnkaufForm() {
               {tuevOptionen.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
+
+          <input type="text" value={data.preisvorstellung} onChange={e => update('preisvorstellung', e.target.value)} placeholder="Preisvorstellung in € (optional)" className={cn(fieldClass, 'mb-3')} />
 
           <textarea
             value={data.beschreibung}
