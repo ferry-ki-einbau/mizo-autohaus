@@ -20,7 +20,7 @@ async function sendEmail(apiKey: string, from: string, to: string, subject: stri
   if (!res.ok) {
     const errText = await res.text()
     console.error('Resend error:', errText)
-    throw new Error('Email failed')
+    throw new Error(`Email failed: ${errText}`)
   }
 }
 
@@ -38,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const DEALER_EMAIL = 'info@mizo-autohaus.de'
-  const FROM_EMAIL = 'Mizo Autohaus <noreply@mizo-autohaus.ki-einbau.de>'
+  const FROM_EMAIL = 'Mizo Autohaus <noreply@mizo-autohaus.de>'
 
   // ============================================================
   // ANKAUF-ANFRAGE
@@ -82,9 +82,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Händler-Email MUSS durchgehen
     try {
       await sendEmail(RESEND_API_KEY, FROM_EMAIL, DEALER_EMAIL, dealerSubject, dealerHtml)
-    } catch (err) {
+    } catch (err: any) {
       console.error('Dealer email failed:', err)
-      return res.status(500).json({ error: 'Email sending failed' })
+      return res.status(500).json({ error: 'Email sending failed', detail: err?.message || '' })
     }
 
     // --- E-Mail 2: Bestätigung an den Kunden (nice-to-have) ---
@@ -289,8 +289,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   `
   try {
     await sendEmail(RESEND_API_KEY, FROM_EMAIL, DEALER_EMAIL, `✉️ Kontakt-Anfrage von ${esc(body.name || 'Unbekannt')}`, dealerHtml)
-  } catch {
-    return res.status(500).json({ error: 'Email sending failed' })
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Email sending failed', detail: err?.message || '' })
   }
 
   // Kunden-Bestätigung
