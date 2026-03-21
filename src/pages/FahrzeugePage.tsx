@@ -138,14 +138,13 @@ export default function FahrzeugePage() {
                           decoding="async"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-primary/5 via-bg-muted to-accent/5 flex flex-col items-center justify-center gap-3 relative">
-                          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-                          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-primary/[0.06] flex items-center justify-center">
-                            <Car className="w-7 h-7 sm:w-8 sm:h-8 text-primary/20" />
-                          </div>
-                          <div className="text-center">
-                            <p className="text-xs sm:text-sm font-bold text-primary/30">Bilder folgen</p>
-                            <p className="text-[10px] text-text-light/40 mt-0.5">{fz.marke} {fz.modell}</p>
+                        <div className="relative w-full h-full">
+                          <img src="/images/vehicle-placeholder.webp" alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover opacity-40" loading="lazy" decoding="async" />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                            <div className="bg-white/90 backdrop-blur-sm rounded-xl px-5 py-4 shadow-sm border border-border/50">
+                              <p className="text-sm font-bold text-primary">Frisch eingetroffen</p>
+                              <p className="text-xs text-text-muted mt-1">Bilder werden gerade aufbereitet</p>
+                            </div>
                           </div>
                         </div>
                       )}
