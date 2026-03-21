@@ -1,11 +1,29 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
+
 function esc(str: string): string {
   return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
+}
+
+function escTg(str: string): string {
+  return String(str ?? '').replace(/[_*[\]()~`>#+\-=|{}.!\\]/g, '\\$&')
+}
+
+async function sendTelegram(text: string): Promise<void> {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: 'MarkdownV2' }),
+    })
+  } catch { /* non-critical */ }
 }
 
 const ROW = (label: string, value: string) =>
@@ -86,6 +104,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       console.error('Dealer email failed:', err)
       return res.status(500).json({ error: 'Email sending failed', detail: err?.message || '' })
     }
+
+    // Telegram DM (non-critical)
+    const tgAnkauf = [
+      '🚗 *Neue Ankauf\\-Anfrage — Mizo Autohaus*',
+      '',
+      `🚘 *Fahrzeug:* ${escTg(body.marke || '')} ${escTg(body.modell || '')}`,
+      body.baujahr ? `📅 *Baujahr:* ${escTg(body.baujahr)}` : null,
+      body.kilometerstand ? `🛣️ *KM:* ${Number(body.kilometerstand).toLocaleString('de-DE')} km` : null,
+      body.preisvorstellung ? `💰 *Preis:* ${escTg(body.preisvorstellung)}` : null,
+      '',
+      `👤 *Name:* ${escTg(body.name || '')}`,
+      `📞 *Telefon:* ${escTg(body.telefon || '')}`,
+      body.email ? `📧 *E\\-Mail:* ${escTg(body.email)}` : null,
+      body.bilder?.length ? `📷 *Fotos:* ${body.bilder.length}` : null,
+      '',
+      '⚡ _Sofort anrufen\\!_',
+    ].filter(Boolean).join('\n')
+    sendTelegram(tgAnkauf)
 
     // --- E-Mail 2: Bestätigung an den Kunden (nice-to-have) ---
     if (body.email) {
@@ -201,6 +237,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Email sending failed' })
     }
 
+    // Telegram DM (non-critical)
+    const tgZulassung = [
+      '📋 *Neue Zulassung — Mizo Autohaus*',
+      '',
+      `👤 *Name:* ${escTg(body.vorname || '')} ${escTg(body.nachname || '')}`,
+      `📞 *Telefon:* ${escTg(body.telefon || '')}`,
+      `🚗 *Vorgang:* ${escTg(body.vorgang || '')} — ${escTg(body.fahrzeugtyp || '')}`,
+      body.wunschkennzeichen ? `🔢 *Kennzeichen:* ${escTg(body.wunschkennzeichen)}` : null,
+    ].filter(Boolean).join('\n')
+    sendTelegram(tgZulassung)
+
     if (body.email) {
       try {
         const kundenName = `${esc(body.vorname || '')} ${esc(body.nachname || '')}`
@@ -292,6 +339,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (err: any) {
     return res.status(500).json({ error: 'Email sending failed', detail: err?.message || '' })
   }
+
+  // Telegram DM (non-critical)
+  const tgKontakt = [
+    '✉️ *Neue Kontaktanfrage — Mizo Autohaus*',
+    '',
+    `👤 *Name:* ${escTg(body.name || '')}`,
+    `📞 *Telefon:* ${escTg(body.telefon || '')}`,
+    body.email ? `📧 *E\\-Mail:* ${escTg(body.email)}` : null,
+    body.nachricht ? `💬 *Nachricht:* ${escTg(body.nachricht)}` : null,
+  ].filter(Boolean).join('\n')
+  sendTelegram(tgKontakt)
 
   // Kunden-Bestätigung
   if (body.email) {
