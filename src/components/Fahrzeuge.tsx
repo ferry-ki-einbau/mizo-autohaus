@@ -101,7 +101,15 @@ export default function Fahrzeuge() {
                     {fz.bilder && fz.bilder.length > 0 ? (
                       <img src={fz.bilder[0]} alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                     ) : (
-                      <img src="/images/vehicle-placeholder.webp" alt={`${fz.marke} ${fz.modell} — Bild folgt`} className="w-full h-full object-cover opacity-60" loading="lazy" decoding="async" />
+                      <div className="relative w-full h-full">
+                        <img src="/images/vehicle-placeholder.webp" alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover opacity-40" loading="lazy" decoding="async" />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                          <div className="bg-white/90 backdrop-blur-sm rounded-xl px-5 py-4 shadow-sm border border-border/50">
+                            <p className="text-sm font-bold text-primary">Frisch eingetroffen</p>
+                            <p className="text-xs text-text-muted mt-1">Bilder werden gerade aufbereitet</p>
+                          </div>
+                        </div>
+                      </div>
                     )}
                     {fz.kraftstoff && (
                       <div className="absolute top-3 right-3 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full">{fz.kraftstoff}</div>
