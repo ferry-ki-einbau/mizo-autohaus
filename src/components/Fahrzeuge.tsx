@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Phone, Search, ChevronRight, Camera } from 'lucide-react'
+import { ArrowRight, Phone, Search, ChevronRight } from 'lucide-react'
 import FahrzeugDetail from './FahrzeugDetail'
 
 interface Vehicle {
@@ -101,15 +101,7 @@ export default function Fahrzeuge() {
                     {fz.bilder && fz.bilder.length > 0 ? (
                       <img src={fz.bilder[0]} alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                     ) : (
-                      <div className="flex flex-col items-center gap-3 px-4">
-                        <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center animate-pulse">
-                          <Camera className="w-7 h-7 text-accent" />
-                        </div>
-                        <div className="text-center">
-                          <p className="text-sm font-bold text-primary/70">Frisch eingetroffen</p>
-                          <p className="text-xs text-text-light mt-0.5">Bilder folgen in Kürze</p>
-                        </div>
-                      </div>
+                      <img src="/images/vehicle-placeholder.webp" alt={`${fz.marke} ${fz.modell} — Bild folgt`} className="w-full h-full object-cover opacity-60" loading="lazy" decoding="async" />
                     )}
                     {fz.kraftstoff && (
                       <div className="absolute top-3 right-3 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full">{fz.kraftstoff}</div>

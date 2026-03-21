@@ -11,8 +11,8 @@ export default function Hero() {
       {/* Background — Retina-ready responsive WebP */}
       <div className="absolute inset-0">
         <img
-          src="/images/hero-autohaus-desktop.webp"
-          srcSet="/images/hero-autohaus-mobile.webp 960w, /images/hero-autohaus-tablet.webp 1440w, /images/hero-autohaus-desktop.webp 1920w"
+          src="/images/hero-new-desktop.webp"
+          srcSet="/images/hero-new-mobile.webp 960w, /images/hero-new-tablet.webp 1440w, /images/hero-new-desktop.webp 1920w"
           sizes="100vw"
           alt="Mizo Autohaus Hannover — Fahrzeuge auf dem Hof"
           className="w-full h-full object-cover object-bottom sm:object-center"
