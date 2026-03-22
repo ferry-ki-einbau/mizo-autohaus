@@ -35,7 +35,7 @@ export default function Prozess() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14 lg:mb-20 reveal">
-          <span className="inline-block text-accent-light font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
+          <span className="inline-block text-accent font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
             So einfach geht's
           </span>
           <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-white leading-tight">
@@ -56,11 +56,11 @@ export default function Prozess() {
                   <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-accent/15 flex items-center justify-center group-hover:bg-accent group-hover:shadow-lg group-hover:shadow-accent/30 transition-all duration-300">
                     <step.icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-accent group-hover:text-white transition-colors" />
                   </div>
-                  <span className="text-2xl sm:text-5xl lg:hidden font-black text-white/[0.06]" aria-hidden="true">{step.num}</span>
+                  <span className="text-2xl sm:text-5xl lg:hidden font-black text-white/[0.06]">{step.num}</span>
                 </div>
-                <div className="hidden lg:block text-accent/70 text-xs font-bold tracking-widest uppercase mb-2">Schritt {step.num}</div>
+                <div className="hidden lg:block text-accent/40 text-xs font-bold tracking-widest uppercase mb-2">Schritt {step.num}</div>
                 <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-1 sm:mb-2">{step.title}</h3>
-                <p className="text-xs sm:text-sm lg:text-base text-white/70 leading-relaxed">{step.description}</p>
+                <p className="text-xs sm:text-sm lg:text-base text-white/50 leading-relaxed">{step.description}</p>
               </div>
             ))}
           </div>

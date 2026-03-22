@@ -179,10 +179,10 @@ export default function AnkaufForm() {
           </div>
 
           {/* Fahrzeug */}
-          <p className="text-xs font-extrabold text-accent-dark uppercase tracking-wider mb-4">Fahrzeug</p>
+          <p className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Fahrzeug</p>
           {/* Zeile 1: Marke full-width auf Mobile */}
           <div className="mb-3" data-field="marke">
-            <select required aria-label="Fahrzeugmarke" value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
+            <select required value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
               <option value="">Marke *</option>
               {marken.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
@@ -196,11 +196,11 @@ export default function AnkaufForm() {
           </div>
           {/* Zeile 3: Zustand + TÜV */}
           <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mb-3">
-            <select aria-label="Fahrzeugzustand" value={data.zustand} onChange={e => update('zustand', e.target.value)} className={fieldClass}>
+            <select value={data.zustand} onChange={e => update('zustand', e.target.value)} className={fieldClass}>
               <option value="">Zustand</option>
               {zustaende.map(z => <option key={z} value={z}>{z}</option>)}
             </select>
-            <select aria-label="TÜV-Status" value={data.tuev} onChange={e => update('tuev', e.target.value)} className={fieldClass}>
+            <select value={data.tuev} onChange={e => update('tuev', e.target.value)} className={fieldClass}>
               <option value="">TÜV</option>
               {tuevOptionen.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
@@ -219,12 +219,12 @@ export default function AnkaufForm() {
           {/* Foto-Upload */}
           <div className="border-2 border-dashed border-border hover:border-accent/40 rounded-xl p-4 mb-6 transition-colors">
             <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent/10 text-accent-dark text-sm font-bold cursor-pointer hover:bg-accent/20 transition-colors">
+              <label className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent/10 text-accent text-sm font-bold cursor-pointer hover:bg-accent/20 transition-colors">
                 <Upload className="w-4 h-4" />
                 Fotos hinzufügen
                 <input type="file" accept="image/*" multiple onChange={handleImages} className="hidden" />
               </label>
-              <span className="text-xs text-text-muted">
+              <span className="text-xs text-text-light">
                 {data.bilder.length > 0 ? `${data.bilder.length}/5 Fotos` : 'Fotos helfen uns, ein besseres Angebot zu machen (optional)'}
               </span>
             </div>
@@ -245,7 +245,7 @@ export default function AnkaufForm() {
           <div className="border-t border-border my-5" />
 
           {/* Kontakt */}
-          <p className="text-xs font-extrabold text-accent-dark uppercase tracking-wider mb-4">Kontakt</p>
+          <p className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Kontakt</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
             <div data-field="name">
               <input required type="text" value={data.name} onChange={e => update('name', e.target.value)} placeholder="Ihr Name *" className={cn(fieldClass, errors.name && errorClass)} />
@@ -276,7 +276,7 @@ export default function AnkaufForm() {
           </button>
 
           {/* Trust */}
-          <div className="flex items-center justify-center gap-4 sm:gap-6 mt-4 text-xs text-text-muted">
+          <div className="flex items-center justify-center gap-4 sm:gap-6 mt-4 text-xs text-text-light">
             <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> 100% kostenlos</span>
             <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> Antwort heute</span>
             <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> Unverbindlich</span>
