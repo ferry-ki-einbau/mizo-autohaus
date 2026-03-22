@@ -9,7 +9,7 @@ export default function SectionHeading({ tag, title, description, center = true 
   return (
     <div className={`reveal ${center ? 'text-center max-w-2xl mx-auto mb-10 sm:mb-14' : 'mb-8 sm:mb-12'}`}>
       {tag && (
-        <span className="inline-block text-accent font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
+        <span className="inline-block text-accent-dark font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
           {tag}
         </span>
       )}

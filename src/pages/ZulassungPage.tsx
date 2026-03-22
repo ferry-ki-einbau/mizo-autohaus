@@ -74,7 +74,7 @@ export default function ZulassungPage() {
                 className="relative p-6 bg-white rounded-2xl border border-border"
               >
                 <span className="text-4xl font-bold text-accent/20">{step.num}</span>
-                <h4 className="font-semibold text-primary mt-2">{step.title}</h4>
+                <h3 className="font-semibold text-primary mt-2 text-base">{step.title}</h3>
                 <p className="text-sm text-text-muted mt-1">{step.description}</p>
               </motion.div>
             ))}

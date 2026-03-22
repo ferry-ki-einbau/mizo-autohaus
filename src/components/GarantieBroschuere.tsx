@@ -104,7 +104,7 @@ export default function GarantieBroschuere({ open, onClose }: Props) {
                 <Wrench className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <h4 className="font-bold text-base">Eigene Werkstatt vor Ort</h4>
+                <h3 className="font-bold text-base">Eigene Werkstatt vor Ort</h3>
                 <p className="text-white/60 text-sm mt-1 leading-relaxed">
                   Garantiefälle werden direkt in unserer hauseigenen Werkstatt in Hannover bearbeitet — schnell, unkompliziert und ohne lange Wartezeiten. Sie müssen Ihr Fahrzeug nicht einschicken oder wochenlang warten.
                 </p>

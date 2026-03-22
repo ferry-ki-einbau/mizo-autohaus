@@ -30,7 +30,7 @@ function ReviewCard({ b }: { b: typeof bewertungen[0] }) {
         </div>
         <div>
           <p className="font-bold text-white text-sm">{b.name}</p>
-          <p className="text-xs text-white/40">{b.zeit}</p>
+          <p className="text-xs text-white/60">{b.zeit}</p>
         </div>
       </div>
     </div>

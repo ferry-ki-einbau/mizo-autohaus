@@ -219,7 +219,7 @@ export default function AnkaufForm() {
           {/* Foto-Upload */}
           <div className="border-2 border-dashed border-border hover:border-accent/40 rounded-xl p-4 mb-6 transition-colors">
             <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent/10 text-accent text-sm font-bold cursor-pointer hover:bg-accent/20 transition-colors">
+              <label className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent/10 text-accent-dark text-sm font-bold cursor-pointer hover:bg-accent/20 transition-colors">
                 <Upload className="w-4 h-4" />
                 Fotos hinzufügen
                 <input type="file" accept="image/*" multiple onChange={handleImages} className="hidden" />

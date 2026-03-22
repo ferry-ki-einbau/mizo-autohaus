@@ -35,7 +35,7 @@ export default function Prozess() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14 lg:mb-20 reveal">
-          <span className="inline-block text-accent font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
+          <span className="inline-block text-accent-light font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
             So einfach geht's
           </span>
           <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-white leading-tight">
