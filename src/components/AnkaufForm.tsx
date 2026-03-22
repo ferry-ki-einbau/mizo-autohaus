@@ -160,7 +160,7 @@ export default function AnkaufForm() {
   }
 
   return (
-    <section id="ankauf" className="py-16 sm:py-24 bg-bg-soft">
+    <section id="ankauf" className="py-16 sm:py-24 bg-gradient-to-b from-white to-bg-soft">
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
         <SectionHeading
           tag="Fahrzeug-Ankauf"
@@ -182,7 +182,7 @@ export default function AnkaufForm() {
           <p className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Fahrzeug</p>
           {/* Zeile 1: Marke full-width auf Mobile */}
           <div className="mb-3" data-field="marke">
-            <select required value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
+            <select required aria-label="Fahrzeugmarke" value={data.marke} onChange={e => update('marke', e.target.value)} className={cn(fieldClass, errors.marke && errorClass)}>
               <option value="">Marke *</option>
               {marken.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
@@ -196,11 +196,11 @@ export default function AnkaufForm() {
           </div>
           {/* Zeile 3: Zustand + TÜV */}
           <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 mb-3">
-            <select value={data.zustand} onChange={e => update('zustand', e.target.value)} className={fieldClass}>
+            <select aria-label="Fahrzeugzustand" value={data.zustand} onChange={e => update('zustand', e.target.value)} className={fieldClass}>
               <option value="">Zustand</option>
               {zustaende.map(z => <option key={z} value={z}>{z}</option>)}
             </select>
-            <select value={data.tuev} onChange={e => update('tuev', e.target.value)} className={fieldClass}>
+            <select aria-label="TÜV-Status" value={data.tuev} onChange={e => update('tuev', e.target.value)} className={fieldClass}>
               <option value="">TÜV</option>
               {tuevOptionen.map(t => <option key={t} value={t}>{t}</option>)}
             </select>

@@ -88,7 +88,7 @@ export default function Leistungen() {
                   }`}>{service.title}</h3>
                   <p className={`leading-relaxed ${
                     service.highlight
-                      ? 'text-sm sm:text-base lg:text-lg text-white/60'
+                      ? 'text-sm sm:text-base lg:text-lg text-white/80'
                       : 'text-text-muted text-xs sm:text-sm'
                   }`}>{service.description}</p>
 

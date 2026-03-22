@@ -11,7 +11,7 @@ export default function CTABanner() {
           Sie möchten Ihr Auto{' '}
           <span className="text-accent">verkaufen?</span>
         </h2>
-        <p className="mt-4 lg:mt-6 text-lg lg:text-xl text-white/55 max-w-2xl mx-auto">
+        <p className="mt-4 lg:mt-6 text-lg lg:text-xl text-white/70 max-w-2xl mx-auto">
           2 Minuten Formular ausfüllen — wir melden uns noch heute mit einem fairen Angebot.
         </p>
         <div className="mt-8 lg:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -24,7 +24,7 @@ export default function CTABanner() {
           </a>
           <a
             href="tel:+4915161861808"
-            className="flex items-center gap-2 border-2 border-white/15 hover:border-white/30 text-white px-6 py-4 sm:px-8 lg:px-10 lg:py-6 rounded-xl text-base sm:text-lg lg:text-xl font-bold transition-all no-underline w-full sm:w-auto justify-center"
+            className="flex items-center gap-2 border-2 border-white/25 hover:border-white/40 text-white px-6 py-4 sm:px-8 lg:px-10 lg:py-6 rounded-xl text-base sm:text-lg lg:text-xl font-bold transition-all no-underline w-full sm:w-auto justify-center"
           >
             <Phone className="w-5 h-5 lg:w-6 lg:h-6" />
             Lieber anrufen?

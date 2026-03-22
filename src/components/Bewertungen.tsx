@@ -14,7 +14,7 @@ const bewertungen = [
 
 function ReviewCard({ b }: { b: typeof bewertungen[0] }) {
   return (
-    <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-5 sm:p-6 flex flex-col h-full">
+    <div className="bg-white/[0.07] border border-white/[0.12] rounded-2xl p-5 sm:p-6 flex flex-col h-full">
       <div className="flex items-start justify-between mb-3 sm:mb-4">
         <Quote className="w-7 h-7 sm:w-8 sm:h-8 text-accent/20" />
         <div className="flex gap-0.5">
@@ -23,14 +23,14 @@ function ReviewCard({ b }: { b: typeof bewertungen[0] }) {
           ))}
         </div>
       </div>
-      <p className="text-white/70 text-sm leading-relaxed flex-1">"{b.text}"</p>
+      <p className="text-white/85 text-sm leading-relaxed flex-1">"{b.text}"</p>
       <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/[0.06] flex items-center gap-3">
         <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-accent/15 flex items-center justify-center text-accent font-bold text-xs sm:text-sm">
           {b.name.charAt(0)}
         </div>
         <div>
           <p className="font-bold text-white text-sm">{b.name}</p>
-          <p className="text-xs text-white/40">{b.zeit}</p>
+          <p className="text-xs text-white/60">{b.zeit}</p>
         </div>
       </div>
     </div>
@@ -121,15 +121,15 @@ export default function Bewertungen() {
                     ))}
                   </div>
                 </div>
-                <span className="text-white/50 text-[10px] sm:text-xs">Google Bewertungen</span>
+                <span className="text-white/70 text-[10px] sm:text-xs">Google Bewertungen</span>
               </div>
             </div>
 
             <div className="hidden lg:flex items-center gap-2">
-              <button onClick={() => scroll('left')} disabled={!canScrollLeft} className="p-2.5 rounded-xl border border-white/10 hover:border-accent/40 hover:bg-accent/10 disabled:opacity-20 transition-all text-white">
+              <button onClick={() => scroll('left')} disabled={!canScrollLeft} aria-label="Vorherige Bewertung" className="p-2.5 rounded-xl border border-white/15 hover:border-accent/40 hover:bg-accent/10 disabled:opacity-20 transition-all text-white">
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <button onClick={() => scroll('right')} disabled={!canScrollRight} className="p-2.5 rounded-xl border border-white/10 hover:border-accent/40 hover:bg-accent/10 disabled:opacity-20 transition-all text-white">
+              <button onClick={() => scroll('right')} disabled={!canScrollRight} aria-label="Nächste Bewertung" className="p-2.5 rounded-xl border border-white/15 hover:border-accent/40 hover:bg-accent/10 disabled:opacity-20 transition-all text-white">
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>

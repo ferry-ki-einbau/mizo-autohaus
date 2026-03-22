@@ -8,9 +8,9 @@
 @import "tailwindcss";
 
 @theme {
-  /* Primary — Tiefes Schwarz (Macht, Premium) */
-  --color-primary: #0a0a0a;
-  --color-primary-light: #161616;
+  /* Primary — Anthrazit-Blau (professionell, einladend) */
+  --color-primary: #1a1f2e;
+  --color-primary-light: #252b3d;
 
   /* Accent — Racing Rot (Energie, Leidenschaft, Action) */
   --color-accent: #E31937;

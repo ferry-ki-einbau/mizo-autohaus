@@ -11,8 +11,8 @@ export default function Hero() {
       {/* Background — Retina-ready responsive WebP */}
       <div className="absolute inset-0">
         <img
-          src="/images/hero-new-desktop.webp"
-          srcSet="/images/hero-new-mobile.webp 960w, /images/hero-new-tablet.webp 1440w, /images/hero-new-desktop.webp 1920w"
+          src="/images/hero-desktop.webp"
+          srcSet="/images/hero-mobile.webp 960w, /images/hero-tablet.webp 1440w, /images/hero-desktop.webp 1920w"
           sizes="100vw"
           alt="Mizo Autohaus Hannover — Fahrzeuge auf dem Hof"
           className="w-full h-full object-cover object-bottom sm:object-center"
@@ -20,8 +20,8 @@ export default function Hero() {
           decoding="sync"
           fetchPriority="high"
         />
-        {/* Dramatisches Dark Overlay — Desktop stärker links */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/55 to-black/90 sm:bg-gradient-to-r sm:from-black/95 sm:via-black/70 sm:to-black/20" />
+        {/* Overlay — hell genug damit das Bild durchscheint */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70 sm:bg-gradient-to-r sm:from-black/80 sm:via-black/50 sm:to-black/10" />
       </div>
 
       {/* Rote Lichtlinie oben */}
@@ -67,7 +67,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-4 sm:mt-6 lg:mt-8 text-base sm:text-xl lg:text-2xl text-white/60 max-w-xl lg:max-w-2xl leading-relaxed"
+            className="mt-4 sm:mt-6 lg:mt-8 text-base sm:text-xl lg:text-2xl text-white/85 max-w-xl lg:max-w-2xl leading-relaxed"
           >
             Innerhalb von 24 Stunden ein faires Angebot. Kostenlose Bewertung, Sofortauszahlung.
           </motion.p>
@@ -107,7 +107,7 @@ export default function Hero() {
               { icon: Banknote, text: 'Sofortauszahlung' },
               { icon: Star, text: '5.0 Google Rating' },
             ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-2 text-white/45 text-xs sm:text-sm lg:text-base lg:pr-8 lg:mr-8 lg:border-r lg:border-white/10 last:border-0 last:mr-0 last:pr-0">
+              <div key={text} className="flex items-center gap-2 text-white/80 text-xs sm:text-sm lg:text-base lg:pr-8 lg:mr-8 lg:border-r lg:border-white/15 last:border-0 last:mr-0 last:pr-0">
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-accent" />
                 {text}
               </div>
