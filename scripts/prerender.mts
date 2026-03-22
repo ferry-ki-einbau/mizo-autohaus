@@ -45,17 +45,7 @@ async function prerender() {
   // Read the template HTML
   let template = fs.readFileSync(path.resolve(distDir, 'index.html'), 'utf-8')
 
-  // Remove render-blocking <link rel="stylesheet"> for main CSS
-  template = template.replace(
-    /<link rel="stylesheet" crossorigin href="\/assets\/index-[^"]+\.css">\n?/g,
-    ''
-  )
-  // Add onload + noscript fallback to Vite's existing preload tag
-  template = template.replace(
-    /<link rel="preload" as="style" href="(\/assets\/index-[^"]+\.css)">/,
-    (_match: string, href: string) =>
-      `<link rel="preload" as="style" href="${href}" onload="this.onload=null;this.rel='stylesheet'">\n    <noscript><link rel="stylesheet" crossorigin href="${href}"></noscript>`
-  )
+  // Keep the stylesheet link — Vite generates it correctly
 
   for (const route of routes) {
     console.log(`  Prerendering: ${route}`)

@@ -1,11 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/detail/:path*",
-      "destination": "/",
-      "permanent": true
-    },
-    {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "www.mizo-autohaus.de" }],
       "destination": "https://mizo-autohaus.de/$1",
