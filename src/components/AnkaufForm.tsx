@@ -233,7 +233,7 @@ export default function AnkaufForm() {
                 {data.bilder.map((src, i) => (
                   <div key={i} className="relative w-14 h-14 rounded-lg overflow-hidden group border border-border">
                     <img src={src} alt="" className="w-full h-full object-cover" />
-                    <button type="button" onClick={() => removeImage(i)} className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <button type="button" onClick={() => removeImage(i)} aria-label="Bild entfernen" className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <X className="w-3 h-3 text-white" />
                     </button>
                   </div>

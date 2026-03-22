@@ -62,15 +62,15 @@ export default function FahrzeugDetail({ vehicle, onClose }: Props) {
               />
               {fz.bilder.length > 1 && (
                 <>
-                  <button onClick={prevImg} className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white min-w-[40px] min-h-[40px] flex items-center justify-center">
+                  <button onClick={prevImg} aria-label="Vorheriges Bild" className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white min-w-[40px] min-h-[40px] flex items-center justify-center">
                     <ChevronLeft className="w-5 h-5" />
                   </button>
-                  <button onClick={nextImg} className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white min-w-[40px] min-h-[40px] flex items-center justify-center">
+                  <button onClick={nextImg} aria-label="Nächstes Bild" className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white min-w-[40px] min-h-[40px] flex items-center justify-center">
                     <ChevronRight className="w-5 h-5" />
                   </button>
                   <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
                     {fz.bilder.map((_, i) => (
-                      <button key={i} onClick={() => setCurrentImg(i)} className={`w-2 h-2 rounded-full transition-colors ${i === currentImg ? 'bg-white' : 'bg-white/40'}`} />
+                      <button key={i} onClick={() => setCurrentImg(i)} aria-label={`Bild ${i + 1}`} className={`w-2 h-2 rounded-full transition-colors ${i === currentImg ? 'bg-white' : 'bg-white/40'}`} />
                     ))}
                   </div>
                 </>
@@ -94,7 +94,7 @@ export default function FahrzeugDetail({ vehicle, onClose }: Props) {
         {fz.bilder.length > 1 && (
           <div className="flex gap-2 p-3 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
             {fz.bilder.map((img, i) => (
-              <button key={i} onClick={() => setCurrentImg(i)} className={`w-16 h-12 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${i === currentImg ? 'border-accent' : 'border-transparent'}`}>
+              <button key={i} onClick={() => setCurrentImg(i)} aria-label={`Bild ${i + 1} anzeigen`} className={`w-16 h-12 rounded-lg overflow-hidden shrink-0 border-2 transition-colors ${i === currentImg ? 'border-accent' : 'border-transparent'}`}>
                 <img src={img} alt="" className="w-full h-full object-cover" />
               </button>
             ))}

@@ -126,10 +126,10 @@ export default function Bewertungen() {
             </div>
 
             <div className="hidden lg:flex items-center gap-2">
-              <button onClick={() => scroll('left')} disabled={!canScrollLeft} className="p-2.5 rounded-xl border border-white/10 hover:border-accent/40 hover:bg-accent/10 disabled:opacity-20 transition-all text-white">
+              <button onClick={() => scroll('left')} disabled={!canScrollLeft} aria-label="Nach links scrollen" className="p-2.5 rounded-xl border border-white/10 hover:border-accent/40 hover:bg-accent/10 disabled:opacity-20 transition-all text-white">
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <button onClick={() => scroll('right')} disabled={!canScrollRight} className="p-2.5 rounded-xl border border-white/10 hover:border-accent/40 hover:bg-accent/10 disabled:opacity-20 transition-all text-white">
+              <button onClick={() => scroll('right')} disabled={!canScrollRight} aria-label="Nach rechts scrollen" className="p-2.5 rounded-xl border border-white/10 hover:border-accent/40 hover:bg-accent/10 disabled:opacity-20 transition-all text-white">
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
