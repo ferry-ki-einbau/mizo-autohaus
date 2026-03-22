@@ -49,6 +49,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
     <div className="border border-border rounded-xl overflow-hidden bg-white">
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
         className="w-full flex items-center justify-between px-5 sm:px-6 py-4 sm:py-4 text-left hover:bg-bg-soft/50 transition-colors min-h-[52px]"
       >
         <span className="font-bold text-primary pr-4 text-sm sm:text-base">{q}</span>

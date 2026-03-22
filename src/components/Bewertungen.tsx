@@ -88,8 +88,8 @@ export default function Bewertungen() {
 
   return (
     <section className="py-16 sm:py-24 lg:py-28 bg-primary relative overflow-hidden">
-      <div className="absolute top-0 right-1/4 w-[500px] h-[400px] bg-accent/6 rounded-full blur-[150px]" />
-      <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-accent/4 rounded-full blur-[120px]" />
+      <div className="absolute top-0 right-1/4 w-[500px] h-[400px] bg-accent/6 rounded-full blur-[150px]" aria-hidden="true" />
+      <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-accent/4 rounded-full blur-[120px]" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 sm:gap-6 mb-8 sm:mb-14">

@@ -63,6 +63,9 @@ export default function Leistungen() {
               <div
                 key={service.title}
                 onClick={isGarantie ? () => setGarantieOpen(true) : undefined}
+                role={isGarantie ? 'button' : undefined}
+                tabIndex={isGarantie ? 0 : undefined}
+                onKeyDown={isGarantie ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setGarantieOpen(true) } } : undefined}
                 className={`reveal reveal-d${Math.min(index + 1, 5)} group rounded-2xl border transition-all duration-300 ${
                   service.highlight
                     ? 'col-span-2 lg:col-span-1 lg:row-span-2 bg-primary text-white border-white/10 p-6 sm:p-8 lg:p-10 flex flex-col justify-between hover:border-accent/30'

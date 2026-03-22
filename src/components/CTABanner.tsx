@@ -3,8 +3,8 @@ import { Phone, ArrowRight } from 'lucide-react'
 export default function CTABanner() {
   return (
     <section className="py-20 sm:py-24 lg:py-32 bg-primary relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] lg:w-[900px] h-[400px] lg:h-[600px] bg-accent/8 rounded-full blur-[150px] lg:blur-[250px]" />
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] lg:w-[900px] h-[400px] lg:h-[600px] bg-accent/8 rounded-full blur-[150px] lg:blur-[250px]" aria-hidden="true" />
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/30 to-transparent" aria-hidden="true" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center reveal">
         <h2 className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-black text-white leading-tight">

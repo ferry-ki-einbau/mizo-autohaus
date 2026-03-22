@@ -328,6 +328,7 @@ export default function ZulassungForm() {
                   <select
                     value={data.land}
                     onChange={e => set('land', e.target.value)}
+                    aria-label="Land"
                     className={inputCls}
                   >
                     <option>Deutschland</option>

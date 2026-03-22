@@ -1,14 +1,17 @@
+import { lazy, Suspense } from 'react'
 import Hero from '@/components/Hero'
 import AnkaufForm from '@/components/AnkaufForm'
 import Prozess from '@/components/Prozess'
 import WhyUs from '@/components/WhyUs'
-import Bewertungen from '@/components/Bewertungen'
-import Leistungen from '@/components/Leistungen'
-import Fahrzeuge from '@/components/Fahrzeuge'
-import FAQ from '@/components/FAQ'
-import Partner from '@/components/Partner'
-import UeberUns from '@/components/UeberUns'
-import CTABanner from '@/components/CTABanner'
+
+// Below-the-fold components — lazy loaded for better LCP
+const Bewertungen = lazy(() => import('@/components/Bewertungen'))
+const Leistungen = lazy(() => import('@/components/Leistungen'))
+const Fahrzeuge = lazy(() => import('@/components/Fahrzeuge'))
+const FAQ = lazy(() => import('@/components/FAQ'))
+const Partner = lazy(() => import('@/components/Partner'))
+const UeberUns = lazy(() => import('@/components/UeberUns'))
+const CTABanner = lazy(() => import('@/components/CTABanner'))
 
 export default function HomePage() {
   return (
@@ -24,13 +27,15 @@ export default function HomePage() {
         <AnkaufForm />
       </div>
       <WhyUs />
-      <Bewertungen />
-      <Leistungen />
-      <Fahrzeuge />
-      <FAQ />
-      <Partner />
-      <UeberUns />
-      <CTABanner />
+      <Suspense fallback={<div className="py-24" />}>
+        <Bewertungen />
+        <Leistungen />
+        <Fahrzeuge />
+        <FAQ />
+        <Partner />
+        <UeberUns />
+        <CTABanner />
+      </Suspense>
     </>
   )
 }

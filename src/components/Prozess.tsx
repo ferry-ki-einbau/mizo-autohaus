@@ -30,8 +30,8 @@ const steps = [
 export default function Prozess() {
   return (
     <section className="py-16 sm:py-24 lg:py-32 bg-primary relative overflow-hidden">
-      <div className="absolute top-0 left-1/4 w-96 lg:w-[700px] h-96 lg:h-[500px] bg-accent/8 rounded-full blur-[150px] lg:blur-[200px]" />
-      <div className="absolute bottom-0 right-1/4 w-80 lg:w-[500px] h-80 lg:h-[400px] bg-accent/6 rounded-full blur-[120px] lg:blur-[180px]" />
+      <div className="absolute top-0 left-1/4 w-96 lg:w-[700px] h-96 lg:h-[500px] bg-accent/8 rounded-full blur-[150px] lg:blur-[200px]" aria-hidden="true" />
+      <div className="absolute bottom-0 right-1/4 w-80 lg:w-[500px] h-80 lg:h-[400px] bg-accent/6 rounded-full blur-[120px] lg:blur-[180px]" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14 lg:mb-20 reveal">

@@ -42,8 +42,8 @@ export default function FahrzeugePage() {
     <div>
       {/* Hero */}
       <section className="bg-primary text-white py-12 sm:py-16 lg:py-20 relative overflow-hidden">
-        <div className="absolute top-0 left-1/3 w-96 h-96 bg-accent/8 rounded-full blur-[150px]" />
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent to-transparent" />
+        <div className="absolute top-0 left-1/3 w-96 h-96 bg-accent/8 rounded-full blur-[150px]" aria-hidden="true" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent to-transparent" aria-hidden="true" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="inline-block text-accent font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 sm:mb-3">
@@ -138,14 +138,11 @@ export default function FahrzeugePage() {
                           decoding="async"
                         />
                       ) : (
-                        <div className="relative w-full h-full">
-                          <img src="/images/vehicle-placeholder.webp" alt={`${fz.marke} ${fz.modell}`} className="w-full h-full object-cover opacity-40" loading="lazy" decoding="async" />
-                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                            <div className="bg-white/90 backdrop-blur-sm rounded-xl px-5 py-4 shadow-sm border border-border/50">
-                              <p className="text-sm font-bold text-primary">Frisch eingetroffen</p>
-                              <p className="text-xs text-text-muted mt-1">Bilder werden gerade aufbereitet</p>
-                            </div>
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-bg-soft gap-3" aria-label={`Kein Foto verfügbar für ${fz.marke} ${fz.modell}`}>
+                          <div className="w-14 h-14 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm">
+                            <Car className="w-7 h-7 text-text-light" aria-hidden="true" />
                           </div>
+                          <p className="text-sm font-bold text-text-muted">Foto folgt</p>
                         </div>
                       )}
                       {fz.kraftstoff && (
@@ -182,9 +179,10 @@ export default function FahrzeugePage() {
                             href={`https://wa.me/4915161861808?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20${encodeURIComponent(fz.marke + ' ' + fz.modell)}.`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label={`WhatsApp Anfrage für ${fz.marke} ${fz.modell}`}
                             className="flex items-center gap-1 text-sm font-bold text-[#25D366] hover:text-[#1fb855] transition-colors no-underline"
                           >
-                            <MessageCircle className="w-4 h-4" />
+                            <MessageCircle className="w-4 h-4" aria-hidden="true" />
                           </a>
                           <a
                             href="tel:+4915161861808"
