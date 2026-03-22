@@ -43,7 +43,19 @@ async function prerender() {
   const { render } = await import(path.resolve(distDir, 'server/entry-server.js'))
 
   // Read the template HTML
-  const template = fs.readFileSync(path.resolve(distDir, 'index.html'), 'utf-8')
+  let template = fs.readFileSync(path.resolve(distDir, 'index.html'), 'utf-8')
+
+  // Remove render-blocking <link rel="stylesheet"> for main CSS
+  template = template.replace(
+    /<link rel="stylesheet" crossorigin href="\/assets\/index-[^"]+\.css">\n?/g,
+    ''
+  )
+  // Add onload + noscript fallback to Vite's existing preload tag
+  template = template.replace(
+    /<link rel="preload" as="style" href="(\/assets\/index-[^"]+\.css)">/,
+    (_match: string, href: string) =>
+      `<link rel="preload" as="style" href="${href}" onload="this.onload=null;this.rel='stylesheet'">\n    <noscript><link rel="stylesheet" crossorigin href="${href}"></noscript>`
+  )
 
   for (const route of routes) {
     console.log(`  Prerendering: ${route}`)
@@ -56,18 +68,13 @@ async function prerender() {
       `<div id="root">${html}</div>`
     )
 
-    // Write to the correct path
-    const filePath = route === '/'
-      ? path.resolve(distDir, 'index.html')
-      : path.resolve(distDir, `${route.slice(1)}.html`)
-
-    // Create directory if needed (for nested routes)
-    const dir = path.dirname(filePath)
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true })
+    // Write to dist/{route}/index.html for correct SPA routing
+    const routePath = route === '/' ? '' : route
+    const outDir = path.resolve(distDir, routePath.slice(1))
+    if (!fs.existsSync(outDir)) {
+      fs.mkdirSync(outDir, { recursive: true })
     }
-
-    fs.writeFileSync(filePath, finalHtml)
+    fs.writeFileSync(path.resolve(outDir, 'index.html'), finalHtml)
   }
 
   // Clean up server bundle (not needed on Vercel)

@@ -1,35 +1,68 @@
-# Mizo Autohaus Hannover
+# Mizo Autohaus Hannover — Fahrzeugankauf & Fahrzeugverkauf deutschlandweit
 
-> Fahrzeug-Ankauf und Verkauf in Hannover. Faire Preise, schnelle Abwicklung, Sofortauszahlung beim Ankauf.
+> Mizo Autohaus (Carmove Logistik GmbH) kauft und verkauft Fahrzeuge aller Klassen in Hannover und ganz Deutschland.
+> Faire Marktbewertung, sofortige Auszahlung beim Ankauf, flexible Finanzierung beim Kauf.
+> Auch Online-Zulassung direkt beim Autohaus.
+> Kontakt: info@mizo-autohaus.de | Tel: 01516 1861808
 
-## Über Mizo Autohaus
+## Business
 
-Mizo Autohaus (Carmove Logistik GmbH) ist ein Kfz-Händler in Hannover mit Fokus auf transparenten Fahrzeugankauf und -verkauf. Das Unternehmen bietet faire Marktpreise, unkomplizierte Abwicklung und deutschlandweiten Service.
+Name: Mizo Autohaus (Carmove Logistik GmbH)
+Type: Fahrzeugankauf / Fahrzeugverkauf / Kfz-Händler
+Location: Vahrenwalder Str. 35, 30165 Hannover, Niedersachsen, Deutschland
+Phone: 01516 1861808
+Email: info@mizo-autohaus.de
+Website: https://mizo-autohaus.de
 
 ## Leistungen
 
-- **Fahrzeugankauf** – Sofortankauf aller Marken und Modelle zu fairen Marktpreisen, auch mit Mängeln
-- **Fahrzeugverkauf** – Große Auswahl gebrauchter Fahrzeuge zu transparenten Preisen
-- **Finanzierung** – Flexible Finanzierungslösungen für den Fahrzeugkauf
-- **Zulassung** – Kfz-Zulassung aus einer Hand
+- [Fahrzeugankauf](https://mizo-autohaus.de/): Sofortankauf aller Marken und Modelle zu fairen Marktpreisen — auch Unfallfahrzeuge und Fahrzeuge mit Mängeln
+- [Fahrzeugverkauf](https://mizo-autohaus.de/fahrzeuge): Große Auswahl gebrauchter Fahrzeuge zu transparenten Preisen
+- [Kfz-Finanzierung](https://mizo-autohaus.de/kfz-finanzierung-hannover): Flexible Finanzierungslösungen für alle Einkommenssituationen
+- [Online-Zulassung](https://mizo-autohaus.de/online-zulassung): Fahrzeug direkt bei Mizo zulassen — schnell und unkompliziert
+- [Kostenlose Fahrzeugbewertung](https://mizo-autohaus.de/auto-bewertung-kostenlos): Unverbindliches Angebot innerhalb von 24 Stunden
+- [Unfallwagen Ankauf](https://mizo-autohaus.de/unfallwagen-ankauf): Auch Fahrzeuge mit Unfallschäden werden bewertet und angekauft
 
-## Kontakt
+## Ankauf-Ablauf (4 Schritte)
 
-- **Adresse:** Vahrenwalder Str. 35, 30165 Hannover
-- **Telefon:** 01516 1861808
-- **E-Mail:** info@mizo-autohaus.de
-- **Website:** https://mizo-autohaus.de
+1. **Anfrage stellen** — Online-Formular ausfüllen oder anrufen (dauert 2 Minuten)
+2. **Angebot erhalten** — Faire Bewertung auf Basis aktueller Marktpreise, innerhalb von 24 Stunden
+3. **Termin vereinbaren** — Fahrzeugübergabe in Hannover oder kostenlose Abholung
+4. **Sofort bezahlt** — Auszahlung direkt bei Übergabe
 
-## Einzugsgebiet
+## USPs (Alleinstellungsmerkmale)
 
-Hannover und ganz Deutschland (deutschlandweiter Fahrzeugankauf möglich)
+- **Sofortige Auszahlung** — Geld direkt bei Übergabe
+- **Alle Marken** — keine Einschränkungen nach Marke oder Modell
+- **Unfallwagen willkommen** — auch Fahrzeuge mit Mängeln oder Schäden
+- **Faire Preise** — Bewertung auf Basis aktueller Marktdaten, transparent erklärt
+- **Online-Zulassung** — Komplettservice aus einer Hand
+- **Deutschlandweit** — Ankauf in ganz Deutschland
 
-## Wichtige Seiten
+## Häufige Fragen
 
-- [Startseite](https://mizo-autohaus.de/)
-- [Fahrzeuge kaufen](https://mizo-autohaus.de/fahrzeuge)
-- [Auto verkaufen](https://mizo-autohaus.de/auto-verkaufen)
-- [Kontakt](https://mizo-autohaus.de/kontakt)
+**Welche Fahrzeuge kauft Mizo Autohaus an?**
+Alle Marken und Modelle — von der Mittelklasse bis zum Luxusfahrzeug. Auch Unfallfahrzeuge, Fahrzeuge mit Motorproblemen oder hohem Kilometerstand werden bewertet.
+
+**Wie schnell bekomme ich ein Angebot?**
+In der Regel innerhalb von 24 Stunden nach Eingang der Fahrzeugdaten.
+
+**Ist die Bewertung kostenlos?**
+Ja, vollständig kostenlos und unverbindlich. Kein Kaufzwang.
+
+**Was ist die Online-Zulassung?**
+Mizo Autohaus bietet eine Online-Zulassung an — das Fahrzeug wird direkt beim Autohaus auf den Käufer zugelassen, ohne dass der Kunde zum Amt muss.
+
+**Bietet Mizo Autohaus Finanzierung an?**
+Ja. Flexible Finanzierungslösungen für alle Einkommenssituationen — auch für Selbstständige und Arbeitnehmer ohne Schufa-Einträge.
+
+**In welchem Einzugsgebiet kauft Mizo Autohaus an?**
+Hannover und ganz Deutschland. Abholung nach Absprache.
+
+## Service-Städte (Auswahl)
+
+Hannover, Braunschweig, Wolfsburg, Hildesheim, Celle, Göttingen, Osnabrück, Oldenburg,
+Magdeburg, Berlin, Hamburg, Leipzig, Dresden, Köln, Frankfurt, München und ganz Deutschland.
 
 ## Sitemap
 
