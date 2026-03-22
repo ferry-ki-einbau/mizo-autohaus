@@ -12,7 +12,7 @@ export default function Hero() {
       <div className="absolute inset-0">
         <img
           src="/images/hero-new-desktop.webp"
-          srcSet="/images/hero-new-mobile.webp 960w, /images/hero-new-tablet.webp 1440w, /images/hero-new-desktop.webp 1920w"
+          srcSet="/images/hero-new-mobile.webp 414w, /images/hero-new-tablet.webp 1440w, /images/hero-new-desktop.webp 1920w"
           sizes="100vw"
           alt="Mizo Autohaus Hannover — Fahrzeuge auf dem Hof"
           className="w-full h-full object-cover object-bottom sm:object-center"
@@ -67,7 +67,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-4 sm:mt-6 lg:mt-8 text-base sm:text-xl lg:text-2xl text-white/60 max-w-xl lg:max-w-2xl leading-relaxed"
+            className="mt-4 sm:mt-6 lg:mt-8 text-base sm:text-xl lg:text-2xl text-white/75 max-w-xl lg:max-w-2xl leading-relaxed"
           >
             Innerhalb von 24 Stunden ein faires Angebot. Kostenlose Bewertung, Sofortauszahlung.
           </motion.p>
@@ -107,7 +107,7 @@ export default function Hero() {
               { icon: Banknote, text: 'Sofortauszahlung' },
               { icon: Star, text: '5.0 Google Rating' },
             ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-2 text-white/45 text-xs sm:text-sm lg:text-base lg:pr-8 lg:mr-8 lg:border-r lg:border-white/10 last:border-0 last:mr-0 last:pr-0">
+              <div key={text} className="flex items-center gap-2 text-white/70 text-xs sm:text-sm lg:text-base lg:pr-8 lg:mr-8 lg:border-r lg:border-white/10 last:border-0 last:mr-0 last:pr-0">
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-accent" />
                 {text}
               </div>

@@ -38,7 +38,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold mb-4 text-white/90">Leistungen</h4>
+            <h3 className="font-bold mb-4 text-white/90">Leistungen</h3>
             <ul className="space-y-2 text-sm text-white/60">
               <li><Link to="/auto-verkaufen-hannover" className="hover:text-accent transition-colors no-underline text-white/60">Auto verkaufen</Link></li>
               <li><Link to="/gebrauchtwagen-hannover" className="hover:text-accent transition-colors no-underline text-white/60">Gebrauchtwagen</Link></li>
@@ -50,7 +50,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold mb-4 text-white/90">Kontakt</h4>
+            <h3 className="font-bold mb-4 text-white/90">Kontakt</h3>
             <ul className="space-y-3 text-sm text-white/60">
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
@@ -72,7 +72,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold mb-4 text-white/90">Öffnungszeiten</h4>
+            <h3 className="font-bold mb-4 text-white/90">Öffnungszeiten</h3>
             <ul className="space-y-2 text-sm text-white/60">
               <li className="flex items-center gap-2">
                 <Clock className="w-4 h-4 shrink-0 text-accent" />
@@ -91,27 +91,27 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/10">
-          <h4 className="font-bold text-white/90 mb-4">Autoankauf deutschlandweit</h4>
+          <h3 className="font-bold text-white/90 mb-4">Autoankauf deutschlandweit</h3>
           <div className="flex flex-wrap gap-x-1 gap-y-1">
             {staedte.map((stadt, i) => (
               <span key={stadt.slug} className="inline-flex items-center">
                 <Link
                   to={`/auto-verkaufen/${stadt.slug}`}
-                  className="text-sm text-white/40 hover:text-accent transition-colors no-underline"
+                  className="text-sm text-white/65 hover:text-accent transition-colors no-underline"
                 >
                   {stadt.name}
                 </Link>
-                {i < staedte.length - 1 && <span className="text-white/15 mx-1.5">·</span>}
+                {i < staedte.length - 1 && <span className="text-white/30 mx-1.5" aria-hidden="true">·</span>}
               </span>
             ))}
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/40">
-          <p>&copy; {new Date().getFullYear()} Mizo Autohaus. Alle Rechte vorbehalten.</p>
+        <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/65">
+          <p suppressHydrationWarning>&copy; {new Date().getFullYear()} Mizo Autohaus. Alle Rechte vorbehalten.</p>
           <div className="flex items-center gap-6">
-            <Link to="/impressum" className="hover:text-white/70 transition-colors no-underline text-white/40">Impressum</Link>
-            <Link to="/datenschutz" className="hover:text-white/70 transition-colors no-underline text-white/40">Datenschutz</Link>
+            <Link to="/impressum" className="hover:text-white/80 transition-colors no-underline text-white/65">Impressum</Link>
+            <Link to="/datenschutz" className="hover:text-white/80 transition-colors no-underline text-white/65">Datenschutz</Link>
           </div>
         </div>
       </div>

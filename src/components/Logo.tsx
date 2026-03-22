@@ -18,7 +18,7 @@ export default function Logo({ className = '', inverted = false, showTagline = f
       {showTagline && (
         <span className={cn(
           'text-[10px] sm:text-[11px] font-semibold tracking-[0.15em] uppercase mt-0.5',
-          inverted ? 'text-white/40' : 'text-text-light',
+          inverted ? 'text-white/65' : 'text-text-muted',
         )}>
           Hannover · Ankaufstation
         </span>

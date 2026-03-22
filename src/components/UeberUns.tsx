@@ -30,7 +30,7 @@ export default function UeberUns() {
                     <item.icon className="w-5 h-5 text-accent group-hover:text-white transition-colors" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-primary">{item.title}</h4>
+                    <h3 className="font-bold text-primary text-base">{item.title}</h3>
                     <p className="text-sm text-text-muted mt-0.5">{item.description}</p>
                   </div>
                 </div>
