@@ -30,6 +30,8 @@ interface FormData {
   fin: string
   keinePruefziffer: boolean
   pruefziffer: string
+  fahrzeugscheinnummer: string
+  sicherheitscodeI: string
   sicherheitscode: string
   fahrzeugbriefnummer: string
   // Step 5 — Kennzeichen
@@ -139,6 +141,7 @@ const INITIAL: FormData = {
   hatAusweis: false, hatFahrzeugbrief: false,
   fahrzeugtyp: '', vorgang: '',
   fin: '', keinePruefziffer: false, pruefziffer: '',
+  fahrzeugscheinnummer: '', sicherheitscodeI: '',
   sicherheitscode: '', fahrzeugbriefnummer: '',
   kennzeichenOption: '', wunschkennzeichen: '',
   elektrokennzeichen: false, saisonkennzeichen: false,
@@ -170,7 +173,7 @@ export default function ZulassungForm() {
       case 2:
         return !!(data.fahrzeugtyp && data.vorgang)
       case 3:
-        return !!(data.fin.length === 17 && (data.keinePruefziffer || data.pruefziffer) && data.sicherheitscode && data.fahrzeugbriefnummer)
+        return !!(data.fin.length === 17 && (data.keinePruefziffer || data.pruefziffer) && data.fahrzeugscheinnummer && data.sicherheitscodeI && data.sicherheitscode && data.fahrzeugbriefnummer)
       case 4:
         return !!(data.kennzeichenOption && data.kennzeichenLieferung && data.umweltplakette)
       case 5:
@@ -450,10 +453,30 @@ export default function ZulassungForm() {
 
                 <div>
                   <Input
-                    label="Sicherheitscode *"
+                    label="Fahrzeugscheinnummer *"
+                    value={data.fahrzeugscheinnummer}
+                    onChange={e => set('fahrzeugscheinnummer', e.target.value)}
+                    placeholder="Dokumentennummer eingeben"
+                  />
+                  <InfoBox>Die Fahrzeugscheinnummer (Dokumentennummer) befindet sich oben rechts auf der Zulassungsbescheinigung Teil I.</InfoBox>
+                </div>
+
+                <div>
+                  <Input
+                    label="Sicherheitscode Zulassungsbescheinigung Teil I *"
+                    value={data.sicherheitscodeI}
+                    onChange={e => set('sicherheitscodeI', e.target.value)}
+                    placeholder="Sicherheitscode Teil I"
+                  />
+                  <InfoBox>Der Sicherheitscode befindet sich unter der Klebefolie auf der Rückseite des Fahrzeugscheins (Zulassungsbescheinigung Teil I).</InfoBox>
+                </div>
+
+                <div>
+                  <Input
+                    label="Sicherheitscode Zulassungsbescheinigung Teil II *"
                     value={data.sicherheitscode}
                     onChange={e => set('sicherheitscode', e.target.value)}
-                    placeholder="Sicherheitscode eingeben"
+                    placeholder="Sicherheitscode Teil II"
                   />
                   <InfoBox>Der Sicherheitscode befindet sich unter der Klebefolie auf der Vorderseite des Fahrzeugbriefes (Zulassungsbescheinigung Teil II).</InfoBox>
                 </div>
