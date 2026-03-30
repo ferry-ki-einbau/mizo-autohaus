@@ -32,7 +32,7 @@ export default function Partner() {
           description="Wir arbeiten mit namhaften Partnern der Automobilbranche zusammen."
         />
 
-        <div className="max-w-4xl mx-auto reveal">
+        <div className="max-w-4xl mx-auto reveal space-y-6">
           <div className="rounded-2xl lg:rounded-3xl overflow-hidden border border-border bg-white shadow-sm">
             <img
               src="/images/partner-logos.webp"
@@ -43,6 +43,27 @@ export default function Partner() {
               width={1280}
               height={854}
             />
+          </div>
+
+          {/* Santander Finanzierungspartner */}
+          <div className="rounded-2xl lg:rounded-3xl border border-border bg-white shadow-sm px-8 py-6 flex flex-col sm:flex-row items-center gap-5 sm:gap-8">
+            <div className="flex-shrink-0">
+              {/* Santander Official Logo SVG */}
+              <svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Santander">
+                {/* Flame */}
+                <path d="M12 2C12 2 6 8 6 16c0 3.3 1.3 6.3 3.4 8.5C10.5 25.7 12 27.8 12 30c0 2.2-1.5 4-3.4 4.8C10.2 36.2 12 37 14 37c4.4 0 8-3.6 8-8 0-3-1.6-5.6-4-7.1V20c0-5.5-3-10.4-6-18z" fill="#EC0000"/>
+                <path d="M18 8C18 8 14 13 14 19c0 2.5 1 4.8 2.6 6.5C17.6 26.5 19 28.2 19 30c0 1.7-1.1 3.2-2.7 3.7C17.4 34.5 18.7 35 20 35c3.3 0 6-2.7 6-6 0-2.3-1.2-4.3-3-5.5V22c0-5-2-9-5-14z" fill="#EC0000" opacity="0.7"/>
+                {/* Text */}
+                <text x="32" y="27" fontFamily="Arial, sans-serif" fontWeight="700" fontSize="18" fill="#EC0000" letterSpacing="0.5">Santander</text>
+              </svg>
+            </div>
+            <div className="h-px w-full sm:h-12 sm:w-px bg-border flex-shrink-0" />
+            <div className="text-center sm:text-left">
+              <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Offizieller Finanzierungspartner</p>
+              <p className="text-sm text-text-muted leading-relaxed">
+                Als zertifizierter Santander-Partner bieten wir Ihnen flexible Fahrzeugfinanzierungen — schnell, transparent und zu fairen Konditionen.
+              </p>
+            </div>
           </div>
         </div>
       </div>
