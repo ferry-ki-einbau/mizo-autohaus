@@ -14,6 +14,7 @@ interface FormData {
   anrede: string
   vorname: string
   nachname: string
+  geburtsdatum: string
   strasse: string
   plz: string
   ort: string
@@ -34,6 +35,7 @@ interface FormData {
   sicherheitscodeI: string
   sicherheitscode: string
   fahrzeugbriefnummer: string
+  bisherigesKennzeichen: string
   // Step 5 — Kennzeichen
   kennzeichenOption: string // 'reserviert' | 'reservieren' | 'zufaellig'
   wunschkennzeichen: string
@@ -47,6 +49,7 @@ interface FormData {
   versicherungOption: string // 'evb' | 'vorhanden' | 'keine'
   evbNummer: string
   iban: string
+  sepaMandat: boolean
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -135,19 +138,19 @@ const STEPS = [
 
 const INITIAL: FormData = {
   website: '',
-  anrede: '', vorname: '', nachname: '',
+  anrede: '', vorname: '', nachname: '', geburtsdatum: '',
   strasse: '', plz: '', ort: '', land: 'Deutschland',
   email: '', telefon: '',
   hatAusweis: false, hatFahrzeugbrief: false,
   fahrzeugtyp: '', vorgang: '',
   fin: '', keinePruefziffer: false, pruefziffer: '',
   fahrzeugscheinnummer: '', sicherheitscodeI: '',
-  sicherheitscode: '', fahrzeugbriefnummer: '',
+  sicherheitscode: '', fahrzeugbriefnummer: '', bisherigesKennzeichen: '',
   kennzeichenOption: '', wunschkennzeichen: '',
   elektrokennzeichen: false, saisonkennzeichen: false,
   reservierungspin: '', kennzeichenLieferung: '',
   nummernschild: '', umweltplakette: '',
-  versicherungOption: '', evbNummer: '', iban: '',
+  versicherungOption: '', evbNummer: '', iban: '', sepaMandat: false,
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
@@ -167,7 +170,7 @@ export default function ZulassungForm() {
   const canProceed = (): boolean => {
     switch (step) {
       case 0:
-        return !!(data.anrede && data.vorname && data.nachname && data.strasse && data.plz && data.ort && data.email && data.telefon)
+        return !!(data.anrede && data.vorname && data.nachname && data.geburtsdatum && data.strasse && data.plz && data.ort && data.email && data.telefon)
       case 1:
         return data.hatAusweis && data.hatFahrzeugbrief
       case 2:
@@ -179,7 +182,7 @@ export default function ZulassungForm() {
       case 5:
         return !!(data.versicherungOption && (data.versicherungOption !== 'evb' || data.evbNummer))
       case 6:
-        return !!(data.iban.length >= 15)
+        return !!(data.iban.length >= 15 && data.sepaMandat)
       default: return true
     }
   }
@@ -318,6 +321,8 @@ export default function ZulassungForm() {
                   <Input label="Vorname *" value={data.vorname} onChange={e => set('vorname', e.target.value)} placeholder="Max" />
                   <Input label="Nachname *" value={data.nachname} onChange={e => set('nachname', e.target.value)} placeholder="Mustermann" />
                 </div>
+
+                <Input label="Geburtsdatum *" type="date" value={data.geburtsdatum} onChange={e => set('geburtsdatum', e.target.value)} />
 
                 <Input label="Straße und Hausnummer *" value={data.strasse} onChange={e => set('strasse', e.target.value)} placeholder="Musterstraße 1" />
 
@@ -487,6 +492,18 @@ export default function ZulassungForm() {
                   onChange={e => set('fahrzeugbriefnummer', e.target.value)}
                   placeholder="Fahrzeugbriefnummer"
                 />
+
+                {data.vorgang === 'Gebrauchtwagen' && (
+                  <div>
+                    <Input
+                      label="Bisheriges Kennzeichen"
+                      value={data.bisherigesKennzeichen}
+                      onChange={e => set('bisherigesKennzeichen', e.target.value.toUpperCase())}
+                      placeholder="z.B. H AB 1234"
+                    />
+                    <p className="text-xs text-[#a1a1aa] mt-1">Bisheriges Kennzeichen des Fahrzeugs (für die Umschreibung benötigt)</p>
+                  </div>
+                )}
               </div>
             )}
 
@@ -631,11 +648,21 @@ export default function ZulassungForm() {
                   <InfoBox>Ihre Daten werden verschlüsselt übertragen und ausschließlich für die Zulassung verwendet.</InfoBox>
                 </div>
 
+                <CheckCard
+                  checked={data.sepaMandat}
+                  onChange={() => set('sepaMandat', !data.sepaMandat)}
+                  label="Ich erteile hiermit die SEPA-Einzugsermächtigung für die Kfz-Steuer *"
+                />
+                {!data.sepaMandat && (
+                  <p className="text-xs text-amber-600">Die SEPA-Einzugsermächtigung ist für die Zulassung durch die Zulassungsstelle verpflichtend.</p>
+                )}
+
                 {/* Zusammenfassung */}
                 <div className="bg-[#f7f7f8] rounded-xl p-4 space-y-2 text-sm">
                   <div className="font-semibold text-[#0a0a0a] mb-3">Zusammenfassung</div>
                   {[
                     ['Halter', `${data.anrede} ${data.vorname} ${data.nachname}`],
+                    ['Geburtsdatum', data.geburtsdatum],
                     ['Adresse', `${data.strasse}, ${data.plz} ${data.ort}`],
                     ['Kontakt', `${data.telefon} | ${data.email}`],
                     ['Fahrzeugtyp', data.fahrzeugtyp],
