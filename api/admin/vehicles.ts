@@ -136,8 +136,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const vehicle = vehicles.find(v => v.id === id)
       if (!vehicle) return res.status(404).json({ error: 'Nicht gefunden' })
 
-      for (const bildUrl of vehicle.bilder) {
-        try { await del(bildUrl) } catch { /* ok */ }
+      if (vehicle.bilder.length > 0) {
+        try { await del(vehicle.bilder) } catch { /* ok */ }
       }
 
       await saveVehicles(vehicles.filter(v => v.id !== id))
