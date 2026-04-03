@@ -72,19 +72,22 @@ export default function AdminPage() {
 
   const handleLogin = async () => {
     setAuthError('')
-    // Test auth by making a dummy request
+    if (!password) return
     try {
-      const res = await fetch('/api/admin/vehicles')
-      if (res.ok) {
-        setAuthed(true)
-        sessionStorage.setItem('mizo-admin-pw', password)
-      } else {
-        setAuthError('Verbindungsfehler')
+      // Auth testen: DELETE auf fake ID → 404 = OK, 401 = falsches Passwort
+      const res = await fetch('/api/admin/vehicles?id=__auth_test__', {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${password}` },
+      })
+      if (res.status === 401) {
+        setAuthError('Falsches Passwort')
+        return
       }
-    } catch {
-      // For now just authenticate locally — real check happens on write operations
+      // 404 oder 200 = Auth OK
       setAuthed(true)
       sessionStorage.setItem('mizo-admin-pw', password)
+    } catch {
+      setAuthError('Verbindungsfehler')
     }
   }
 
