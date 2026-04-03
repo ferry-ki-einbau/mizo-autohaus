@@ -1,6 +1,6 @@
 import SectionHeading from './SectionHeading'
 import AnimatedCounter from './AnimatedCounter'
-import { SixtLogo, AvisLogo, TeslaLogo, CATLogo, FordLogo, RosierLogo, VorallerLogo, SantanderLogo } from './logos/PartnerLogos'
+import { SixtLogo, AvisLogo, TeslaLogo, CATLogo, FordLogo, RosierLogo, VorallerLogo, SantanderLogo, Bank11Logo } from './logos/PartnerLogos'
 
 const stats = [
   { end: 500, suffix: '+', label: 'Fahrzeuge verkauft' },
@@ -58,17 +58,25 @@ export default function Partner() {
             </div>
           </div>
 
-          {/* Santander Finanzierungspartner */}
-          <div className="rounded-2xl lg:rounded-3xl border border-border bg-white shadow-sm px-8 py-6 flex flex-col sm:flex-row items-center gap-5 sm:gap-8">
-            <div className="flex-shrink-0">
+          {/* Finanzierungspartner */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="rounded-2xl lg:rounded-3xl border border-border bg-white shadow-sm px-8 py-6 flex flex-col items-center gap-4 text-center">
               <SantanderLogo className="h-10 w-auto" />
+              <div>
+                <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Finanzierungspartner</p>
+                <p className="text-sm text-text-muted leading-relaxed">
+                  Flexible Fahrzeugfinanzierungen — schnell, transparent und zu fairen Konditionen.
+                </p>
+              </div>
             </div>
-            <div className="h-px w-full sm:h-12 sm:w-px bg-border flex-shrink-0" />
-            <div className="text-center sm:text-left">
-              <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Offizieller Finanzierungspartner</p>
-              <p className="text-sm text-text-muted leading-relaxed">
-                Als zertifizierter Santander-Partner bieten wir Ihnen flexible Fahrzeugfinanzierungen — schnell, transparent und zu fairen Konditionen.
-              </p>
+            <div className="rounded-2xl lg:rounded-3xl border border-border bg-white shadow-sm px-8 py-6 flex flex-col items-center gap-4 text-center">
+              <Bank11Logo className="h-10 w-auto" />
+              <div>
+                <p className="text-xs font-semibold text-text-muted uppercase tracking-widest mb-1">Finanzierungspartner</p>
+                <p className="text-sm text-text-muted leading-relaxed">
+                  Attraktive Raten, schnelle Entscheidung — Fahrzeugfinanzierung direkt vom Spezialisten.
+                </p>
+              </div>
             </div>
           </div>
         </div>

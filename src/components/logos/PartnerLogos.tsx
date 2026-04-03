@@ -68,6 +68,17 @@ export function VorallerLogo({ className = '' }: { className?: string }) {
   )
 }
 
+// Bank11 — green wordmark
+export function Bank11Logo({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 160 44" className={className} aria-label="Bank11">
+      <rect x="0" y="6" width="6" height="32" rx="1.5" fill="#005B41" />
+      <rect x="9" y="6" width="6" height="32" rx="1.5" fill="#005B41" />
+      <text x="22" y="31" fontFamily="Arial, Helvetica, sans-serif" fontWeight="700" fontSize="22" fill="#005B41" letterSpacing="-0.5">bank<tspan fill="#005B41" fontWeight="900">11</tspan></text>
+    </svg>
+  )
+}
+
 // Santander — red flame + wordmark
 export function SantanderLogo({ className = '' }: { className?: string }) {
   return (

@@ -376,10 +376,18 @@ export default function AdminPage() {
     if (!confirm('Fahrzeug wirklich löschen?')) return
     setDeleting(id)
     try {
-      await fetch(`/api/admin/vehicles?id=${id}`, {
+      const res = await fetch(`/api/admin/vehicles?id=${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${password}` },
       })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        alert(`Fehler beim Löschen: ${err.error || res.status}`)
+        setDeleting(null)
+        return
+      }
+      // Delay damit Blob-Cache aktualisiert ist
+      await new Promise(r => setTimeout(r, 1500))
       await fetchVehicles()
     } catch {
       alert('Fehler beim Löschen.')
