@@ -46,11 +46,13 @@ async function sendTelegram(text: string, plainText: string): Promise<void> {
 const ROW = (label: string, value: string) =>
   `<tr><td style="padding:10px 12px;border-bottom:1px solid #eee;font-weight:600;color:#1a1a2e;white-space:nowrap;vertical-align:top;">${label}</td><td style="padding:10px 12px;border-bottom:1px solid #eee;color:#333;">${value}</td></tr>`
 
-async function sendEmail(apiKey: string, from: string, to: string, subject: string, html: string) {
+type Attachment = { filename: string; content: string }
+
+async function sendEmail(apiKey: string, from: string, to: string, subject: string, html: string, attachments?: Attachment[]) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-    body: JSON.stringify({ from, to, subject, html }),
+    body: JSON.stringify({ from, to, subject, html, ...(attachments?.length ? { attachments } : {}) }),
   })
   if (!res.ok) {
     const errText = await res.text()
@@ -103,7 +105,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             ${ROW('TÜV', esc(body.tuev || '-'))}
             ${ROW('💰 Preisvorstellung', `<strong style="color:#C9A84C;font-size:16px;">${esc(body.preisvorstellung || 'Keine Angabe')}</strong>`)}
             ${body.beschreibung ? ROW('Beschreibung', esc(body.beschreibung)) : ''}
-            ${ROW('Fotos', `${body.bilder?.length || 0} Bild(er) angehängt`)}
+            ${body.bilder?.length ? ROW('Fotos', `${body.bilder.length} Bild(er) — siehe Anhänge dieser E-Mail`) : ''}
             <tr><td colspan="2" style="padding:12px;background:#f8f8f8;font-weight:700;color:#1a1a2e;font-size:15px;">👤 Kontaktdaten</td></tr>
             ${ROW('Name', `<strong>${esc(body.name || '')}</strong>`)}
             ${ROW('Telefon', `<a href="tel:${esc(body.telefon || '')}" style="color:#C9A84C;font-weight:600;font-size:16px;">${esc(body.telefon || '')}</a>`)}
@@ -114,9 +116,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       </div>
     `
 
+    // Bilder als Anhänge vorbereiten
+    const attachments: Attachment[] = (body.bilder || [])
+      .filter((b: string) => typeof b === 'string' && b.startsWith('data:'))
+      .map((b: string, i: number) => {
+        const match = b.match(/^data:(image\/\w+);base64,(.+)$/)
+        if (!match) return null
+        const ext = match[1].split('/')[1] || 'jpg'
+        return { filename: `fahrzeug-foto-${i + 1}.${ext}`, content: match[2] }
+      })
+      .filter(Boolean) as Attachment[]
+
     // Händler-Email MUSS durchgehen
     try {
-      await sendEmail(RESEND_API_KEY, FROM_EMAIL, DEALER_EMAIL, dealerSubject, dealerHtml)
+      await sendEmail(RESEND_API_KEY, FROM_EMAIL, DEALER_EMAIL, dealerSubject, dealerHtml, attachments)
     } catch (err: any) {
       console.error('Dealer email failed:', err)
       return res.status(500).json({ error: 'Email sending failed', detail: err?.message || '' })
