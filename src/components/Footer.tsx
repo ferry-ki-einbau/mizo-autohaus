@@ -114,6 +114,17 @@ export default function Footer() {
             <Link to="/datenschutz" className="hover:text-white/70 transition-colors no-underline text-white/70">Datenschutz</Link>
           </div>
         </div>
+        <div className="mt-4 text-center text-xs text-white/40">
+          Website erstellt von{' '}
+          <a
+            href="https://ferryemirer.de"
+            target="_blank"
+            rel="noopener"
+            className="text-white/40 hover:text-accent transition-colors no-underline"
+          >
+            Ferry Emirer — Webdesign Stuttgart
+          </a>
+        </div>
       </div>
       <div className="h-16 lg:hidden" />
     </footer>
