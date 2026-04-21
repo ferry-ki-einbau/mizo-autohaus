@@ -97,6 +97,7 @@ export default function AnkaufForm() {
     if (!data.marke) newErrors.marke = 'Bitte Marke wählen'
     if (!data.name) newErrors.name = 'Bitte Name eingeben'
     if (!data.telefon) newErrors.telefon = 'Bitte Telefon eingeben'
+    if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) newErrors.email = 'Bitte gültige E-Mail eingeben'
     setErrors(newErrors)
 
     if (Object.keys(newErrors).length > 0) {
@@ -255,7 +256,10 @@ export default function AnkaufForm() {
               <input required type="tel" value={data.telefon} onChange={e => update('telefon', e.target.value)} placeholder="Telefon *" className={cn(fieldClass, errors.telefon && errorClass)} />
               {errors.telefon && <p className="text-error text-xs mt-1">{errors.telefon}</p>}
             </div>
-            <input type="email" value={data.email} onChange={e => update('email', e.target.value)} placeholder="E-Mail" className={fieldClass} />
+            <div data-field="email">
+              <input type="email" value={data.email} onChange={e => update('email', e.target.value)} placeholder="E-Mail" className={cn(fieldClass, errors.email && errorClass)} />
+              {errors.email && <p className="text-error text-xs mt-1">{errors.email}</p>}
+            </div>
           </div>
 
           {error && (
