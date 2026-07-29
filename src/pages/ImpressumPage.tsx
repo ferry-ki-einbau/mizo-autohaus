@@ -59,17 +59,8 @@ export default function ImpressumPage() {
             </p>
           </div>
 
-          <div>
-            <h2 className="text-xl font-bold text-primary mb-3">EU-Streitschlichtung</h2>
-            <p>
-              Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{' '}
-              <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline no-underline break-all">
-                https://ec.europa.eu/consumers/odr/
-              </a>
-              <br />
-              Unsere E-Mail-Adresse finden Sie oben im Impressum.
-            </p>
-          </div>
+          {/* OS-Plattform-Hinweis entfernt (29.07.2026): VO (EU) 2024/3228 hat die
+              ODR-VO aufgehoben, Plattform seit 20.07.2025 abgeschaltet. VSBG-Absatz bleibt. */}
 
           <div>
             <h2 className="text-xl font-bold text-primary mb-3">Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
