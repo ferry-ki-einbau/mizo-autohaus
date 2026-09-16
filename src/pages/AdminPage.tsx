@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Lock, LogOut, Plus, Trash2, Car, Loader2, X, Upload,
-  Image as ImageIcon, Check, Sparkles, Pencil
+  Image as ImageIcon, Check, Sparkles, Pencil, ChevronLeft, ChevronRight
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -25,6 +25,14 @@ const marken = ['Audi', 'BMW', 'Citroën', 'Dacia', 'Fiat', 'Ford', 'Honda', 'Hy
 const kraftstoffe = ['Benzin', 'Diesel', 'Elektro', 'Hybrid', 'Plug-in-Hybrid', 'Erdgas', 'Autogas']
 const getriebeTypen = ['Automatik', 'Schaltgetriebe']
 
+// Bild im Formular: entweder schon hochgeladen (url) oder neu ausgewählt (file)
+interface FormImage {
+  key: string
+  url?: string
+  file?: File
+  preview: string
+}
+
 export default function AdminPage() {
   const [password, setPassword] = useState('')
   const [authed, setAuthed] = useState(false)
@@ -43,7 +51,7 @@ export default function AdminPage() {
     preis: '', kraftstoff: '', getriebe: '', farbe: '', beschreibung: '',
     zusatzinfos: '',
   })
-  const [pendingImages, setPendingImages] = useState<{ file: File; preview: string }[]>([])
+  const [pendingImages, setPendingImages] = useState<FormImage[]>([])
 
   // Check if already logged in (session)
   useEffect(() => {
@@ -101,10 +109,36 @@ export default function AdminPage() {
     const files = e.target.files
     if (!files) return
     const newImages = Array.from(files).slice(0, 20 - pendingImages.length).map(file => ({
+      key: `${Date.now()}-${Math.random()}`,
       file,
       preview: URL.createObjectURL(file),
     }))
     setPendingImages(prev => [...prev, ...newImages].slice(0, 20))
+    e.target.value = ''
+  }
+
+  const moveImage = (from: number, to: number) => {
+    setPendingImages(prev => {
+      if (to < 0 || to >= prev.length || from === to) return prev
+      const next = [...prev]
+      const [item] = next.splice(from, 1)
+      next.splice(to, 0, item)
+      return next
+    })
+  }
+
+  const [dragIndex, setDragIndex] = useState<number | null>(null)
+
+  // Neue Dateien hochladen, bestehende URLs behalten — Reihenfolge bleibt erhalten
+  const resolveImageUrls = async (images: FormImage[]) => {
+    if (images.some(img => img.file)) setUploadingImages(true)
+    const urls = await Promise.all(images.map(img => img.url ?? uploadImage(img.file!)))
+    setUploadingImages(false)
+    return urls
+  }
+
+  const revokePreviews = (images: FormImage[]) => {
+    images.forEach(img => { if (img.file) URL.revokeObjectURL(img.preview) })
   }
 
   const generateDescription = () => {
@@ -215,7 +249,7 @@ export default function AdminPage() {
 
   const removeImage = (index: number) => {
     setPendingImages(prev => {
-      URL.revokeObjectURL(prev[index].preview)
+      if (prev[index].file) URL.revokeObjectURL(prev[index].preview)
       return prev.filter((_, i) => i !== index)
     })
   }
@@ -277,12 +311,7 @@ export default function AdminPage() {
 
     try {
       // Upload images first
-      let bildUrls: string[] = []
-      if (pendingImages.length > 0) {
-        setUploadingImages(true)
-        bildUrls = await Promise.all(pendingImages.map(img => uploadImage(img.file)))
-        setUploadingImages(false)
-      }
+      const bildUrls = await resolveImageUrls(pendingImages)
 
       // Create vehicle
       const res = await fetch('/api/admin/vehicles', {
@@ -298,7 +327,7 @@ export default function AdminPage() {
 
       // Reset form
       setForm({ marke: '', modell: '', baujahr: '', kilometerstand: '', preis: '', kraftstoff: '', getriebe: '', farbe: '', beschreibung: '', zusatzinfos: '' })
-      pendingImages.forEach(img => URL.revokeObjectURL(img.preview))
+      revokePreviews(pendingImages)
       setPendingImages([])
       setShowForm(false)
       // Kurz warten damit Blob-Cache aktualisiert ist
@@ -325,8 +354,19 @@ export default function AdminPage() {
       zusatzinfos: '',
     })
     setEditingId(vehicle.id)
-    setPendingImages([])
+    setPendingImages(vehicle.bilder.map(url => ({ key: url, url, preview: url })))
     setShowForm(true)
+  }
+
+  // Beim Schließen einer Bearbeitung das Formular leeren, sonst landen die alten Fotos im nächsten neuen Fahrzeug
+  const closeForm = () => {
+    setShowForm(false)
+    if (editingId) {
+      setEditingId(null)
+      setForm({ marke: '', modell: '', baujahr: '', kilometerstand: '', preis: '', kraftstoff: '', getriebe: '', farbe: '', beschreibung: '', zusatzinfos: '' })
+      revokePreviews(pendingImages)
+      setPendingImages([])
+    }
   }
 
   const handleUpdate = async () => {
@@ -334,21 +374,11 @@ export default function AdminPage() {
     setSubmitting(true)
 
     try {
-      // Upload new images if any
-      let bildUrls: string[] = []
-      if (pendingImages.length > 0) {
-        setUploadingImages(true)
-        bildUrls = await Promise.all(pendingImages.map(img => uploadImage(img.file)))
-        setUploadingImages(false)
-      }
+      // Neue Bilder hochladen, Reihenfolge aus dem Formular übernehmen
+      const bildUrls = await resolveImageUrls(pendingImages)
 
-      const updateData: Record<string, unknown> = { ...form }
+      const updateData: Record<string, unknown> = { ...form, bilder: bildUrls }
       delete updateData.zusatzinfos
-      if (bildUrls.length > 0) {
-        // Bestehende Bilder + neue Bilder
-        const existing = vehicles.find(v => v.id === editingId)?.bilder || []
-        updateData.bilder = [...existing, ...bildUrls]
-      }
 
       const res = await fetch(`/api/admin/vehicles?id=${editingId}`, {
         method: 'PATCH',
@@ -362,7 +392,7 @@ export default function AdminPage() {
       if (!res.ok) throw new Error('Update failed')
 
       setForm({ marke: '', modell: '', baujahr: '', kilometerstand: '', preis: '', kraftstoff: '', getriebe: '', farbe: '', beschreibung: '', zusatzinfos: '' })
-      pendingImages.forEach(img => URL.revokeObjectURL(img.preview))
+      revokePreviews(pendingImages)
       setPendingImages([])
       setEditingId(null)
       setShowForm(false)
@@ -472,7 +502,7 @@ export default function AdminPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center pt-24 px-4 overflow-y-auto"
-              onClick={(e) => e.target === e.currentTarget && setShowForm(false)}
+              onClick={(e) => e.target === e.currentTarget && closeForm()}
             >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -482,7 +512,7 @@ export default function AdminPage() {
               >
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-primary">{editingId ? 'Fahrzeug bearbeiten' : 'Neues Fahrzeug einstellen'}</h2>
-                  <button onClick={() => { setShowForm(false); setEditingId(null) }} className="p-2 hover:bg-bg-soft rounded-lg">
+                  <button onClick={closeForm} className="p-2 hover:bg-bg-soft rounded-lg">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -556,21 +586,63 @@ export default function AdminPage() {
 
                   {/* Image Upload */}
                   <div>
-                    <label className="block text-sm font-medium text-text mb-2">Fotos (max. 20)</label>
+                    <label className="block text-sm font-medium text-text mb-1">Fotos (max. 20)</label>
+                    {pendingImages.length > 1 && (
+                      <p className="text-xs text-text-light mb-2">Reihenfolge mit den Pfeilen ändern oder Fotos ziehen. Das erste Foto ist das Titelbild.</p>
+                    )}
                     <div className="flex flex-wrap gap-3">
                       {pendingImages.map((img, i) => (
-                        <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden group border border-border">
-                          <img src={img.preview} alt="" className="w-full h-full object-cover" />
-                          <button
-                            onClick={() => removeImage(i)}
-                            className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-                          >
-                            <X className="w-5 h-5 text-white" />
-                          </button>
+                        <div
+                          key={img.key}
+                          draggable
+                          onDragStart={() => setDragIndex(i)}
+                          onDragOver={e => e.preventDefault()}
+                          onDrop={() => { if (dragIndex !== null) moveImage(dragIndex, i); setDragIndex(null) }}
+                          onDragEnd={() => setDragIndex(null)}
+                          className={cn(
+                            'relative w-28 rounded-lg overflow-hidden border bg-white cursor-grab active:cursor-grabbing',
+                            i === 0 ? 'border-accent ring-1 ring-accent' : 'border-border',
+                            dragIndex === i && 'opacity-40'
+                          )}
+                        >
+                          <div className="relative w-28 h-24">
+                            <img src={img.preview} alt={`Foto ${i + 1}`} className="w-full h-full object-cover pointer-events-none" />
+                            <span className="absolute top-1 left-1 bg-black/60 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded">
+                              {i === 0 ? 'Titelbild' : i + 1}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => removeImage(i)}
+                              aria-label={`Foto ${i + 1} entfernen`}
+                              className="absolute top-1 right-1 w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center"
+                            >
+                              <X className="w-4 h-4 text-white" />
+                            </button>
+                          </div>
+                          <div className="flex border-t border-border">
+                            <button
+                              type="button"
+                              onClick={() => moveImage(i, i - 1)}
+                              disabled={i === 0}
+                              aria-label={`Foto ${i + 1} nach vorne`}
+                              className="flex-1 h-8 flex items-center justify-center hover:bg-bg-soft disabled:opacity-30"
+                            >
+                              <ChevronLeft className="w-4 h-4" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveImage(i, i + 1)}
+                              disabled={i === pendingImages.length - 1}
+                              aria-label={`Foto ${i + 1} nach hinten`}
+                              className="flex-1 h-8 flex items-center justify-center border-l border-border hover:bg-bg-soft disabled:opacity-30"
+                            >
+                              <ChevronRight className="w-4 h-4" />
+                            </button>
+                          </div>
                         </div>
                       ))}
                       {pendingImages.length < 20 && (
-                        <label className="w-24 h-24 rounded-lg border-2 border-dashed border-border hover:border-accent flex flex-col items-center justify-center cursor-pointer transition-colors">
+                        <label className="w-28 h-32 rounded-lg border-2 border-dashed border-border hover:border-accent flex flex-col items-center justify-center cursor-pointer transition-colors">
                           <Upload className="w-5 h-5 text-text-light mb-1" />
                           <span className="text-xs text-text-light">Foto</span>
                           <input type="file" accept="image/*" multiple onChange={handleImageSelect} className="hidden" />

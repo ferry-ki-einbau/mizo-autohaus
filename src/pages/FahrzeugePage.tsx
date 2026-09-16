@@ -124,11 +124,6 @@ export default function FahrzeugePage() {
                   >
                     {/* Bild-Galerie */}
                     <div className="aspect-[16/10] bg-bg-muted flex items-center justify-center relative overflow-hidden">
-                      {fz.preis && (
-                        <div className="absolute top-3 left-3 z-10 bg-accent text-white text-[10px] sm:text-xs font-black px-2.5 py-1 rounded-lg shadow-lg uppercase tracking-wider">
-                          Aktionspreis
-                        </div>
-                      )}
                       {fz.bilder && fz.bilder.length > 0 ? (
                         <img
                           src={fz.bilder[0]}
