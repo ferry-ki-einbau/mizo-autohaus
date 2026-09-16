@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Car, ArrowRight, Phone, Search, Filter, MessageCircle } from 'lucide-react'
 import FahrzeugDetail from '@/components/FahrzeugDetail'
+import FahrzeugPlatzhalter from '@/components/FahrzeugPlatzhalter'
 
 interface Vehicle {
   id: string
@@ -133,12 +134,7 @@ export default function FahrzeugePage() {
                           decoding="async"
                         />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-bg-soft gap-3" aria-label={`Kein Foto verfügbar für ${fz.marke} ${fz.modell}`}>
-                          <div className="w-14 h-14 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm">
-                            <Car className="w-7 h-7 text-text-light" aria-hidden="true" />
-                          </div>
-                          <p className="text-sm font-bold text-text-muted">Foto folgt</p>
-                        </div>
+                        <FahrzeugPlatzhalter marke={fz.marke} modell={fz.modell} />
                       )}
                       {fz.kraftstoff && (
                         <div className="absolute top-3 right-3 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
